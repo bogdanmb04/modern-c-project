@@ -1,7 +1,6 @@
 export module user;
 
-import <string>;
-import <cstdint>;
+import <iostream>;
 
 using std::uint16_t;
 using std::uint8_t;
@@ -16,8 +15,11 @@ namespace user
 		uint16_t m_specialMoney;
 
 	public:
-		User(std::string username);
-		void ViewStats();
+		User(const std::string& username, uint8_t totalScore, uint16_t specialMoney);
+		User(const User&) = delete;
+		User& operator = (const User& other) = delete;
+
+		void ViewStats(std::ostream& os);
 		void GoToShop();
 	};
 
