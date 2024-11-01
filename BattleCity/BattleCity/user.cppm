@@ -19,8 +19,11 @@ namespace user
 		User(const User&) = delete;
 		User& operator = (const User& other) = delete;
 
-		void ViewStats(std::ostream& os);
-		void GoToShop();
+		std::string GetUsername() const;
+		uint8_t GetTotalScore() const;
+		uint16_t GetSpecialMoney() const;
 	};
+
+	export std::ostream& operator << (std::ostream& os, const User& user);
 
 }

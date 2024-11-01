@@ -8,11 +8,22 @@ User::User(const std::string& username, uint8_t totalScore, uint16_t specialMone
 	, m_specialMoney {specialMoney}
 {/*EMPTY*/}
 
-void User::ViewStats(std::ostream& os)
+std::string user::User::GetUsername() const
 {
-	os << std::format("{} {} {}", m_username, m_totalScore, m_specialMoney);
+	return m_username;
 }
 
-void User::GoToShop()
+uint8_t user::User::GetTotalScore() const
 {
+	return m_totalScore;
+}
+
+uint16_t user::User::GetSpecialMoney() const
+{
+	return m_specialMoney;
+}
+
+std::ostream& user::operator<<(std::ostream& os, const User& user)
+{
+	return os << std::format("{} {} {}", user.GetUsername(), user.GetSpecialMoney(), user.GetTotalScore());
 }
