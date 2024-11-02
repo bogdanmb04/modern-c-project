@@ -16,6 +16,7 @@ private:
     int y;
 
 public:
+    Tile() = default;
     Tile(TileType t, int xPos, int yPos)
         : type(t), x(xPos), y(yPos) {}
 

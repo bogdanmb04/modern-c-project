@@ -14,11 +14,9 @@ enum TileType
 
 class Tile
 {
-public:
-    TileType type;
-    bool hasBomb;
-    int x, y;
 
+public:
+    Tile() = default;
     Tile(TileType t, int CoordX, int CoordY) : type(t), hasBomb(false), x(CoordX), y(CoordY) {}
 
     void becomeFree()
@@ -40,4 +38,10 @@ public:
             hasBomb = false;
         }
     }
+
+    
+private:
+    TileType type;
+    bool hasBomb;
+    int x, y;
 };

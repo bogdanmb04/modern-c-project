@@ -138,6 +138,8 @@
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Bomb.cppm" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="map.cpp" />
+    <ClCompile Include="map.cppm" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Tile.cppm" />
     <ClCompile Include="user.cpp" />
