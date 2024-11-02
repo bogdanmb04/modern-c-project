@@ -135,13 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bomb.cpp" />
-    <ClCompile Include="Bomb.cppm" />
+    <ClCompile Include="bomb.cpp" />
+    <ClCompile Include="bomb.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="map.cppm" />
-    <ClCompile Include="Tile.cpp" />
-    <ClCompile Include="Tile.cppm" />
+    <ClCompile Include="tile.cpp" />
+    <ClCompile Include="tile.cppm" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="user.cppm" />
   </ItemGroup>

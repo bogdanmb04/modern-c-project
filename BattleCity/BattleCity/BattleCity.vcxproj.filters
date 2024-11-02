@@ -24,16 +24,16 @@
     <ClCompile Include="user.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cppm">
+    <ClCompile Include="tile.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cppm">
+    <ClCompile Include="bomb.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bomb.cpp">
+    <ClCompile Include="bomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tile.cpp">
+    <ClCompile Include="tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="map.cppm">

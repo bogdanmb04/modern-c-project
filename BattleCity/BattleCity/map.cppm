@@ -5,6 +5,7 @@ import <iostream>;
 import <random>;
 
 export import Tile;
+export import Bomb;
 
 namespace game {
 	export class Map {
@@ -51,6 +52,18 @@ namespace game {
 				throw std::out_of_range("Tile coordinates are out of bounds");
 			}
 			return m_tiles[y * m_width + x];
+		}
+
+		void PlaceBombsOnWalls(std::vector<Bomb>& bombs) {
+			for (size_t y = 0; y < m_height; ++y) {
+				for (size_t x = 0; x < m_width; ++x) {
+					Tile& tile = GetTile(x, y);
+					if (tile.isDestructible()) { 
+						bombs.emplace_back(x, y);
+						std::cout << "Placed bomb at (" << x << ", " << y << ")" << std::endl;
+					}
+				}
+			}
 		}
 
 	private:

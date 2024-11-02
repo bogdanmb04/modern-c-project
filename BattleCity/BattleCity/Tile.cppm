@@ -39,4 +39,8 @@ public:
                 type == TileType::DestructibleWall ? "Destructible Wall" : "Indestructible Wall")
             << std::endl;
     }
+    bool isDestructible() const {
+        return type == TileType::DestructibleWall;
+    }
+
 };
