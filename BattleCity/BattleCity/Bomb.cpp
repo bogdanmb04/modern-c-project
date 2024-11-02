@@ -1,3 +1,6 @@
+#include <iostream>
+import Bomb;
+
 class Bomb
 {
 public:

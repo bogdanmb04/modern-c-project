@@ -2,8 +2,6 @@ export module Bomb;
 
 #include <iostream>
 
-export module Bomb;
-
 export class Bomb {
 private:
     int x;

@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 using namespace std;
+import Bomb;
 
 enum TileType
 {
@@ -14,7 +15,6 @@ enum TileType
 class Tile
 {
 public:
-    TileType type;
     TileType type;
     bool hasBomb;
     int x, y;
@@ -35,7 +35,7 @@ public:
     {
         if (hasBomb)
         {
-            Bomb bomb({ x,y }, 10);;
+            Bomb bomb(x,y);
             bomb.explode();
             hasBomb = false;
         }
