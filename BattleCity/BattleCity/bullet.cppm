@@ -26,4 +26,15 @@ public:
     float getDirection() const { return direction; }
     float getSpeed() const { return speed; }
     bool isActive() const { return active; }
+
+    bool isCollidingWithWall() 
+    { 
+      return false; 
+    }
+    bool isCollidingWithPlayer() {
+        return false; }
+    bool isCollidingWithIndestructible() { 
+        return false;
+    }
+
 };
