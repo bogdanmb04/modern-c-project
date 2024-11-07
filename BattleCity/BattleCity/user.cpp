@@ -1,11 +1,10 @@
 module user;
 
-using user::User;
-
-User::User(const std::string& username, uint8_t totalScore, uint16_t specialMoney)
-	: m_username{username}
+user::User::User(const std::string& username, uint8_t totalScore, uint16_t specialMoney, const Weapon& weapon)
+	: m_username {username}
 	, m_totalScore {totalScore}
 	, m_specialMoney {specialMoney}
+	, m_weapon {weapon}
 {/*EMPTY*/}
 
 std::string user::User::GetUsername() const
