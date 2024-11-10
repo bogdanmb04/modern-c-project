@@ -135,8 +135,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="app.cpp" />
+    <ClCompile Include="app.cppm" />
     <ClCompile Include="bomb.cpp" />
     <ClCompile Include="bomb.cppm" />
+    <ClCompile Include="bullet.cppm" />
+    <ClCompile Include="characters.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="map.cppm" />
