@@ -11,7 +11,6 @@ class Weapon
 {
 public:
 	friend class User;
-
 private:
 	std::chrono::milliseconds m_bulletWaitTime;
 	uint16_t m_bulletSpeed;
@@ -41,8 +40,3 @@ namespace user
 	export std::ostream& operator << (std::ostream& os, const User& user);
 
 }
-
-Weapon::Weapon(const std::chrono::milliseconds& bulletWaitTime, uint16_t bulletSpeed)
-	: m_bulletWaitTime { bulletWaitTime }
-	, m_bulletSpeed {bulletSpeed}
-{/*EMPTY*/}

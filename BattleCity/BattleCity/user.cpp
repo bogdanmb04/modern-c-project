@@ -26,3 +26,8 @@ std::ostream& user::operator<<(std::ostream& os, const User& user)
 {
 	return os << std::format("{} {} {}", user.GetUsername(), user.GetSpecialMoney(), user.GetTotalScore());
 }
+
+Weapon::Weapon(const std::chrono::milliseconds& bulletWaitTime, uint16_t bulletSpeed)
+	: m_bulletWaitTime{ bulletWaitTime }
+	, m_bulletSpeed{ bulletSpeed }
+{/*EMPTY*/}

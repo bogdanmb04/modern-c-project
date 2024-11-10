@@ -12,12 +12,12 @@ public:
         IndestructibleWall
     };
 
+public:
     Tile(TileType type);
+    Tile(const Tile&) = delete;
+    Tile& operator = (const Tile&) = delete;
 
-    TileType GetType() const 
-    {
-        return m_type;
-    }
+    TileType GetType() const;
 
 private:
     TileType m_type : 2;
