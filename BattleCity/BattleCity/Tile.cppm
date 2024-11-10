@@ -1,10 +1,13 @@
 export module tile;
+
+import bomb;
 import <iostream>;
 using std::uint8_t;
 
 export class Tile 
 {
 public:
+    friend class Bomb;
     enum class TileType : uint8_t
     {
         Free,
