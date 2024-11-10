@@ -1,47 +1,11 @@
-#include <iostream>
-#include <vector>
-#include <cmath>
-using namespace std;
-import Bomb;
+module tile;
 
-enum TileType
+Tile::Tile(TileType type)
+	:m_type{type}
+{}
+
+Tile::TileType Tile::GetType() const
 {
-    FREE,
-    BREAKABLE_WALL,
-    INDESTRUCTIBLE_WALL
-};
+	return m_type;
+}
 
-
-class Tile
-{
-
-public:
-    Tile() = default;
-    Tile(TileType t, int CoordX, int CoordY) : type(t), hasBomb(false), x(CoordX), y(CoordY) {}
-
-    void becomeFree()
-    {
-        if (type == BREAKABLE_WALL)
-        {
-            type = FREE;
-            std::cout << "Tile at (" << x << ", " << y << ") has become free!\n";
-        }
-    }
-
-
-    void detonate()
-    {
-        if (hasBomb)
-        {
-            Bomb bomb(x,y);
-            bomb.explode();
-            hasBomb = false;
-        }
-    }
-
-    
-private:
-    TileType type;
-    bool hasBomb;
-    int x, y;
-};
