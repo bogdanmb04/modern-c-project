@@ -1,5 +1,8 @@
 module map;
 
+#include "powerup.h"
+#include <vector>
+
 std::ostream& game::operator<<(std::ostream& out, Map map)
 {
     // TODO: change implementation -> this is just for verification
@@ -100,4 +103,18 @@ void game::Map::placePlayer()
 
     std::cout << "Players placed in corners of the map." << std::endl;
 }
+
+
+namespace game {
+
+    // Add a container for active power-ups
+    std::vector<PowerUp> m_activePowerUps;
+
+    // Example function to add a power-up
+    void addPowerUp(const PowerUp& powerUp) {
+        m_activePowerUps.push_back(powerUp);
+    }
+}
+
+
 
