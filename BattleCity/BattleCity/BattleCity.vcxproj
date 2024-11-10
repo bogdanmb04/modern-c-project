@@ -139,6 +139,7 @@
     <ClCompile Include="app.cppm" />
     <ClCompile Include="bomb.cpp" />
     <ClCompile Include="bomb.cppm" />
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bullet.cppm" />
     <ClCompile Include="characters.cppm" />
     <ClCompile Include="main.cpp" />

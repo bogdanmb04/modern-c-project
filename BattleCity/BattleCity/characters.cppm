@@ -1,75 +1,47 @@
 export module characters;
 
-#include <iostream>
-#include <vector>
-#include <string>
+import <iostream>;
+import <vector>;
+import <string>;
 
-enum class SkinType
+namespace character 
 {
-	SKIN1,
-	SKIN2,
-	SKIN3,
-	SKIN4,
-	SKIN5,
-	SKIN6,
-	SKIN7,
-	SKIN8
-};
-
-std::string skinTypeToString(SkinType skin)
-{
-	switch (skin)
+	class Character
 	{
-	case SkinType::SKIN1: return "SKIN1";
-	case SkinType::SKIN2: return "SKIN2";
-	case SkinType::SKIN3: return "SKIN3";
-	case SkinType::SKIN4: return "SKIN4";
-	case SkinType::SKIN5: return "SKIN5";
-	case SkinType::SKIN6: return "SKIN6";
-	case SkinType::SKIN7: return "SKIN7";
-	case SkinType::SKIN8: return "SKIN8";
-	default: return "Unknown";
-	}
-}
 
-enum class CampSelect
-{
-	WARRIORS,
-	MONSTERS
-};
-
-std::string CampToString(CampSelect camp)
-{
-	switch (camp)
-	{
-	case CampSelect::WARRIORS:return "WARRIORS";
-	case CampSelect::MONSTERS:return "MONSTERS";
-	default: return "Unknown";
-	}
-}
-
-class Character
-{
-private:
-	std::string m_name;
-	std::vector <SkinType> skins;
-	CampSelect m_camp;
-
-public:
-	Character(const std::string& name, CampSelect camp)
-		:m_name(name), m_camp(camp) {}
-
-	void displaySkin() const
-	{
-		std::cout << " Camp: " << CampToString(m_camp) << "\n" << " Available skins" << m_name << std::endl;
-		for (const auto& skin : skins)
+	public:
+		//TODO add skin names and actual skins
+		enum class SkinType : uint8_t
 		{
-			std::cout << "  " << skinTypeToString(skin) << std::endl;
-		}
-	}
-	void displayCamp() const
-	{
-		std::cout << "Camp select: " << CampToString(m_camp) << std::endl;
-	}
+			SKIN1,
+			SKIN2,
+			SKIN3,
+			SKIN4,
+			SKIN5,
+			SKIN6,
+			SKIN7,
+			SKIN8
+		};
 
-};
+		enum class Camp : uint8_t
+		{
+			WARRIORS,
+			MONSTERS
+		};
+
+		std::string CampToString(Camp camp);
+
+		std::string SkinTypeToString(SkinType skin);
+
+	public:
+		Character(const std::string& name, Camp camp, SkinType skin);
+		SkinType GetSkin() const;
+		Camp GetCamp() const;
+		std::string GetName() const;
+
+	private:
+		std::string m_name;
+		SkinType m_skin : 3;
+		Camp m_camp : 1;
+	};
+}
