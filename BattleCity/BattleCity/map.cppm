@@ -4,11 +4,13 @@ import <optional>;
 import <iostream>;
 import <random>;
 
-export import Tile;
-export import Bomb;
+export import tile;
+export import bomb;
 
-namespace game {
-	export class Map {
+namespace game
+{
+	export class Map 
+	{
 	public:
 		static const size_t kWidthMin{ 50 };
 		static const size_t kWidthMax{ 200 };
@@ -17,9 +19,10 @@ namespace game {
 		using Position = std::pair<size_t, size_t>;
 
 	public:
-		Map() {
+		Map()
+		{
 			std::random_device rd;
-			std::mt19937 gen(rd()); 
+			std::mt19937 gen(rd());
 
 			std::uniform_int_distribution<size_t> widthDist(kWidthMin, kWidthMax);
 			std::uniform_int_distribution<size_t> heightDist(kHeightMin, kHeightMax);
@@ -33,8 +36,8 @@ namespace game {
 
 			for (size_t y = 0; y < m_height; ++y) {
 				for (size_t x = 0; x < m_width; ++x) {
-					TileType type = static_cast<TileType>(gen() % 3);
-					m_tiles.emplace_back(type, static_cast<int>(x), static_cast<int>(y));
+					Tile::TileType type = static_cast<Tile::TileType>(gen() % 3);
+					m_tiles.emplace_back(type);
 				}
 			}
 		}
@@ -45,10 +48,10 @@ namespace game {
 
 		size_t GetHeight() {
 			return m_height;
-		}
+		} 
 
 		Tile& GetTile(size_t x, size_t y) {
-			if (x >= m_width || y >= m_height) {
+			if (x >= m_width || y >= m_height || x < 0 || y < 0) {
 				throw std::out_of_range("Tile coordinates are out of bounds");
 			}
 			return m_tiles[y * m_width + x];
@@ -58,8 +61,8 @@ namespace game {
 			for (size_t y = 0; y < m_height; ++y) {
 				for (size_t x = 0; x < m_width; ++x) {
 					Tile& tile = GetTile(x, y);
-					if (tile.isDestructible()) { 
-						bombs.emplace_back(x, y);
+					if (tile.GetType() == Tile::TileType::DestructibleWall) {
+						//bombs.emplace_back(x, y);
 						std::cout << "Placed bomb at (" << x << ", " << y << ")" << std::endl;
 					}
 				}

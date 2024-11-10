@@ -1,7 +1,8 @@
 module map;
-using namespace game;
 
-std::ostream& game::operator<<(std::ostream& out, Map map)
+/**
+* 
+std::ostream& game::operator<<(std::ostream& out, game::Map map)
 {
 	// TODO: change implementation -> this is just for verification
 	out << "Map Dimensions: " << map.GetWidth() << " x " << map.GetHeight() << "\n";
@@ -29,3 +30,4 @@ std::ostream& game::operator<<(std::ostream& out, Map map)
     }
 	return out;
 }
+*/

@@ -1,46 +1,24 @@
-export module Tile;
-#include <iostream>
+export module tile;
+import <iostream>;
+using std::uint8_t;
 
-
-
-export enum class TileType {
-    Free,
-    DestructibleWall,
-    IndestructibleWall
-};
-
-export class Tile {
-private:
-    TileType type;
-    int x;
-    int y;
-
+export class Tile 
+{
 public:
-    Tile() = default;
-    Tile(TileType t, int xPos, int yPos)
-        : type(t), x(xPos), y(yPos) {}
+    enum class TileType : uint8_t
+    {
+        Free,
+        DestructibleWall,
+        IndestructibleWall
+    };
 
+    Tile(TileType type);
 
-    TileType getType() const {
-        return type;
+    TileType GetType() const 
+    {
+        return m_type;
     }
 
-    int getX() const {
-        return x;
-    }
-
-    int getY() const {
-        return y;
-    }
-
-    void display() const {
-        std::cout << "Tile at (" << x << ", " << y << ") is "
-            << (type == TileType::Free ? "Free" :
-                type == TileType::DestructibleWall ? "Destructible Wall" : "Indestructible Wall")
-            << std::endl;
-    }
-    bool isDestructible() const {
-        return type == TileType::DestructibleWall;
-    }
-
+private:
+    TileType m_type : 2;
 };
