@@ -14,8 +14,8 @@ public:
 
 public:
     Tile(TileType type);
-    Tile(const Tile&) = delete;
-    Tile& operator = (const Tile&) = delete;
+    //Tile(const Tile&) = delete;
+    //Tile& operator = (const Tile&) = delete;
 
     TileType GetType() const;
 

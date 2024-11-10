@@ -1,7 +1,5 @@
-import map;
-
 import <iostream>;
-
+import map;
 //TODO: add namespace game for every class
 
 
