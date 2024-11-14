@@ -12,7 +12,8 @@ public:
     {
         Free,
         DestructibleWall,
-        IndestructibleWall
+        IndestructibleWall,
+        Player
     };
 
 public:

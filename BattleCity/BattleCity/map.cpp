@@ -1,7 +1,7 @@
 module map;
 
-#include "powerup.h"
-#include <vector>
+import <vector>;
+import powerup;
 
 std::ostream& game::operator<<(std::ostream& out, Map map)
 {
