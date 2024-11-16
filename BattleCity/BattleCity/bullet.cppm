@@ -1,14 +1,28 @@
-export module Bullet;
+export module bullet;
 
-export class Bullet 
-{         
+import <iostream>;
+using std::uint8_t;
+using std::uint16_t;
 
-public:
+namespace game
+{
+	export class Bullet
+	{
+	public:
+		enum class Direction : uint8_t
+		{
+			UP,
+			DOWN,
+			LEFT,
+			RIGHT
+		};
 
-private:
-    float direction;
-    float speed;
-    bool active;
-    float x;
-    float y;
-};
+	public:
+		Bullet(Direction direction, uint16_t speed);
+		Bullet(Bullet&&) noexcept = default;
+		Bullet& operator = (Bullet&&) noexcept = default;
+	private:
+		Direction m_direction : 2;
+		uint16_t m_speed;
+	};
+}

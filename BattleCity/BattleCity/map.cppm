@@ -26,6 +26,8 @@ namespace game
 		const Tile& GetTile(size_t x, size_t y);
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
 
+		void placePlayer();
+
 	private:
 		size_t m_width;
 		size_t m_height;

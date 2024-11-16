@@ -1,5 +1,8 @@
 module map;
 
+import <vector>;
+import powerup;
+
 std::ostream& game::operator<<(std::ostream& out, Map map)
 {
     // TODO: change implementation -> this is just for verification
@@ -86,3 +89,32 @@ void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
         }
     }
 }
+void game::Map::placePlayer()
+{
+    if (m_width < 2 || m_height < 2) {
+        throw std::runtime_error("Map dimensions are too small to place players in corners.");
+    }
+
+    // Place players in four corners
+    m_tiles[0] = Tile(Tile::TileType::Player);                      // Top-left corner
+    m_tiles[m_width - 1] = Tile(Tile::TileType::Player);            // Top-right corner
+    m_tiles[(m_height - 1) * m_width] = Tile(Tile::TileType::Player); // Bottom-left corner
+    m_tiles[m_height * m_width - 1] = Tile(Tile::TileType::Player); // Bottom-right corner
+
+    std::cout << "Players placed in corners of the map." << std::endl;
+}
+
+
+namespace game {
+
+    // Add a container for active power-ups
+    std::vector<PowerUp> m_activePowerUps;
+
+    // Example function to add a power-up
+    void addPowerUp(const PowerUp& powerUp) {
+        m_activePowerUps.push_back(powerUp);
+    }
+}
+
+
+

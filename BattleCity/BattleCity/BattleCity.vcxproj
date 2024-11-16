@@ -108,6 +108,7 @@
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalOptions>/D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +127,7 @@
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <AdditionalOptions>/D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,11 +141,17 @@
     <ClCompile Include="app.cppm" />
     <ClCompile Include="bomb.cpp" />
     <ClCompile Include="bomb.cppm" />
+    <ClCompile Include="bullet.cpp" />
     <ClCompile Include="bullet.cppm" />
+    <ClCompile Include="characters.cpp" />
     <ClCompile Include="characters.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="map.cppm" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="player.cppm" />
+    <ClCompile Include="powerup.cpp" />
+    <ClCompile Include="powerup.cppm" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="tile.cppm" />
     <ClCompile Include="user.cpp" />
