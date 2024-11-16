@@ -6,7 +6,6 @@ import <chrono>;
 using std::uint16_t;
 using std::uint8_t;
 
-//TODO: talk at lab about how to separate user and weapon modules without making a cyclic dependency :(
 class Weapon
 {
 public:
