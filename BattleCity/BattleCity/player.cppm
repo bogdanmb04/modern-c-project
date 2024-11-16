@@ -93,6 +93,5 @@ public:
 	{
 		return position;
 	}
-
 	
 };

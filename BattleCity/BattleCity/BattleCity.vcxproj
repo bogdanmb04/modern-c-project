@@ -148,6 +148,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="map.cppm" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="player.cppm" />
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="powerup.cppm" />
     <ClCompile Include="tile.cpp" />

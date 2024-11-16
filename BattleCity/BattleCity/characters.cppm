@@ -4,7 +4,7 @@ import <iostream>;
 import <vector>;
 import <string>;
 
-namespace character 
+namespace game
 {
 	class Character
 	{

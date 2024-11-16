@@ -1,5 +1,5 @@
 module characters;
-using namespace character;
+using namespace game;
 
 std::string Character::CampToString(Character::Camp camp)
 {
