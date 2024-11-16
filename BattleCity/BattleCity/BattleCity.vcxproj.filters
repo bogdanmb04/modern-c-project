@@ -57,11 +57,8 @@
     <ClCompile Include="bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="powerup.cpp">
+    <ClCompile Include="characters.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="powerup.cppm">
-      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
