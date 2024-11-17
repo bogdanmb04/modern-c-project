@@ -52,6 +52,7 @@ game::Map::Map()
         for (size_t x = 0; x < m_width; ++x)
         {
             m_tiles.emplace_back(static_cast<Tile::TileType>(gen() % 3));
+            
         }
     }
 }
@@ -76,6 +77,9 @@ const Tile& game::Map::GetTile(size_t x, size_t y)
 
 void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 {
+    size_t no_bombs = kNoBombs;
+
+    std::vector<std::pair<size_t, size_t>> destructibleWalls;
     for (size_t y = 0; y < m_height; ++y)
     {
         for (size_t x = 0; x < m_width; ++x)
@@ -83,10 +87,20 @@ void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
             const Tile& tile = GetTile(x, y);
             if (tile.GetType() == Tile::TileType::DestructibleWall)
             {
-                //bombs.emplace_back(x, y);
-                std::cout << "Placed bomb at (" << x << ", " << y << ")" << std::endl;
+                destructibleWalls.emplace_back(x, y);
             }
         }
+    }
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::shuffle(destructibleWalls.begin(), destructibleWalls.end(), gen);
+
+    for (size_t i = 0; i < std::min(no_bombs, destructibleWalls.size()); ++i)
+    {
+        const auto& [x, y] = destructibleWalls[i];
+        //bombs.emplace_back(std::make_pair(static_cast<uint16_t>(x), y));
+        std::cout << "Placed bomb at (" << x << ", " << y << ")" << std::endl;
     }
 }
 void game::Map::placePlayer()
@@ -111,7 +125,7 @@ namespace game {
     std::vector<PowerUp> m_activePowerUps;
 
     // Example function to add a power-up
-    void addPowerUp(const PowerUp& powerUp) {
+    void AddPowerUp(const PowerUp& powerUp) {
         m_activePowerUps.push_back(powerUp);
     }
 }

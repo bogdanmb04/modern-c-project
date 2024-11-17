@@ -16,6 +16,7 @@ namespace game
 		static const size_t kWidthMax{ 50 };
 		static const size_t kHeightMin{ 10 };
 		static const size_t kHeightMax{ 50 };
+		static const size_t kNoBombs{ 3 };
 		using Position = std::pair<size_t, size_t>;
 
 	public:
