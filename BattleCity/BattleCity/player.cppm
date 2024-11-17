@@ -1,12 +1,12 @@
-export module player;
+/**/export module player;
 
 //import characterSelector;
 
 #include <iostream>
 #include <utility>
 #include <string>
-
- export class Player
+import entity;
+ export class Player:public Entity
 {
 private:
 	std::string character;
@@ -93,5 +93,6 @@ public:
 	{
 		return position;
 	}
+
 	
 };

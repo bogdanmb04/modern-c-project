@@ -1,22 +1,16 @@
 export module bullet;
+import entity;
 
+
+import movable;
 import <iostream>;
 using std::uint8_t;
 using std::uint16_t;
 
 namespace game
 {
-	export class Bullet
+	export class Bullet : public IMovable
 	{
-	public:
-		enum class Direction : uint8_t
-		{
-			UP,
-			DOWN,
-			LEFT,
-			RIGHT
-		};
-
 	public:
 		Bullet(Direction direction, uint16_t speed);
 		Bullet(Bullet&&) noexcept = default;
