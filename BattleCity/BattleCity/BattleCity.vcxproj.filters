@@ -75,5 +75,17 @@
     <ClCompile Include="movable.cppm">
       <Filter>Header Files</Filter>
     </ClCompile>
+    <ClCompile Include="character_selector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="character_selector.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="entity.cppm">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

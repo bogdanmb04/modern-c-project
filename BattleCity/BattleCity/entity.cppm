@@ -15,10 +15,7 @@ public:
     void display() const override {}
 };
 
-export class Player : public Entity {
-public:
-    void display() const override {}
-};
+
 
 export class PowerUp : public Entity {
 public:

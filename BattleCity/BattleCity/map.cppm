@@ -12,10 +12,10 @@ namespace game
 	export class Map 
 	{
 	public:
-		static const size_t kWidthMin{ 50 };
-		static const size_t kWidthMax{ 200 };
-		static const size_t kHeightMin{ 50 };
-		static const size_t kHeightMax{ 200 };
+		static const size_t kWidthMin{ 10 };
+		static const size_t kWidthMax{ 50 };
+		static const size_t kHeightMin{ 10 };
+		static const size_t kHeightMax{ 50 };
 		using Position = std::pair<size_t, size_t>;
 
 	public:
