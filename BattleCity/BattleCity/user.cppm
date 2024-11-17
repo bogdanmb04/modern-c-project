@@ -1,10 +1,17 @@
+//#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
+//#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
+
+
 export module user;
 
 import <iostream>;
 import <chrono>;
+//import <sqlite_orm/sqlite_orm.h>;
 
 using std::uint16_t;
 using std::uint8_t;
+
+//namespace sql = sqlite_orm;
 
 class Weapon
 {
@@ -21,6 +28,7 @@ namespace user
 	export class User
 	{
 	private:
+		int m_id;
 		std::string m_username;
 		uint8_t m_totalScore;
 		uint16_t m_specialMoney;
@@ -34,8 +42,27 @@ namespace user
 		std::string GetUsername() const;
 		uint8_t GetTotalScore() const;
 		uint16_t GetSpecialMoney() const;
+		int GetId() const;
+
+		void SetId(int id);
+		void SetUsername(const std::string& username);
+		void SetTotalScore(uint8_t score);
+		void SetSpecialMoney(uint16_t money);
 	};
 
 	export std::ostream& operator << (std::ostream& os, const User& user);
 
+	/*inline auto CreateStorage(const std::string& filename)
+	{
+		return sql::make_storage(
+			filename,
+			sql::make_table(
+				"Users",
+				sql::make_column("id", &User::SetId, &User::GetId, sql::primary_key().autoincrement()),
+				sql::make_column("username", &User::GetUsername, &User::SetUsername),
+				sql::make_column("totalScore", &User::GetTotalScore, &User::SetTotalScore),
+				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney)
+			)
+		);
+	}*/
 }
