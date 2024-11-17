@@ -145,7 +145,8 @@
     <ClCompile Include="bullet.cppm" />
     <ClCompile Include="characters.cpp" />
     <ClCompile Include="characters.cppm" />
-    <ClCompile Include="characterselector.cppm" />
+    <ClCompile Include="CharacterSelector.cpp" />
+    <ClCompile Include="CharacterSelector.cppm" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="map.cppm" />
