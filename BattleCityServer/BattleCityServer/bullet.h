@@ -1,13 +1,14 @@
 #pragma once
 
-#include "movable.h"
-#include <iostream>
+import "movable.h";
+import "entity.h";
+
 using std::uint8_t;
 using std::uint16_t;
 
 namespace game
 {
-	class Bullet : public IMovable
+	class Bullet : public Entity, IMovable
 	{
 	public:
 		Bullet(Direction direction, uint16_t speed);

@@ -1,36 +1,39 @@
 #pragma once
+#include <iostream>
 import <vector>;
 import <optional>;
 import <random>;
 import "tile.h";
+import "entity.h";
+import <memory>;
 
 namespace game
 {
 	class Map
 	{
 	public:
-		static const size_t kWidthMin{ 10 };
-		static const size_t kWidthMax{ 50 };
-		static const size_t kHeightMin{ 10 };
-		static const size_t kHeightMax{ 50 };
+		static const size_t kWidthMin{ 9 };
+		static const size_t kWidthMax{ 12 };
+		static const size_t kHeightMin{ 9 };
+		static const size_t kHeightMax{ 12 };
 		static const size_t kNoBombs{ 3 };
 		using Position = std::pair<size_t, size_t>;
+		using Square = std::pair<Tile, std::unique_ptr<Entity>>;
 
 	public:
 		Map();
 
 		size_t GetWidth() const;
 		size_t GetHeight() const;
-		const Tile& GetTile(size_t x, size_t y);
+		Tile GetTile(size_t x, size_t y) const;
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
-
 		void placePlayer();
 
 	private:
 		size_t m_width;
 		size_t m_height;
-		std::vector<Tile> m_tiles;
+		std::vector<std::vector<Square>> m_squares;
 	};
 
-	std::ostream& operator<<(std::ostream& out, Map map);
+	std::ostream& operator << (std::ostream& out, const Map& map);
 }

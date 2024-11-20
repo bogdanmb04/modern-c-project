@@ -1,5 +1,5 @@
 import <iostream>;
-import "map.h";
+#include "map.h"
 //TODO: add namespace game for every class
 
 
@@ -7,7 +7,6 @@ int main()
 {
 	std::cout << "Hello team!" << std::endl;
 	
-	//just for verification
 	game::Map myMap;
 	std::cout << myMap;
 	std::vector<Bomb> bombs;

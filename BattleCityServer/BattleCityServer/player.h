@@ -4,8 +4,9 @@ import <iostream>;
 import "entity.h";
 import <utility>;
 import <string>;
+import "movable.h";
 
-class Player :public Entity
+class Player : public Entity, IMovable
 {
 public:
 	void Shoot();

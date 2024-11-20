@@ -11,8 +11,7 @@ public:
     {
         Free,
         DestructibleWall,
-        IndestructibleWall,
-        Player
+        IndestructibleWall
     };
 
 public:
@@ -21,6 +20,7 @@ public:
     //Tile& operator = (const Tile&) = delete;
 
     TileType GetType() const;
+    void SetType(TileType type);
 
 private:
     TileType m_type : 2;
