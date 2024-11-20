@@ -86,9 +86,8 @@ size_t game::Map::GetHeight() const
 
 Tile game::Map::GetTile(size_t x, size_t y) const
 {
-	if (x >= m_width || y >= m_height || x < 0 || y < 0) {
-		throw std::out_of_range("Tile coordinates are out of bounds");
-	}
+	if (x >= m_width || y >= m_height || x < 0 || y < 0)
+		return m_squares[0][0].first;
 	return m_squares[x][y].first;
 }
 
