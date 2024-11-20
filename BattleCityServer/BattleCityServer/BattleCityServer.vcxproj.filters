@@ -21,35 +21,14 @@
     <ClCompile Include="user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="user.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="tile.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bomb.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="bomb.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="map.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="bullet.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="characters.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="app.cppm">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="app.cpp">
       <Filter>Source Files</Filter>
@@ -63,29 +42,46 @@
     <ClCompile Include="powerup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="powerup.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="movable.cppm">
-      <Filter>Header Files</Filter>
-    </ClCompile>
-    <ClCompile Include="character_selector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="character_selector.cppm">
-      <Filter>Header Files</Filter>
     </ClCompile>
     <ClCompile Include="entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="entity.cppm">
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="app.h">
       <Filter>Header Files</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="bomb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="characters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="movable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="powerup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

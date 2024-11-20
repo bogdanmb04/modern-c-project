@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{f972d3bd-c20f-46dc-9c7a-5d732b0f3dc9}</ProjectGuid>
-    <RootNamespace>BattleCity</RootNamespace>
+    <ProjectGuid>{a05ae6b3-7585-4453-ab7c-404b774d0937}</ProjectGuid>
+    <RootNamespace>BattleCityClient</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>BattleCityServer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -108,8 +107,6 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <EnableModules>true</EnableModules>
-      <BuildStlModules>false</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS /D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,8 +124,6 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <ScanSourceForModuleDependencies>true</ScanSourceForModuleDependencies>
       <EnableModules>true</EnableModules>
-      <BuildStlModules>false</BuildStlModules>
-      <AdditionalOptions>/D_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS /D_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -138,30 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="app.cpp" />
-    <ClCompile Include="bomb.cpp" />
-    <ClCompile Include="bullet.cpp" />
-    <ClCompile Include="characters.cpp" />
-    <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="map.cpp" />
-    <ClCompile Include="player.cpp" />
-    <ClCompile Include="powerup.cpp" />
-    <ClCompile Include="tile.cpp" />
-    <ClCompile Include="user.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="app.h" />
-    <ClInclude Include="bomb.h" />
-    <ClInclude Include="bullet.h" />
-    <ClInclude Include="characters.h" />
-    <ClInclude Include="entity.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="movable.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="powerup.h" />
-    <ClInclude Include="tile.h" />
-    <ClInclude Include="user.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
