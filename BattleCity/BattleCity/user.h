@@ -1,8 +1,6 @@
+#pragma once
 //#define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING
 //#define _SILENCE_ALL_CXX17_DEPRECATION_WARNINGS
-
-
-export module user;
 
 import <iostream>;
 import <chrono>;
@@ -25,7 +23,7 @@ private:
 
 namespace user
 {
-	export class User
+	class User
 	{
 	private:
 		int m_id;
@@ -50,7 +48,7 @@ namespace user
 		void SetSpecialMoney(uint16_t money);
 	};
 
-	export std::ostream& operator << (std::ostream& os, const User& user);
+	std::ostream& operator << (std::ostream& os, const User& user);
 
 	/*inline auto CreateStorage(const std::string& filename)
 	{

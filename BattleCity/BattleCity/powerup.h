@@ -1,10 +1,10 @@
-export module powerup;
+#pragma once
 
 import <string>;
 
 namespace game {
 
-    export class PowerUp {
+    class PowerUp {
     public:
         PowerUp(const std::string& name, int attribute_value, const std::string& effect);
 

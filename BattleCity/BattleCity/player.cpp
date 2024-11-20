@@ -1,4 +1,4 @@
-module player;
+#include "player.h"
 import <iostream>;
 
 

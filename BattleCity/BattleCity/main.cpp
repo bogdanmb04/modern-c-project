@@ -1,5 +1,5 @@
 import <iostream>;
-import map;
+import "map.h";
 //TODO: add namespace game for every class
 
 

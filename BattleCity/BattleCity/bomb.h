@@ -1,9 +1,9 @@
-export module bomb;
+#pragma once
 
-import <iostream>;
+#include <iostream>
 using std::uint16_t;
 
-export class Bomb 
+class Bomb
 {
 public:
 	Bomb(const std::pair<uint16_t, uint16_t>& position);

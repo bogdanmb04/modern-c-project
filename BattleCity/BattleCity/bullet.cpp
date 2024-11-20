@@ -1,4 +1,4 @@
-module bullet;
+#include "bullet.h"
 
 using namespace game;
 

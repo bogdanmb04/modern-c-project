@@ -1,4 +1,5 @@
-module characters;
+#include "characters.h"
+
 using namespace game;
 
 std::string Character::CampToString(Character::Camp camp)

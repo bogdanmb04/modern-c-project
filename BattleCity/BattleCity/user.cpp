@@ -1,4 +1,4 @@
-module user;
+#include "user.h"
 
 
 user::User::User(const std::string& username, uint8_t totalScore, uint16_t specialMoney, const Weapon& weapon)

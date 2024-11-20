@@ -1,4 +1,4 @@
-export module app;
+#pragma once
 
 import <iostream>;
 

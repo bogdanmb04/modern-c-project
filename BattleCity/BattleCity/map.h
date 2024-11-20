@@ -1,15 +1,12 @@
-export module map;
+#pragma once
 import <vector>;
 import <optional>;
-import <iostream>;
 import <random>;
-
-export import tile;
-export import bomb;
+import "tile.h";
 
 namespace game
 {
-	export class Map 
+	class Map
 	{
 	public:
 		static const size_t kWidthMin{ 10 };
@@ -35,5 +32,5 @@ namespace game
 		std::vector<Tile> m_tiles;
 	};
 
-	export std::ostream& operator<<(std::ostream& out, Map map);
+	std::ostream& operator<<(std::ostream& out, Map map);
 }

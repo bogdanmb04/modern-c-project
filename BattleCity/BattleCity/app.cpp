@@ -1,2 +1,1 @@
-module app;
-using namespace application;
+#include "app.h"

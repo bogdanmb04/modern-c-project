@@ -1,13 +1,11 @@
-export module player;
-export import characters;
-export import bullet;
+#pragma once
 
 import <iostream>;
-import entity;
+import "entity.h";
 import <utility>;
 import <string>;
 
- export class Player:public Entity
+class Player :public Entity
 {
 public:
 	void Shoot();
@@ -18,7 +16,7 @@ public:
 	void GetShoot();
 
 
-	
+
 public:
 	Player(Player&&) noexcept = default;
 	Player& operator =(Player&&) noexcept = default;

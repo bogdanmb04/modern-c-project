@@ -1,10 +1,9 @@
-export module tile;
+#pragma once
 
-import bomb;
-import <iostream>;
+#include "bomb.h"
 using std::uint8_t;
 
-export class Tile 
+class Tile
 {
 public:
     friend class Bomb;

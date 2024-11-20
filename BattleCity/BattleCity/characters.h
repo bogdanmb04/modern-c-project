@@ -1,4 +1,4 @@
-export module characters;
+#pragma once
 
 import <iostream>;
 import <vector>;

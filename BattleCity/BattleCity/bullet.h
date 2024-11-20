@@ -1,13 +1,13 @@
-export module bullet;
+#pragma once
 
-import movable;
-import <iostream>;
+#include "movable.h"
+#include <iostream>
 using std::uint8_t;
 using std::uint16_t;
 
 namespace game
 {
-	export class Bullet : public IMovable
+	class Bullet : public IMovable
 	{
 	public:
 		Bullet(Direction direction, uint16_t speed);
