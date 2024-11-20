@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleCity", "BattleCity\BattleCity.vcxproj", "{F972D3BD-C20F-46DC-9C7A-5D732B0F3DC9}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BattleCityServer", "BattleCityServer\BattleCityServer.vcxproj", "{F972D3BD-C20F-46DC-9C7A-5D732B0F3DC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

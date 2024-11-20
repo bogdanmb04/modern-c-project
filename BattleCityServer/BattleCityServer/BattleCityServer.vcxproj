@@ -24,6 +24,7 @@
     <ProjectGuid>{f972d3bd-c20f-46dc-9c7a-5d732b0f3dc9}</ProjectGuid>
     <RootNamespace>BattleCity</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>BattleCityServer</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
