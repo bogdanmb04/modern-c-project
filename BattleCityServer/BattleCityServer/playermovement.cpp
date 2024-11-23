@@ -1,4 +1,4 @@
-﻿/*#include "playermovement.h"
+﻿#include "playermovement.h"
 import "movable.h";
 
 PlayerMovement::PlayerMovement(int line, int column) :
@@ -14,7 +14,7 @@ void PlayerMovement::Move(const Direction& direction)
 {
     int newLine = m_playerPosition.first;
     int newColumn = m_playerPosition.second;
-    if (direction == Direction::UP) { // Compară cu enum-ul Direction
+    if (direction == Direction::UP) { // Compara cu enum-ul Direction
         newLine--;
     }
     else if (direction == Direction::DOWN) {
@@ -84,4 +84,3 @@ void PlayerMovement::ChangeDirection(const Direction& newDirection)
         os << "Player position: (" << playerMovement.m_playerPosition.first << ", " << playerMovement.m_playerPosition.second << "), facing " << static_cast<int>(playerMovement.m_direction) << ".\n";
         return os;
     }
-    */
