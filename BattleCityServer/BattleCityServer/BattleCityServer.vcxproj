@@ -150,12 +150,14 @@
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="user.cpp" />
+    <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h" />
     <ClInclude Include="bomb.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="characters.h" />
+    <ClInclude Include="database.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movable.h" />
@@ -164,6 +166,7 @@
     <ClInclude Include="powerup.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
+    <ClInclude Include="weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,5 @@
 #include "user.h"
 
-
 user::User::User(const std::string& username, uint8_t totalScore, uint16_t specialMoney, const Weapon& weapon)
 	: m_id(0)
 	, m_username {username}
@@ -24,12 +23,12 @@ uint16_t user::User::GetSpecialMoney() const
 	return m_specialMoney;
 }
 
-int user::User::GetId() const
+int user::User::GetID() const
 {
     return m_id;
 }
 
-void user::User::SetId(int id)
+void user::User::SetID(int id)
 {
 	m_id = id;
 }
@@ -51,14 +50,11 @@ void user::User::SetSpecialMoney(uint16_t money)
 
 std::ostream& user::operator<<(std::ostream& os, const User& user)
 {
-	return os << std::format("{} {} {}", user.GetUsername(), user.GetSpecialMoney(), user.GetTotalScore());
+	return os << std::format("{} {} {}", 
+		user.GetUsername(), 
+		user.GetSpecialMoney(), 
+		user.GetTotalScore());
 }
-
-
-Weapon::Weapon(const std::chrono::milliseconds& bulletWaitTime, uint16_t bulletSpeed)
-	: m_bulletWaitTime{ bulletWaitTime }
-	, m_bulletSpeed{ bulletSpeed }
-{/*EMPTY*/}
 
 
 
