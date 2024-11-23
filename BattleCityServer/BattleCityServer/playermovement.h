@@ -9,7 +9,7 @@ public:
 private:
 	void Move(const Direction& direction);
 	void ChangeDirection(const Direction& newDirection);
-	void DisplayBoard() const;
+	void DisplayBoard() const ;
 
 	void UpdatePlayerPosition(int newLine, int newColumn);
 private:
