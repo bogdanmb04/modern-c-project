@@ -148,6 +148,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="playermovement.cpp" />
     <ClCompile Include="powerup.cpp" />
+    <ClCompile Include="routing.cpp" />
     <ClCompile Include="tile.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="weapon.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="playermovement.h" />
     <ClInclude Include="powerup.h" />
+    <ClInclude Include="routing.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="weapon.h" />
