@@ -6,6 +6,7 @@ import <random>;
 import "tile.h";
 import "entity.h";
 import <memory>;
+import "player.h";
 
 namespace game
 {
@@ -23,12 +24,17 @@ namespace game
 	public:
 		Map();
 
+		const std::vector<std::vector<Map::Square>>& GetSquares() const
+		{
+			return m_squares;
+		}
+
 		size_t GetWidth() const;
 		size_t GetHeight() const;
 		Tile GetTile(size_t x, size_t y) const;
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
-		void placePlayer();
-
+		void PlacePlayer();
+		void MovePlayer(Player& player, char direction);
 	private:
 		size_t m_width;
 		size_t m_height;

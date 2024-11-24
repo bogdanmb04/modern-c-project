@@ -8,6 +8,24 @@ void shoot()
 }
 
 
+void Player::Move()
+{
+	/*switch (m_direction)
+	{
+	case 'U': position.second -= 1;
+		break;
+	case 'D': position.second += 1;
+		break;
+	case 'L': position.first -= 1;
+		break;
+	case 'R': position.first += 1;
+		break;
+	default: std::cout << "Invalid direction!\n";
+		return;
+	}
+	std::cout << character << "Moved at " << position.first << ";" << position.second << "\n";*/
+}
+
 uint16_t Player::GetScore()
 {
 	return m_score;
@@ -56,26 +74,6 @@ void GetShoot()
 		std::cout << "Unavailable character\n";
 	}
 }*/
-
-
-void move(const char direction){
-	/*switch (direction)
-	{
-	case 'U': position.second -= 1;
-		break;
-	case 'D': position.second += 1;
-		break;
-	case 'L': position.first -= 1;
-		break;
-	case 'R': position.first += 1;
-		break;
-	default: std::cout << "Invalid direction!\n";
-		return;
-	}
-	std::cout << character << "Moved at " << position.first << ";" << position.second << "\n";*/
-}
-
-
 
 /*void selectCharacter(const std::string& newCharacter)
 {

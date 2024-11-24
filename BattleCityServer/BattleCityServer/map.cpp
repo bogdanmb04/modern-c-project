@@ -12,18 +12,25 @@ std::ostream& game::operator<<(std::ostream& out, const Map& map)
 	{
 		for (size_t y = 0; y < map.GetHeight(); ++y)
 		{
-			const Tile& tile = map.GetTile(x, y);
-			switch (tile.GetType())
-			{
-			case Tile::TileType::Free:
-				out << "F" << " ";
-				break;
-			case Tile::TileType::DestructibleWall:
-				out << "D" << " ";
-				break;
-			case::Tile::TileType::IndestructibleWall:
-				out << "I" << " ";
-				break;
+			const auto& square = map.GetSquares()[x][y];
+			const Tile& tile = square.first; 
+			const std::unique_ptr<Entity>& entity = square.second; 
+
+			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
+				out << "P" << " ";  
+			}
+			else {
+				switch (tile.GetType()) {
+				case Tile::TileType::Free:
+					out << "F" << " ";  
+					break;
+				case Tile::TileType::DestructibleWall:
+					out << "D" << " ";  
+					break;
+				case Tile::TileType::IndestructibleWall:
+					out << "I" << " ";  
+					break;
+				}
 			}
 		}
 		out << std::endl;
@@ -120,26 +127,25 @@ void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 	}
 }
 
-void game::Map::placePlayer()
+void game::Map::PlacePlayer()
 {
-	if (m_width < 2 || m_height < 2) {
-		throw std::runtime_error("Map dimensions are too small to place players in corners.");
+	std::vector<std::pair<uint16_t, uint16_t>> corners = {
+		{0, 0},
+		{m_width - 1, 0},                    
+		{0, m_height - 1},                   
+		{m_width - 1, m_height - 1}          
+	};
+
+	for (const auto& corner : corners) {
+		uint16_t x = corner.first;
+		uint16_t y = corner.second;
+
+		m_squares[x][y].second = std::make_unique<Player>();
 	}
 
 	std::cout << "Players placed in corners of the map." << std::endl;
 }
 
-
-namespace game {
-
-	// Add a container for active power-ups
-	std::vector<PowerUp> m_activePowerUps;
-
-	// Example function to add a power-up
-	void AddPowerUp(const PowerUp& powerUp) {
-		m_activePowerUps.push_back(powerUp);
-	}
-}
-
+//TODO: define player movement in map ? because we don't know the position in class player
 
 

@@ -19,6 +19,8 @@ public:
 
 
 public:
+	Player() = default;
+
 	Player(Player&&) noexcept = default;
 	Player& operator =(Player&&) noexcept = default;
 private:

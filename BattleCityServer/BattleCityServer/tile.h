@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bomb.h"
+#include "entity.h"
 using std::uint8_t;
 
 class Tile

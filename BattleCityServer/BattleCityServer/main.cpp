@@ -17,9 +17,11 @@ int main()
 	std::cout << "Hello team!" << std::endl;
 	
 	game::Map myMap;
-	std::cout << myMap;
 	std::vector<Bomb> bombs;
 	myMap.PlaceBombsOnWalls(bombs);
+	myMap.PlacePlayer();
+	std::cout << myMap;
+
 
 	//PlayerMovement player(5, 5);
 	//player.DisplayBoard();
