@@ -25,7 +25,7 @@ uint16_t Weapon::GetID() const
 
 const std::optional<uint32_t>& Weapon::GetUserID() const
 {
-	return m_userID.value_or(std::nullopt);
+	return m_userID;
 }
 
 void Weapon::SetSpeed(uint16_t speed)
