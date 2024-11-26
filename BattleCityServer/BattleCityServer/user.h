@@ -1,7 +1,6 @@
 #pragma once
-#include "weapon.h";
-
-import <iostream>;
+#include "weapon.h"
+#include <iostream>
 
 using std::uint16_t;
 using std::uint8_t;

@@ -2,10 +2,10 @@
 
 #include "entity.h"
 
-import <iostream>;
-import <utility>;
-import <string>;
-import "movable.h";
+#include <iostream>
+#include <utility>
+#include <string>
+#include "movable.h"
 
 class Player : public Entity, IMovable
 {

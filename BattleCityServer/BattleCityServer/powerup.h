@@ -1,8 +1,8 @@
 #pragma once
 
-import "entity.h";
-import <string>;
-import <memory>;
+#include "entity.h"
+#include <string>
+#include <memory>
 
 namespace game {
 

@@ -1,7 +1,7 @@
-import <iostream>;
+#include <iostream>;
 #include "map.h"
 //#include "playermovement.h"
-import <vector>;
+#include <vector>;
 #include "../Logging/logging.h"
 #include <fstream>
 

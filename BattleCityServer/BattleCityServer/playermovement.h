@@ -1,8 +1,6 @@
-
-import "movable.h"; 
-import <vector>;
-import <utility>;
-
+#include "movable.h"
+#include <vector>
+#include <utility>
 
 class PlayerMovement : public IMovable {
 public:

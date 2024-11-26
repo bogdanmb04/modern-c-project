@@ -1,12 +1,12 @@
 #pragma once
 #include <iostream>
-import <vector>;
-import <optional>;
-import <random>;
-import "tile.h";
-import "entity.h";
-import <memory>;
-import "player.h";
+#include <vector>
+#include <optional>
+#include <random>
+#include "tile.h"
+#include "entity.h"
+#include <memory>
+#include "player.h"
 
 namespace game
 {

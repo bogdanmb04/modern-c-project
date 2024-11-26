@@ -1,8 +1,8 @@
 #pragma once
 #include <sqlite_orm/sqlite_orm.h>
 
-import "user.h";
-import "weapon.h";
+#include "user.h"
+#include "weapon.h"
 
 namespace sql = sqlite_orm;
 using namespace user;

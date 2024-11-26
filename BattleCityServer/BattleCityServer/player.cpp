@@ -1,6 +1,5 @@
 #include "player.h"
-import <iostream>;
-
+#include <iostream>
 
 void shoot()
 {

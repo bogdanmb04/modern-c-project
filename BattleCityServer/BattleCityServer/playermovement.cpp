@@ -1,5 +1,5 @@
 ﻿#include "playermovement.h"
-import "movable.h";
+#include "movable.h"
 
 PlayerMovement::PlayerMovement(int line, int column) :
 	m_line(line), m_column(column), m_playerPosition({ 0,0 }), m_direction(Direction::UP)

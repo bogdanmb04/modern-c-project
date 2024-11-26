@@ -1,6 +1,6 @@
 #pragma once
-import <iostream>;
-import <cstdlib>;
+#include <iostream>
+#include <cstdlib>
 using std::uint16_t;
 using std::uint32_t;
 
