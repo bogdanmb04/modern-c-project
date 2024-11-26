@@ -10,14 +10,24 @@
 class Player : public Entity, IMovable
 {
 public:
-	void Shoot();
-	void Move();
 	uint16_t GetScore();
 	uint8_t GetLives();
+	std::pair<uint16_t, uint16_t> GetPosition();
+
+	std::pair<uint16_t, uint16_t> SetPosition(uint16_t x, uint16_t y);
+
+	void Shoot();
 	void AddScore(uint8_t points);
 	void GetShoot();
 
+	void MoveUp();
+	void MoveDown();
+	void MoveLeft();
+	void MoveRight();
 
+	void Move() override {
+		std::cout << "Player is moving" << std::endl;
+	}
 
 public:
 	Player() = default;

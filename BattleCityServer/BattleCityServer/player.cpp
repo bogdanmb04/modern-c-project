@@ -7,22 +7,24 @@ void shoot()
 }
 
 
-void Player::Move()
-{
-	/*switch (m_direction)
-	{
-	case 'U': position.second -= 1;
-		break;
-	case 'D': position.second += 1;
-		break;
-	case 'L': position.first -= 1;
-		break;
-	case 'R': position.first += 1;
-		break;
-	default: std::cout << "Invalid direction!\n";
-		return;
-	}
-	std::cout << character << "Moved at " << position.first << ";" << position.second << "\n";*/
+void Player::MoveUp() {
+	position.second--;
+	std::cout << "Moved Up to (" << position.first << ", " << position.second << ")\n";
+}
+
+void Player::MoveDown() {
+	position.second++;
+	std::cout << "Moved Down to (" << position.first << ", " << position.second << ")\n";
+}
+
+void Player::MoveLeft() {
+	position.first--;
+	std::cout << "Moved Left to (" << position.first << ", " << position.second << ")\n";
+}
+
+void Player::MoveRight() {
+	position.first++;
+	std::cout << "Moved Right to (" << position.first << ", " << position.second << ")\n";
 }
 
 uint16_t Player::GetScore()
@@ -33,6 +35,16 @@ uint16_t Player::GetScore()
 uint8_t Player::GetLives()
 {
 	return m_lives;
+}
+
+std::pair<uint16_t, uint16_t> Player::GetPosition()
+{
+	return position;
+}
+
+std::pair<uint16_t, uint16_t> Player::SetPosition(uint16_t x, uint16_t y)
+{
+	return position = std::make_pair(x, y);
 }
 
 void Player::AddScore(uint8_t points){

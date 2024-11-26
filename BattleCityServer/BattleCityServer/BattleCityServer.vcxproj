@@ -147,7 +147,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="player.cpp" />
-    <ClCompile Include="playermovement.cpp" />
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="routing.cpp" />
     <ClCompile Include="tile.cpp" />
@@ -163,9 +162,10 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movable.h" />
+    <ClInclude Include="movement_request.h" />
     <ClInclude Include="player.h" />
-    <ClInclude Include="playermovement.h" />
     <ClInclude Include="powerup.h" />
+    <ClInclude Include="request_handler.h" />
     <ClInclude Include="routing.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
