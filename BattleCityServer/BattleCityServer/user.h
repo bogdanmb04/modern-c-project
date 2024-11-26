@@ -15,8 +15,7 @@ namespace user
 
 	public:
 		User(uint32_t userID, const std::string& username, uint8_t totalScore, uint16_t specialMoney, uint32_t weapon);
-		User(const User&) = delete;
-		User& operator = (const User& other) = delete;
+		User() = default;
 
 		uint32_t GetID() const;
 		const std::string& GetUsername() const;

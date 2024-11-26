@@ -42,6 +42,31 @@ namespace server
 	public:
 		void Initialize();
 
+		void AddUser(const User& user)
+		{
+			m_db.insert(user);
+		}
+
+		User GetUser(int id) {
+			return m_db.get<User>(id);
+		}
+
+		void AddWeapon(const Weapon& weapon) {
+			m_db.insert(weapon);
+		}
+
+		std::vector<Weapon> GetWeaponsByUser(int userId) {
+			return m_db.get_all<Weapon>(sql::where(sql::c(&Weapon::GetUserID) == userId));
+		}
+
+		User GetUserByUsername(const std::string& username) {
+			return m_db.get<User>(sql::where(sql::c(&User::GetUsername) == username));
+		}
+
+		Database& GetStorage() {
+			return m_db;
+		}
+
 	private:
 		const std::string kDbFile{ "users.sqlite" };
 

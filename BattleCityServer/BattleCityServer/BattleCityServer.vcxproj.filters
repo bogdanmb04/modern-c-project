@@ -57,6 +57,9 @@
     <ClCompile Include="routing.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="database.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="app.h">
@@ -104,5 +107,10 @@
     <ClInclude Include="routing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="users.sqlite">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

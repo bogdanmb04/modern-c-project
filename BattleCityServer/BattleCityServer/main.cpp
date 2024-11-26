@@ -16,6 +16,8 @@ import <vector>;
 
 int main()
 {
+	server::GameDatabase gameDatabase;
+	gameDatabase.Initialize();
 	//TODO: optimize this code
 	auto start_time = std::chrono::high_resolution_clock::now();
 	for (int i = 1; i < 30; i++) {

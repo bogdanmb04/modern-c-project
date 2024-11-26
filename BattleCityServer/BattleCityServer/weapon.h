@@ -8,7 +8,7 @@ class Weapon
 {
 public:
 	Weapon(uint32_t id, uint32_t bulletWaitTime, uint16_t bulletSpeed, uint32_t userID);
-
+	Weapon() = default;
 public:
 	uint16_t GetSpeed() const;
 	uint32_t GetWaitTime() const;
