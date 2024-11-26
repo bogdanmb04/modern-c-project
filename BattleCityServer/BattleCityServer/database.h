@@ -20,6 +20,7 @@ namespace server
 				sql::make_column("totalScore", &User::GetTotalScore, &User::SetTotalScore),
 				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney),
 				sql::make_column("weaponID", &User::GetWeaponID, &User::SetWeaponID),
+				sql::make_column("password", &User::GetPassword, &User::SetPassword),
 				sql::foreign_key(&User::GetID).references(&Weapon::GetID)
 			),
 			sql::make_table(
@@ -61,6 +62,11 @@ namespace server
 
 		User GetUserByUsername(const std::string& username) {
 			return m_db.get<User>(sql::where(sql::c(&User::GetUsername) == username));
+		}
+
+		bool ValidateUserCredentials(const std::string& username, const std::string& password) {
+			auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
+			return !users.empty();
 		}
 
 		Database& GetStorage() {

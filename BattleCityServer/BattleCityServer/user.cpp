@@ -35,6 +35,11 @@ uint32_t user::User::GetWeaponID() const
 	return m_weaponID;
 }
 
+const std::string&  user::User::GetPassword() const
+{
+	return m_password;
+}
+
 void user::User::SetID(uint32_t id)
 {
 	m_id = id;
@@ -58,6 +63,11 @@ void user::User::SetSpecialMoney(uint16_t money)
 void user::User::SetWeaponID(uint32_t weaponID)
 {
 	m_weaponID = weaponID;
+}
+
+void user::User::SetPassword(const std::string& password)
+{
+	m_password = password;
 }
 
 std::ostream& user::operator<<(std::ostream& os, const User& user)
