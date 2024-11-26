@@ -1,14 +1,16 @@
 #include "user.h"
 
-user::User::User(const std::string& username, uint8_t totalScore, uint16_t specialMoney, const Weapon& weapon)
-	: m_id(0)
+using namespace user;
+
+User::User(uint32_t userID, const std::string& username, uint8_t totalScore, uint16_t specialMoney, uint32_t weaponID)
+	: m_id{userID}
 	, m_username {username}
 	, m_totalScore {totalScore}
 	, m_specialMoney {specialMoney}
-	, m_weapon {weapon}
+	, m_weaponID {weaponID}
 {/*EMPTY*/}
 
-std::string user::User::GetUsername() const
+const std::string& user::User::GetUsername() const
 {
 	return m_username;
 }
@@ -23,12 +25,17 @@ uint16_t user::User::GetSpecialMoney() const
 	return m_specialMoney;
 }
 
-int user::User::GetID() const
+uint32_t user::User::GetID() const
 {
     return m_id;
 }
 
-void user::User::SetID(int id)
+uint32_t user::User::GetWeaponID() const
+{
+	return m_weaponID;
+}
+
+void user::User::SetID(uint32_t id)
 {
 	m_id = id;
 }
@@ -46,6 +53,11 @@ void user::User::SetTotalScore(uint8_t score)
 void user::User::SetSpecialMoney(uint16_t money)
 {
 	m_specialMoney = money;
+}
+
+void user::User::SetWeaponID(uint32_t weaponID)
+{
+	m_weaponID = weaponID;
 }
 
 std::ostream& user::operator<<(std::ostream& os, const User& user)

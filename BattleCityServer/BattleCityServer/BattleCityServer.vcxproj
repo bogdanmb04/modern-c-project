@@ -142,6 +142,7 @@
     <ClCompile Include="bomb.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="characters.cpp" />
+    <ClCompile Include="database.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
@@ -167,6 +168,9 @@
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="users.sqlite" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

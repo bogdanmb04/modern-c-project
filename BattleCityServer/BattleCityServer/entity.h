@@ -1,4 +1,9 @@
 #pragma once
+import <utility>;
+import <cstdlib>;
+
+using std::uint16_t;
+
 class Entity 
 {
 public:
@@ -6,6 +11,9 @@ public:
     Entity& operator = (Entity&&) noexcept = default;
     Entity(Entity&&) noexcept = default;
     Entity() = default;
+    
+protected:
+    std::pair<uint16_t, uint16_t> position;
 
     /*virtual void SetInvisible(bool invisible) = 0;
     virtual void InvertControls(bool invert) = 0;

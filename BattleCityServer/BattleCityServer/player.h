@@ -1,7 +1,8 @@
 #pragma once
 
+#include "entity.h"
+
 import <iostream>;
-import "entity.h";
 import <utility>;
 import <string>;
 import "movable.h";
@@ -24,6 +25,6 @@ public:
 private:
 	//game::Character m_character;
 	uint16_t m_score;
-	uint8_t m_lives;
+	uint8_t m_lives = 3;
 	uint8_t m_direction : 2;
 };

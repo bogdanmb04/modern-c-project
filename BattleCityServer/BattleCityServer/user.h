@@ -2,10 +2,10 @@
 #include "weapon.h";
 
 import <iostream>;
-import <chrono>;
 
 using std::uint16_t;
 using std::uint8_t;
+using std::uint32_t;
 
 
 namespace user
@@ -14,26 +14,28 @@ namespace user
 	{
 
 	public:
-		User(const std::string& username, uint8_t totalScore, uint16_t specialMoney, const Weapon& weapon);
+		User(uint32_t userID, const std::string& username, uint8_t totalScore, uint16_t specialMoney, uint32_t weapon);
 		User(const User&) = delete;
 		User& operator = (const User& other) = delete;
 
-		std::string GetUsername() const;
+		uint32_t GetID() const;
+		const std::string& GetUsername() const;
 		uint8_t GetTotalScore() const;
 		uint16_t GetSpecialMoney() const;
-		int GetID() const;
+		uint32_t GetWeaponID() const;
 
-		void SetID(int id);
+		void SetID(uint32_t id);
 		void SetUsername(const std::string& username);
 		void SetTotalScore(uint8_t score);
 		void SetSpecialMoney(uint16_t money);
+		void SetWeaponID(uint32_t weaponID);
 
 	private:
-		int m_id;
+		uint32_t m_id; //PK
 		std::string m_username;
 		uint8_t m_totalScore;
 		uint16_t m_specialMoney;
-		Weapon m_weapon;
+		uint32_t m_weaponID; //FK
 	};
 
 	std::ostream& operator << (std::ostream& os, const User& user);

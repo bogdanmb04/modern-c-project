@@ -1,7 +1,7 @@
 #pragma once
 
-import "movable.h";
-import "entity.h";
+#include "movable.h"
+#include "entity.h"
 
 using std::uint8_t;
 using std::uint16_t;

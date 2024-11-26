@@ -1,8 +1,7 @@
 #pragma once
 
-import <iostream>;
-import <vector>;
-import <string>;
+#include <iostream>
+#include <vector>
 
 namespace game
 {

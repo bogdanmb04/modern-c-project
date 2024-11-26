@@ -1,6 +1,5 @@
 #pragma once
-#include <sqlite_orm/sqlite_orm.h>;
-#include <crow.h>
+#include <sqlite_orm/sqlite_orm.h>
 
 import "user.h";
 import "weapon.h";
@@ -19,7 +18,9 @@ namespace server
 				sql::make_column("id", &User::SetID, &User::GetID, sql::primary_key().autoincrement()),
 				sql::make_column("username", &User::GetUsername, &User::SetUsername),
 				sql::make_column("totalScore", &User::GetTotalScore, &User::SetTotalScore),
-				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney)
+				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney),
+				sql::make_column("weaponID", &User::GetWeaponID, &User::SetWeaponID),
+				sql::foreign_key(&User::GetID).references(&Weapon::GetID)
 			),
 			sql::make_table(
 				"Weapon",
@@ -38,6 +39,13 @@ namespace server
 
 	class GameDatabase
 	{
-		//TODO : Implement!!
+	public:
+		void Initialize();
+
+	private:
+		const std::string kDbFile{ "users.sqlite" };
+
+	private:
+		Database m_db = CreateDatabase(kDbFile);
 	};
 }
