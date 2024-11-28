@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,19 +16,20 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private:
-    Ui::MainWindow *ui;
-    QGridLayout *gridLayout;
-    QVector<QVector<int>> mapData;  // Keep the original name or rename if desired
-    void  initializeMap();
+    void initializeMap(const QString &filePath);  // Metodă pentru încărcarea hărții din fișier
 
 private slots:
-    void onCellClicked(int row, int col);  // Slot for cell click (no need to pass QLabel*)
+    void onCellClicked(int row, int col);  // Slot pentru gestionarea clicurilor pe celule
 
+private:
+    Ui::MainWindow *ui;                // UI-ul generat automat de Qt Designer
+    QGridLayout *gridLayout;            // Layout-ul pentru celulele hărții
+    QVector<QVector<int>> mapData;      // Reprezentarea hărții (0 = liber, 1 = perete destructibil, 2 = perete nedestructibil)
+
+    void loadMapFromFile(const QString &filePath);  // Metodă pentru încărcarea datelor din fișier
 };
 
 #endif // MAINWINDOW_H
-

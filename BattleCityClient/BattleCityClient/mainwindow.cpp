@@ -36,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     resize(600, 600);
 
-    initializeMap();
+    initializeMap("map.txt");
 }
 
 MainWindow::~MainWindow()
@@ -44,7 +44,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow:: initializeMap()
+void MainWindow:: initializeMap(const QString &filename)
 {
     for (int row = 0; row < mapData.size(); ++row) {
         for (int col = 0; col < mapData[row].size(); ++col) {
@@ -77,16 +77,21 @@ void MainWindow:: initializeMap()
 
 void MainWindow::onCellClicked(int row, int col)
 {
-    // Check the type of wall and respond accordingly
-    if (mapData[row][col] == 1) { // Breakable wall
-        mapData[row][col] = 0; // Change to empty
-        QLabel *cell = qobject_cast<QLabel*>(gridLayout->itemAtPosition(row, col)->widget());
-        if (cell) {
-            cell->setStyleSheet("background-color: black; border: 1px solid black;"); // Update the appearance
-            //  QMessageBox::information(this, "Info", "This wall was breached!");
+    // Verifică dacă zidul este destructibil
+    if (mapData[row][col] == 1) {
+        // Actualizează matricea cu valoarea "gol"
+        mapData[row][col] = 0;
 
+        // Obține widget-ul la poziția respectivă
+        QWidget *widget = gridLayout->itemAtPosition(row, col)->widget();
+        QLabel *cell = qobject_cast<QLabel *>(widget);
+
+        if (cell) {
+            // Actualizează stilul grafic al celulei
+            cell->setStyleSheet("background-color: black; border: 1px solid black;");
         }
-    } else if (mapData[row][col] == 2) { // Unbreakable wall
-        //QMessageBox::information(this, "Info", "This wall is unbreakable!");
+    } else if (mapData[row][col] == 2) {
+        // Mesaj pentru zid indestructibil
+       // QMessageBox::information(this, "Info", "This wall is unbreakable!");
     }
 }
