@@ -11,25 +11,21 @@ class ClickableLabel : public QLabel
 public:
     explicit ClickableLabel(QWidget *parent = nullptr) : QLabel(parent) {}
 
+    void setCoordinates(int row, int col) { m_row = row; m_col = col; }
+
 signals:
     void clicked(int row, int col);
 
-public:
-    void mousePressEvent(QMouseEvent *event) override {
+protected:
+    void mousePressEvent(QMouseEvent *event) override
+    {
         if (event->button() == Qt::LeftButton) {
-            emit clicked(row, col);
+            emit clicked(m_row, m_col);
         }
-        QLabel::mousePressEvent(event);
-    }
-
-    void setCoordinates(int r, int c) {
-        row = r;
-        col = c;
     }
 
 private:
-    int row;
-    int col;
+    int m_row, m_col;
 };
 
 #endif // CLICKABLELABEL_H
