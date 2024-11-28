@@ -11,9 +11,12 @@ public:
     Entity& operator = (Entity&&) noexcept = default;
     Entity(Entity&&) noexcept = default;
     Entity() = default;
+public:
+    void SetPosition(const std::pair<size_t, size_t>& position);
+    const std::pair<size_t, size_t>& GetPosition() const;
     
 protected:
-    std::pair<uint16_t, uint16_t> position;
+    std::pair<size_t, size_t> m_position;
 
     /*virtual void SetInvisible(bool invisible) = 0;
     virtual void InvertControls(bool invert) = 0;

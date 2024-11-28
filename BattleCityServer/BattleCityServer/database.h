@@ -65,8 +65,8 @@ namespace server
 		}
 
 		bool ValidateUserCredentials(const std::string& username, const std::string& password) {
-			auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
-			return !users.empty();
+			/*auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
+			return !users.empty();*/
 		}
 
 		Database& GetStorage() {

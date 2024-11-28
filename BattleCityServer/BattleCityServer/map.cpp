@@ -129,23 +129,52 @@ void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 
 void game::Map::PlacePlayer()
 {
-	std::vector<std::pair<uint16_t, uint16_t>> corners = {
-		{0, 0},
+	std::array<std::pair<size_t, size_t>, 4> corners = 
+	{
+		std::make_pair(0, 0),
 		{m_width - 1, 0},                    
 		{0, m_height - 1},                   
 		{m_width - 1, m_height - 1}          
 	};
 
-	for (const auto& corner : corners) {
-		uint16_t x = corner.first;
-		uint16_t y = corner.second;
-
+	for (const auto& corner : corners) 
+	{
+		const auto& [x, y] = corner;
 		m_squares[x][y].second = std::make_unique<Player>();
 	}
 
 	std::cout << "Players placed in corners of the map." << std::endl;
 }
 
-//TODO: define player movement in map ? because we don't know the position in class player
+void game::Map::MovePlayer(uint32_t playerID, Direction direction)
+{
+	for (auto& player : m_players)
+	{
+		if (player.GetID() == playerID)
+		{
+			const auto& playerPos = player.GetPosition();
+			switch (direction)
+			{
+			case Direction::UP:
+				m_squares[playerPos.first + 1][playerPos.second].second = std::move(m_squares[playerPos.first + 1][playerPos.second].second);
+				player.SetPosition({ playerPos.first + 1, playerPos.second });
+				break;
+			case Direction::DOWN:
+				m_squares[playerPos.first - 1][playerPos.second].second = std::move(m_squares[playerPos.first - 1][playerPos.second].second);
+				player.SetPosition({ playerPos.first - 1, playerPos.second });
+				break;
+			case Direction::LEFT:
+				m_squares[playerPos.first][playerPos.second - 1].second = std::move(m_squares[playerPos.first][playerPos.second - 1].second);
+				player.SetPosition({ playerPos.first, playerPos.second - 1});
+				break;
+			case Direction::RIGHT:
+				m_squares[playerPos.first][playerPos.second + 1].second = std::move(m_squares[playerPos.first][playerPos.second + 1].second);
+				player.SetPosition({ playerPos.first, playerPos.second + 1});
+				break;
+			}
+		}
+	}
+}
+
 
 
