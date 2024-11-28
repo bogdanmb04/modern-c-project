@@ -12,9 +12,9 @@ std::ostream& game::operator<<(std::ostream& out, const Map& map)
 	{
 		for (size_t y = 0; y < map.GetHeight(); ++y)
 		{
-			const auto& square = map.GetSquares()[x][y];
+			const auto& square = map.GetSquares().at(x).at(y);
 			const Tile& tile = square.first; 
-			const std::unique_ptr<Entity>& entity = square.second; 
+			const std::shared_ptr<Entity>& entity = square.second; 
 
 			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
 				out << "P" << " ";  
@@ -70,15 +70,15 @@ game::Map::Map()
 			else if (random >= 50 && random <= 85)
 				type = Tile::TileType::DestructibleWall;
 			else type = Tile::TileType::IndestructibleWall;
-			m_squares[x].emplace_back(type, nullptr);
+			m_squares.at(x).emplace_back(type, nullptr);
 		}
 	}
 
 	//change corners to assure they are free
-	m_squares[0][0].first.SetType(Tile::TileType::Free);
-	m_squares[m_width - 1][0].first.SetType(Tile::TileType::Free);
-	m_squares[0][m_height - 1].first.SetType(Tile::TileType::Free);
-	m_squares[m_width - 1][m_height - 1].first.SetType(Tile::TileType::Free);
+	m_squares.at(0).at(0).first.SetType(Tile::TileType::Free);
+	m_squares.at(m_width - 1).at(0).first.SetType(Tile::TileType::Free);
+	m_squares.at(0).at(m_height - 1).first.SetType(Tile::TileType::Free);
+	m_squares.at(m_width - 1).at(m_height - 1).first.SetType(Tile::TileType::Free);
 }
 
 size_t game::Map::GetWidth() const
@@ -94,8 +94,8 @@ size_t game::Map::GetHeight() const
 Tile game::Map::GetTile(size_t x, size_t y) const
 {
 	if (x >= m_width || y >= m_height || x < 0 || y < 0)
-		return m_squares[0][0].first;
-	return m_squares[x][y].first;
+		return m_squares.at(0).at(0).first;
+	return m_squares.at(x).at(y).first;
 }
 
 void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
@@ -140,7 +140,7 @@ void game::Map::PlacePlayer()
 	for (const auto& corner : corners) 
 	{
 		const auto& [x, y] = corner;
-		m_squares[x][y].second = std::make_unique<Player>();
+		m_squares.at(x).at(y).second = std::make_unique<Player>();
 	}
 
 	std::cout << "Players placed in corners of the map." << std::endl;
@@ -150,28 +150,41 @@ void game::Map::MovePlayer(uint32_t playerID, Direction direction)
 {
 	for (auto& player : m_players)
 	{
-		if (player.GetID() == playerID)
+		if (player->GetID() == playerID)
 		{
-			const auto& playerPos = player.GetPosition();
+			auto& playerPos = player->GetPosition();
 			switch (direction)
 			{
 			case Direction::UP:
-				m_squares[playerPos.first + 1][playerPos.second].second = std::move(m_squares[playerPos.first + 1][playerPos.second].second);
-				player.SetPosition({ playerPos.first + 1, playerPos.second });
+				m_squares.at(playerPos.first - 1).at(playerPos.second).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+				player->SetPosition(std::make_pair(playerPos.first - 1, playerPos.second));
 				break;
 			case Direction::DOWN:
-				m_squares[playerPos.first - 1][playerPos.second].second = std::move(m_squares[playerPos.first - 1][playerPos.second].second);
-				player.SetPosition({ playerPos.first - 1, playerPos.second });
+				m_squares.at(playerPos.first + 1).at(playerPos.second).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+				player->SetPosition({ playerPos.first + 1, playerPos.second });
 				break;
 			case Direction::LEFT:
-				m_squares[playerPos.first][playerPos.second - 1].second = std::move(m_squares[playerPos.first][playerPos.second - 1].second);
-				player.SetPosition({ playerPos.first, playerPos.second - 1});
+				m_squares.at(playerPos.first).at(playerPos.second - 1).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+				player->SetPosition({ playerPos.first, playerPos.second - 1});
 				break;
 			case Direction::RIGHT:
-				m_squares[playerPos.first][playerPos.second + 1].second = std::move(m_squares[playerPos.first][playerPos.second + 1].second);
-				player.SetPosition({ playerPos.first, playerPos.second + 1});
+				m_squares.at(playerPos.first).at(playerPos.second + 1).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+				player->SetPosition({ playerPos.first, playerPos.second + 1});
 				break;
 			}
+			break;
+		}
+	}
+}
+
+void game::Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)
+{
+	for (auto& player : m_players)
+	{
+		if (!player)
+		{
+			player = playerPtr;
+			break;
 		}
 	}
 }

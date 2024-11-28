@@ -162,10 +162,8 @@
     <ClInclude Include="entity.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="movable.h" />
-    <ClInclude Include="movement_request.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="powerup.h" />
-    <ClInclude Include="request_handler.h" />
     <ClInclude Include="routing.h" />
     <ClInclude Include="tile.h" />
     <ClInclude Include="user.h" />

@@ -9,7 +9,6 @@
 #include "map.h"
 #include "routing.h"
 #include "database.h"
-#include "request_handler.h"
 #include "../Logging/logging.h"
 
 
@@ -21,50 +20,56 @@ int main() {
     Logger logger(of);
     logger.Log("Started Application...", Logger::Level::Info);
 
-    std::cout << "Hello team!" << std::endl;
-
     game::Map myMap;
     std::vector<Bomb> bombs;
     myMap.PlaceBombsOnWalls(bombs);
     myMap.PlacePlayer();
     std::cout << myMap;
 
-    Player player;
+    std::shared_ptr player = std::make_shared<Player>();
+    myMap.InsertPlayer(player);
 
-	//de-comment this to test the movement
-	//RequestHandler requestHandler;
+    myMap.MovePlayer(player->GetID(), Direction::DOWN);
+    std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
 
- //   bool running = true;
- //   while (running) {
- //       if (_kbhit()) {
- //           int ch = _getch();
- //           switch (ch) {
- //           case 'w':
- //               requestHandler.HandleMovementRequest(player, MovementRequest::MoveUp);
- //               break;
- //           case 's':
- //               requestHandler.HandleMovementRequest(player, MovementRequest::MoveDown);
- //               break;
- //           case 'a':
- //               requestHandler.HandleMovementRequest(player, MovementRequest::MoveLeft);
- //               break;
- //           case 'd':
- //               requestHandler.HandleMovementRequest(player, MovementRequest::MoveRight);
- //               break;
- //           case 'q':
- //               running = false;
- //               break;
- //           default:
- //               break;
- //           }
- //       }
- //       std::this_thread::sleep_for(std::chrono::milliseconds(100));
- //   }
- // 
- // 
-  
-    //http::Routing routing;
-	//routing.Run(gameDatabase);
+    std::cout << myMap;
+
+   /* bool running = true;
+    while (running)
+    {
+        if (_kbhit()) 
+        {
+            int ch = _getch();
+            switch (ch) 
+            {
+            case 'w':
+                myMap.MovePlayer(player->GetID(), Direction::UP);
+                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                break;
+            case 's':
+                myMap.MovePlayer(player->GetID(), Direction::DOWN);
+                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                break;
+            case 'a':
+                myMap.MovePlayer(player->GetID(), Direction::LEFT);
+                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                break;
+            case 'd':
+                myMap.MovePlayer(player->GetID(), Direction::RIGHT);
+                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                break;
+            case 'q':
+                running = false;
+                break;
+            default:
+                break;
+            }
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }*/
+
+    http::Routing routing;
+	routing.Run(gameDatabase);
 
     return 0;
 }

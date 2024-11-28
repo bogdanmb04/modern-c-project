@@ -6,18 +6,53 @@ void Shoot()
 	//std::cout << character << "A player was shoot!\n";
 }
 
-uint16_t Player::GetScore()
+uint16_t Player::GetScore() const
 {
 	return m_score;
 }
 
-uint8_t Player::GetLives()
+uint8_t Player::GetLives() const
 {
 	return m_lives;
 }
 
-void Player::AddScore(uint8_t points){
+uint32_t Player::GetID() const
+{
+	return m_id;
+}
+
+void Player::AddScore(uint8_t points)
+{
 	m_score += points;
+}
+
+Player::Player()
+	: m_id{ 0 }
+	, m_score{ 0 }
+	, m_lives{ 3 }
+	, m_direction {Direction::UP}
+	, m_weapon{}
+{
+	//EMPTY
+}
+
+Player::Player(const User& user)
+	: m_id{ user.GetID() }
+	, m_score{ 0 }
+	, m_lives{ 3 }
+	, m_direction {Direction::UP}
+	, m_weapon{}
+{
+	//EMPTY
+}
+
+Player::Player(uint32_t ID)
+	: m_id {ID}
+	, m_score{ 0 }
+	, m_lives{ 3 }
+	, m_direction{ Direction::UP }
+	, m_weapon{}
+{
 }
 
 void GetShoot()

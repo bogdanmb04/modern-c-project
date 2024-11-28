@@ -101,12 +101,6 @@
     <ClInclude Include="movable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="movement_request.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="request_handler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="users.sqlite">

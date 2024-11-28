@@ -2,13 +2,13 @@
 
 #include <crow.h>
 #include "database.h"
-#include "user.h"
-#include "weapon.h"
 
-namespace http {
-    class Routing {
+namespace http 
+{
+    class Routing 
+    {
     public:
-        void Run(server::GameDatabase& storage);
+        void Run(server::GameDatabase& gameDatabase);
 
     private:
         crow::SimpleApp m_app;

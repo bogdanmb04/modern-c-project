@@ -36,6 +36,7 @@ namespace game
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
 		void PlacePlayer();
 		void MovePlayer(uint32_t playerID, Direction direction);
+		void InsertPlayer(const std::shared_ptr<Player>& player);
 	private:
 		size_t m_width;
 		size_t m_height;

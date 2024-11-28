@@ -1,7 +1,6 @@
 #pragma once
 
-#include <cstdlib>
-using std::uint8_t;
+#include <iostream>
 
 enum class Direction : uint8_t
 {
@@ -15,5 +14,4 @@ class IMovable
 {
 public:
 	virtual ~IMovable() = default;
-	virtual void Move() = 0;
 };
