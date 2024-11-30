@@ -12,3 +12,11 @@ void ClientRequests::sendRequest(const std::string& url) {
         std::cout << "Request failed!" << std::endl;
     }
 }
+void ClientRequests::sendPostRequest(const std::string& url, const std::string& data) {
+    cpr::Response r = cpr::Post(cpr::Url{url}, cpr::Body{data});
+    if (r.status_code == 200) {
+        std::cout << "POST request successful!" << std::endl;
+    } else {
+        std::cout << "POST request failed!" << std::endl;
+    }
+}
