@@ -19,7 +19,8 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void initializeMap(const QString &filePath);  // Metodă pentru încărcarea hărții din fișier
+    void initializeMap();  // Metodă pentru inițializarea hărții
+    void loadMapFromFile(const QString &filePath);  // Metodă pentru încărcarea hărții din fișier
 
 private slots:
     void onCellClicked(int row, int col);  // Slot pentru gestionarea clicurilor pe celule
@@ -28,8 +29,6 @@ private:
     Ui::MainWindow *ui;                // UI-ul generat automat de Qt Designer
     QGridLayout *gridLayout;            // Layout-ul pentru celulele hărții
     QVector<QVector<int>> mapData;      // Reprezentarea hărții (0 = liber, 1 = perete destructibil, 2 = perete nedestructibil)
-
-    void loadMapFromFile(const QString &filePath);  // Metodă pentru încărcarea datelor din fișier
 };
 
 #endif // MAINWINDOW_H

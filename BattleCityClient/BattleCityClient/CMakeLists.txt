@@ -26,6 +26,9 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ClickableLabel.h
         loginwindow.h
         loginwindow.cpp
+        registerwindow.h
+        registerwindow.cpp
+        map.txt
 
 
 
