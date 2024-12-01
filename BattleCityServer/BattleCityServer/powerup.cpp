@@ -60,30 +60,31 @@ std::string game::PowerUp::PowerUpTypeToString(PowerUpType type) const
 
 
 
-std::unique_ptr<PowerUp> game::PowerUp::CreateGhostBullet()
+PowerUp* game::PowerUp::CreateGhostBullet()
 {
-    return std::make_unique<PowerUp>(PowerUpType::GhostBullet, 0, "Passes through walls.");
+    return new PowerUp(PowerUpType::GhostBullet, 0, "Passes through walls.");
 }
 
-std::unique_ptr<PowerUp> game::PowerUp::CreateMiniBombBullet()
+PowerUp* game::PowerUp::CreateMiniBombBullet()
 {
-    return std::make_unique<PowerUp>(PowerUpType::MiniBombBullet, 5, "Explodes on a small radius impact");
+    return new PowerUp(PowerUpType::MiniBombBullet, 5, "Explodes on a small radius impact");
 }
 
-std::unique_ptr<PowerUp> game::PowerUp::CreateInvisibility()
+PowerUp* game::PowerUp::CreateInvisibility()
 {
-    return std::make_unique<PowerUp>(PowerUpType::Invisibility, 10, "Player becomes invisible for 10 seconds");
+    return new PowerUp(PowerUpType::Invisibility, 10, "Player becomes invisible for 10 seconds");
 }
 
-std::unique_ptr<PowerUp> game::PowerUp::CreateTracingBullet()
+PowerUp* game::PowerUp::CreateTracingBullet()
 {
-    return std::make_unique<PowerUp>(PowerUpType::TracingBullet, 1, "Avoids obstacles.");
+    return new PowerUp(PowerUpType::TracingBullet, 1, "Avoids obstacles.");
 }
 
-std::unique_ptr<PowerUp> game::PowerUp::CreateBeerEffect()
+PowerUp* game::PowerUp::CreateBeerEffect()
 {
-    return std::make_unique<PowerUp>(PowerUpType::BeerEffect, 3, "Inverts controls.");
+    return new PowerUp(PowerUpType::BeerEffect, 3, "Inverts controls.");
 }
+
 
 void game::PowerUp::Activate(Entity& target) {
     switch (m_type) {

@@ -11,7 +11,6 @@
 #include "database.h"
 #include "../Logging/logging.h"
 
-
 int main() {
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
@@ -24,39 +23,43 @@ int main() {
     std::vector<Bomb> bombs;
     myMap.PlaceBombsOnWalls(bombs);
     myMap.PlacePlayer();
-    std::cout << myMap;
+    logger.Log("Map initialized with bombs and player placed.", Logger::Level::Info);
+    logger.Log(myMap.ToString(), Logger::Level::Info);
 
-    std::shared_ptr player = std::make_shared<Player>();
+    std::shared_ptr<Player> player = std::make_shared<Player>();
     myMap.InsertPlayer(player);
 
     myMap.MovePlayer(player->GetID(), Direction::DOWN);
-    std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+    logger.Log("Player moved to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+    logger.Log(myMap.ToString(), Logger::Level::Info);
 
-    std::cout << myMap;
-
-   /* bool running = true;
+    /*bool running = true;
     while (running)
     {
-        if (_kbhit()) 
+        if (_kbhit())
         {
             int ch = _getch();
-            switch (ch) 
+            switch (ch)
             {
             case 'w':
                 myMap.MovePlayer(player->GetID(), Direction::UP);
-                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                logger.Log("Player moved UP to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+                logger.Log(myMap.ToString(), Logger::Level::Info);
                 break;
             case 's':
                 myMap.MovePlayer(player->GetID(), Direction::DOWN);
-                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                logger.Log("Player moved DOWN to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+                logger.Log(myMap.ToString(), Logger::Level::Info);
                 break;
             case 'a':
                 myMap.MovePlayer(player->GetID(), Direction::LEFT);
-                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                logger.Log("Player moved LEFT to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+                logger.Log(myMap.ToString(), Logger::Level::Info);
                 break;
             case 'd':
                 myMap.MovePlayer(player->GetID(), Direction::RIGHT);
-                std::cout << player->GetPosition().first << " " << player->GetPosition().second << std::endl;
+                logger.Log("Player moved RIGHT to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+                logger.Log(myMap.ToString(), Logger::Level::Info);
                 break;
             case 'q':
                 running = false;
@@ -65,11 +68,12 @@ int main() {
                 break;
             }
         }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }*/
 
     http::Routing routing;
-	routing.Run(gameDatabase);
+    routing.Run(gameDatabase);
 
     return 0;
 }

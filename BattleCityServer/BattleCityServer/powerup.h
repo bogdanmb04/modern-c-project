@@ -30,11 +30,11 @@ namespace game {
         std::string ToString() const;
         std::string PowerUpTypeToString(PowerUpType type) const;
 
-        static std::unique_ptr<PowerUp> CreateGhostBullet();
-        static std::unique_ptr<PowerUp> CreateMiniBombBullet();
-        static std::unique_ptr<PowerUp> CreateInvisibility();
-        static std::unique_ptr<PowerUp> CreateTracingBullet();
-        static std::unique_ptr<PowerUp> CreateBeerEffect();
+        static PowerUp* CreateGhostBullet();
+        static PowerUp* CreateMiniBombBullet();
+        static PowerUp* CreateInvisibility();
+        static PowerUp* CreateTracingBullet();
+        static PowerUp* CreateBeerEffect();
 
         void Activate(Entity& target);
         void Deactivate(Entity& target);

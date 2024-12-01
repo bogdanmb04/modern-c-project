@@ -86,6 +86,38 @@ const std::vector<std::vector<game::Map::Square>>& game::Map::GetSquares() const
 	return m_squares;
 }
 
+std::string game::Map::ToString() const {
+	std::string mapString;
+	for (size_t x = 0; x < m_width; ++x)
+	{
+		for (size_t y = 0; y < m_height; ++y)
+		{
+			const auto& square = m_squares.at(x).at(y);
+			const Tile& tile = square.first;
+			const std::shared_ptr<Entity>& entity = square.second;
+
+			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
+				mapString += "P";
+			}
+			else {
+				switch (tile.GetType()) {
+				case Tile::TileType::Free:
+					mapString += "F";
+					break;
+				case Tile::TileType::DestructibleWall:
+					mapString += "D";
+					break;
+				case Tile::TileType::IndestructibleWall:
+					mapString += "I";
+					break;
+				}
+			}
+		}
+		mapString += "\n";
+	}
+	return mapString;
+}
+
 size_t game::Map::GetWidth() const
 {
 	return m_width;
@@ -158,29 +190,40 @@ void game::Map::MovePlayer(uint32_t playerID, Direction direction)
 		if (player->GetID() == playerID)
 		{
 			auto& playerPos = player->GetPosition();
+			int newRow = playerPos.first;
+			int newCol = playerPos.second;
+
 			switch (direction)
 			{
 			case Direction::UP:
-				m_squares.at(playerPos.first - 1).at(playerPos.second).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
-				player->SetPosition(std::make_pair(playerPos.first - 1, playerPos.second));
+				newRow = playerPos.first - 1;
 				break;
 			case Direction::DOWN:
-				m_squares.at(playerPos.first + 1).at(playerPos.second).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
-				player->SetPosition({ playerPos.first + 1, playerPos.second });
+				newRow = playerPos.first + 1;
 				break;
 			case Direction::LEFT:
-				m_squares.at(playerPos.first).at(playerPos.second - 1).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
-				player->SetPosition({ playerPos.first, playerPos.second - 1});
+				newCol = playerPos.second - 1;
 				break;
 			case Direction::RIGHT:
-				m_squares.at(playerPos.first).at(playerPos.second + 1).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
-				player->SetPosition({ playerPos.first, playerPos.second + 1});
+				newCol = playerPos.second + 1;
 				break;
+			}
+
+			if (newRow >= 0 && newRow < static_cast<int>(m_squares.size()) &&
+				newCol >= 0 && newCol < static_cast<int>(m_squares.at(newRow).size()))
+			{
+				if (m_squares.at(newRow).at(newCol).second == nullptr && m_squares.at(newRow).at(newCol).first.GetType() == Tile::TileType::Free)
+				{
+					m_squares.at(newRow).at(newCol).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+					player->SetPosition({ newRow, newCol });
+				}
 			}
 			break;
 		}
 	}
 }
+
+
 
 void game::Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)
 {
