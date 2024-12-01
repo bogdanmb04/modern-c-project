@@ -43,35 +43,15 @@ namespace server
 	public:
 		void Initialize();
 
-		void AddUser(const User& user)
-		{
-			m_db.insert(user);
-		}
+		void AddUser(const User& user);
+		User GetUser(int id);
+		User GetUserByUsername(const std::string& username);
+		bool ValidateUserCredentials(const std::string& username, const std::string& password);
 
-		User GetUser(int id) {
-			return m_db.get<User>(id);
-		}
+		void AddWeapon(const Weapon& weapon);
+		std::vector<Weapon> GetWeaponsByUser(int userId);
 
-		void AddWeapon(const Weapon& weapon) {
-			m_db.insert(weapon);
-		}
-
-		std::vector<Weapon> GetWeaponsByUser(int userId) {
-			return m_db.get_all<Weapon>(sql::where(sql::c(&Weapon::GetUserID) == userId));
-		}
-
-		User GetUserByUsername(const std::string& username) {
-			return m_db.get<User>(sql::where(sql::c(&User::GetUsername) == username));
-		}
-
-		bool ValidateUserCredentials(const std::string& username, const std::string& password) {
-			/*auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
-			return !users.empty();*/
-		}
-
-		Database& GetStorage() {
-			return m_db;
-		}
+		Database& GetStorage();
 
 	private:
 		const std::string kDbFile{ "users.sqlite" };

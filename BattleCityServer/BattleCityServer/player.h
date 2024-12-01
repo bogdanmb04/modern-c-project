@@ -16,6 +16,7 @@ public:
 	uint16_t GetScore() const;
 	uint8_t GetLives() const;
 	uint32_t GetID() const;
+
 	void Shoot();
 	void AddScore(uint8_t points);
 public:

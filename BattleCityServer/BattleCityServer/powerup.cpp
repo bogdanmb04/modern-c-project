@@ -4,6 +4,36 @@ using namespace game;
 game::PowerUp::PowerUp(PowerUpType type, int attribute_value, std::string effect)
     : m_type(type), m_attribute_value(attribute_value), m_effect(effect) {}
 
+game::PowerUp::PowerUp(const PowerUp& other) : m_type(other.m_type), m_attribute_value(other.m_attribute_value), m_effect(other.m_effect), m_duration(other.m_duration) {}
+
+game::PowerUp::PowerUp(PowerUp&& other) noexcept : m_type(std::move(other.m_type)), m_attribute_value(std::move(other.m_attribute_value)),
+m_effect(std::move(other.m_effect)), m_duration(std::move(other.m_duration)) {}
+
+PowerUpType game::PowerUp::GetType() const noexcept 
+{ 
+    return m_type; 
+}
+
+int game::PowerUp::GetAttributeValue() const noexcept
+{
+    return m_attribute_value;
+}
+
+const std::string game::PowerUp::GetEffect() const noexcept
+{
+    return m_effect;
+}
+
+void game::PowerUp::SetDuration(int seconds)
+{
+    m_duration = seconds;
+}
+
+int game::PowerUp::GetDuration() const noexcept
+{
+    return m_duration;
+}
+
 std::string game::PowerUp::ToString() const
 {
     std::string description = "PowerUp: " + PowerUpTypeToString(m_type) + "\n";

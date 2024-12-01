@@ -81,6 +81,11 @@ game::Map::Map()
 	m_squares.at(m_width - 1).at(m_height - 1).first.SetType(Tile::TileType::Free);
 }
 
+const std::vector<std::vector<game::Map::Square>>& game::Map::GetSquares() const
+{
+	return m_squares;
+}
+
 size_t game::Map::GetWidth() const
 {
 	return m_width;

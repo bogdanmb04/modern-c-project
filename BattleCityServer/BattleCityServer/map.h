@@ -25,10 +25,7 @@ namespace game
 
 	public:
 		Map();
-		const std::vector<std::vector<Square>>& GetSquares() const
-		{
-			return m_squares;
-		}
+		const std::vector<std::vector<Square>>& GetSquares() const;
 
 		size_t GetWidth() const;
 		size_t GetHeight() const;

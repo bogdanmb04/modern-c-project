@@ -17,18 +17,15 @@ namespace game {
     class PowerUp : public Entity {
     public:
         PowerUp(PowerUpType type, int attribute_value, std::string effect);
-        PowerUp(const PowerUp& other)
-            : m_type(other.m_type), m_attribute_value(other.m_attribute_value), m_effect(other.m_effect), m_duration(other.m_duration) {}
-        PowerUp(PowerUp&& other) noexcept
-            : m_type(std::move(other.m_type)), m_attribute_value(std::move(other.m_attribute_value)),
-            m_effect(std::move(other.m_effect)), m_duration(std::move(other.m_duration)) {}
+        PowerUp(const PowerUp& other);
+        PowerUp(PowerUp&& other) noexcept;
 
 
-        PowerUpType GetType() const noexcept { return m_type; }
-        int GetAttributeValue() const noexcept { return m_attribute_value; }
-        const std::string GetEffect() const noexcept { return m_effect; }
-        void SetDuration(int seconds) { m_duration = seconds; }
-        int GetDuration() const noexcept { return m_duration; }
+        PowerUpType GetType() const noexcept;
+        int GetAttributeValue() const noexcept;
+        const std::string GetEffect() const noexcept;
+        void SetDuration(int seconds);
+        int GetDuration() const noexcept;
 
         std::string ToString() const;
         std::string PowerUpTypeToString(PowerUpType type) const;
