@@ -20,19 +20,21 @@ namespace server
 				sql::make_column("totalScore", &User::GetTotalScore, &User::SetTotalScore),
 				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney),
 				sql::make_column("weaponID", &User::GetWeaponID, &User::SetWeaponID),
-				sql::make_column("password", &User::GetPassword, &User::SetPassword),
-				sql::foreign_key(&User::GetID).references(&Weapon::GetID)
+				sql::make_column("password", &User::GetPassword, &User::SetPassword)
+				
 			),
 			sql::make_table(
 				"Weapon",
 				sql::make_column("id", &Weapon::SetID, &Weapon::GetID, sql::primary_key().autoincrement()),
 				sql::make_column("bulletWaitTime", &Weapon::GetWaitTime, &Weapon::SetWaitTime),
 				sql::make_column("bulletSpeed", &Weapon::GetSpeed, &Weapon::SetSpeed),
-				sql::make_column("userID", &Weapon::GetUserID, &Weapon::SetUserID),
-				sql::foreign_key(&Weapon::GetUserID).references(&User::GetID)
+				sql::make_column("userID", &Weapon::GetUserID, &Weapon::SetUserID)
+				
 			)
 		);
 	}
+	/*sql::foreign_key(&User::GetID).references(&Weapon::GetID)*/
+	/*sql::foreign_key(&Weapon::GetUserID).references(&User::GetID)*/
 
 	//https://sqliteorm.com/files/SQLITE_ORM%20Tutorial%202.7.pdf - see pages 58-60 for foreign key constraints!
 
@@ -44,9 +46,12 @@ namespace server
 		void Initialize();
 
 		void AddUser(const User& user);
+		bool RegisterUser(const std::string& username, const std::string& password);
 		User GetUser(int id);
 		User GetUserByUsername(const std::string& username);
 		bool ValidateUserCredentials(const std::string& username, const std::string& password);
+
+		bool UserExists(const std::string& username);
 
 		void AddWeapon(const Weapon& weapon);
 		std::vector<Weapon> GetWeaponsByUser(int userId);

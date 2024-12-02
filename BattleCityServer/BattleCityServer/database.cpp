@@ -12,6 +12,15 @@ void server::GameDatabase::AddUser(const User& user)
 	m_db.insert(user);
 }
 
+bool server::GameDatabase::RegisterUser(const std::string& username, const std::string& password)
+{
+	User user;
+	user.SetUsername(username);
+	user.SetPassword(password);
+	m_db.insert(user);
+	return true;
+}
+
 User server::GameDatabase::GetUser(int id)
 {
 	return m_db.get<User>(id);
@@ -35,6 +44,12 @@ Database& server::GameDatabase::GetStorage()
 bool server::GameDatabase::ValidateUserCredentials(const std::string& username, const std::string& password)
 {
 	auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
+	return !users.empty();
+}
+
+bool server::GameDatabase::UserExists(const std::string& username)
+{
+	auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username));
 	return !users.empty();
 }
 

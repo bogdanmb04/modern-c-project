@@ -22,7 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
     resize(600, 600);
 
     // Încarcă harta din fișierul map.txt
-    loadMapFromFile("C:/Users/Miruna/Desktop/FACULTATE/modern-c-project/BattleCityClient/BattleCityClient/map.txt");
+    loadMapFromFile("map.txt");
+
 
     // Inițializează UI-ul
     initializeMap();
@@ -41,7 +42,7 @@ void MainWindow::loadMapFromFile(const QString &filePath)
 
     // Verifică dacă fișierul se deschide corect
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "Eroare", "Nu s-a putut deschide fișierul.");
+        QMessageBox::warning(this, "Eroare", "Nu s-a putut deschide fișierul: " + file.errorString());
         return;  // Ieși din funcție dacă fișierul nu este accesibil
     }
 
@@ -74,6 +75,7 @@ void MainWindow::loadMapFromFile(const QString &filePath)
         return;
     }
 }
+
 
 // Funcția care construiește UI-ul pe baza hărții
 void MainWindow::initializeMap()

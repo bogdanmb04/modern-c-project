@@ -71,21 +71,15 @@ void LoginWindow::handleLogin()
     qDebug() << "Attempting login with:" << username << password;
     qDebug() << "Saved credentials:" << registeredUsername << registeredPassword;
 
-    // Creăm un obiect HttpManager pentru a trimite cererea POST
     HttpManager httpManager;
-
-    // Construiește corpul cererii de login
     QString loginData = QString("{\"username\":\"%1\",\"password\":\"%2\"}").arg(username).arg(password);
 
-    // Trimite cererea POST
     httpManager.sendPostRequest("http://localhost:18080/login", loginData, [this](const cpr::Response& response) {
         if (response.status_code == 200) {
-            // Login reușit
             errorLabel->setStyleSheet("color: green;");
             errorLabel->setText("Login successful!");
-            emit loginSuccess();  // Emit semnalul de succes
+            emit loginSuccess();
         } else {
-            // Login eșuat
             errorLabel->setStyleSheet("color: red;");
             errorLabel->setText("Invalid username or password!");
         }

@@ -11,7 +11,7 @@
 						1
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-9e8063202d19954a7d21.json",
+					"jsonFile" : "directory-.-Debug-f54f5fac9bbfa41d5df8.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -196,7 +196,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "BattleCityClient::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-BattleCityClient-Debug-3d34fb599b994778b6b2.json",
+					"jsonFile" : "target-BattleCityClient-Debug-03ff1b9886b5a039228b.json",
 					"name" : "BattleCityClient",
 					"projectIndex" : 0
 				},

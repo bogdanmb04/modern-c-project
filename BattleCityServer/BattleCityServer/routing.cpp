@@ -8,6 +8,34 @@ void http::Routing::Run(server::GameDatabase& gameDatabase)
         return "Welcome!";
         });
 
+    CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {
+
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            return crow::response(400, "Invalid JSON");
+        }
+
+        std::string username = body["username"].s();
+        std::string password = body["password"].s();
+
+        if (username.empty() || password.empty()) {
+            return crow::response(400, "Username and password cannot be empty");
+        }
+
+        if (gameDatabase.UserExists(username)) {
+            return crow::response(409, "User already exists");
+        }
+
+        bool registrationSuccess = gameDatabase.RegisterUser(username, password);
+        if (registrationSuccess) {
+            return crow::response(201, "User registered successfully");
+        }
+        else {
+            return crow::response(500, "Failed to register user");
+        }
+        });
+
+
     CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {
         auto body = crow::json::load(req.body);
         if (!body)

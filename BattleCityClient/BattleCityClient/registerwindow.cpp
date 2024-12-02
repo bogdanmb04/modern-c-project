@@ -3,8 +3,11 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QTimer>
+#include <QDebug>
+#include "HttpManager.h"  // Asigură-te că HttpManager este inclus
+#include <cpr/cpr.h>
 
-// Implementarea RegisterWindow
 RegisterWindow::RegisterWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -68,15 +71,37 @@ void RegisterWindow::handleRegister()
         return;
     }
 
-    // Verifică dacă câmpurile nu sunt goale și emite semnalul
-    qDebug() << "Emitting register credentials:" << username << password;
-    emit registerCredentials(username, password);  // Emit semnalul
+    QString jsonData = QString("{\"username\":\"%1\", \"password\":\"%2\"}")
+                           .arg(username)
+                           .arg(password);
+    QByteArray byteArray = jsonData.toUtf8();
 
-    errorLabel->setStyleSheet("color: green;");
-    errorLabel->setText("Registration successful!");
-    this->close();
-    emit goToLogin();  // Treci înapoi la LoginWindow
+    cpr::Response response = cpr::Post(
+        cpr::Url{"http://localhost:18080/register"},
+        cpr::Header{{"Content-Type", "application/json"}},
+        cpr::Body{byteArray}
+        );
 
+    qDebug() << "Status code: " << response.status_code;
+    qDebug() << "Server response: " << QString::fromStdString(response.text);
+
+    if (response.status_code == 201) {
+        qDebug() << "Registration successful!";
+        emit registerCredentials(username, password);
+        errorLabel->setStyleSheet("color: green;");
+        errorLabel->setText("Registration successful!");
+        QTimer::singleShot(1500, this, &RegisterWindow::close);
+        emit goToLogin();
+    } else if (response.status_code == 400) {
+        errorLabel->setStyleSheet("color: red;");
+        errorLabel->setText("Error: Username already exists or invalid input.");
+    } else if (response.status_code == 0) {
+        errorLabel->setStyleSheet("color: red;");
+        errorLabel->setText("Network error: Server not reachable.");
+    } else {
+        errorLabel->setStyleSheet("color: red;");
+        errorLabel->setText("An unexpected error occurred: " + QString::fromStdString(response.text));
+    }
 }
 
 void RegisterWindow::resetFields()

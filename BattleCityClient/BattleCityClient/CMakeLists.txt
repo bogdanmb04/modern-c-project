@@ -52,6 +52,12 @@ endif()
 # Link libraries
 target_link_libraries(BattleCityClient PRIVATE Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
 
+add_custom_command(TARGET BattleCityClient POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${CMAKE_SOURCE_DIR}/map.txt
+    $<TARGET_FILE_DIR:BattleCityClient>/map.txt
+)
+
 # Set properties for macOS and iOS (optional)
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.BattleCityClient)
