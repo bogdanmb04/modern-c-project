@@ -6,6 +6,9 @@
 #include <QPushButton>
 #include <QLabel>
 
+// Include HttpManager pentru a utiliza funcționalitatea de login prin HTTP
+#include "HttpManager.h"
+
 class LoginWindow : public QWidget
 {
     Q_OBJECT
@@ -32,9 +35,6 @@ private:
     QLabel *errorLabel;          // Eticheta pentru mesaje de eroare
     QPushButton *loginButton;    // Butonul pentru autentificare
     QPushButton *registerButton; // Butonul pentru navigarea către fereastra de înregistrare
-
-
 };
-
 
 #endif // LOGINWINDOW_H

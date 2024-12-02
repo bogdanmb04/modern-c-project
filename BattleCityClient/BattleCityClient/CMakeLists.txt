@@ -9,53 +9,50 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Include CPR library via FetchContent
+include(FetchContent)
+FetchContent_Declare(
+    cpr
+    GIT_REPOSITORY https://github.com/libcpr/cpr.git
+    GIT_TAG 1.10.0 # Use a stable version of CPR
+)
+FetchContent_MakeAvailable(cpr)
+
+# Find Qt
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
+# Define sources
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+    main.cpp
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+    ClickableLabel.h
+    loginwindow.h
+    loginwindow.cpp
+    registerwindow.h
+    registerwindow.cpp
+    map.txt
 )
 
+# Add executable
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(BattleCityClient
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        ClickableLabel.h
-        loginwindow.h
-        loginwindow.cpp
-        registerwindow.h
-        registerwindow.cpp
-        map.txt
-
-
-
+        httpmanager.h httpmanager.cpp
     )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET BattleCityClient APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
 else()
-    if(ANDROID)
-        add_library(BattleCityClient SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(BattleCityClient
-            ${PROJECT_SOURCES}
-        )
-    endif()
+    add_executable(BattleCityClient
+        ${PROJECT_SOURCES}
+    )
 endif()
 
-target_link_libraries(BattleCityClient PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+# Link libraries
+target_link_libraries(BattleCityClient PRIVATE Qt${QT_VERSION_MAJOR}::Widgets cpr::cpr)
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
+# Set properties for macOS and iOS (optional)
 if(${QT_VERSION} VERSION_LESS 6.1.0)
   set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.BattleCityClient)
 endif()
@@ -67,6 +64,7 @@ set_target_properties(BattleCityClient PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+# Install rules
 include(GNUInstallDirs)
 install(TARGETS BattleCityClient
     BUNDLE DESTINATION .

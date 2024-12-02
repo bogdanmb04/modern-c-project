@@ -1,12 +1,13 @@
 #include "loginwindow.h"
+#include "HttpManager.h"
 #include "registerwindow.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QMessageBox>
 #include <QDebug>
 
-// Implementarea LoginWindow
 LoginWindow::LoginWindow(QWidget *parent)
     : QWidget(parent)
 {
@@ -42,9 +43,6 @@ LoginWindow::LoginWindow(QWidget *parent)
     errorLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(errorLabel);
 
-
-
-
     // Conectăm semnalele butoanelor la sloturi
     connect(loginButton, &QPushButton::clicked, this, &LoginWindow::handleLogin);
     connect(registerButton, &QPushButton::clicked, this, &LoginWindow::goToRegisterPage);
@@ -53,7 +51,6 @@ LoginWindow::LoginWindow(QWidget *parent)
     setWindowTitle("Login - BattleCity");
     resize(300, 250);
 }
-
 
 LoginWindow::~LoginWindow() {}
 
@@ -74,16 +71,25 @@ void LoginWindow::handleLogin()
     qDebug() << "Attempting login with:" << username << password;
     qDebug() << "Saved credentials:" << registeredUsername << registeredPassword;
 
-    // Compară username și parola
-    if ((username == "admin" && password == "1234") ||
-        (username == registeredUsername && password == registeredPassword)) {
-        errorLabel->setStyleSheet("color: green;");
-        errorLabel->setText("Login successful!");
-        emit loginSuccess();  // Emit semnalul de succes
-    } else {
-        errorLabel->setStyleSheet("color: red;");
-        errorLabel->setText("Invalid username or password!");
-    }
+    // Creăm un obiect HttpManager pentru a trimite cererea POST
+    HttpManager httpManager;
+
+    // Construiește corpul cererii de login
+    QString loginData = QString("{\"username\":\"%1\",\"password\":\"%2\"}").arg(username).arg(password);
+
+    // Trimite cererea POST
+    httpManager.sendPostRequest("http://localhost:18080/login", loginData, [this](const cpr::Response& response) {
+        if (response.status_code == 200) {
+            // Login reușit
+            errorLabel->setStyleSheet("color: green;");
+            errorLabel->setText("Login successful!");
+            emit loginSuccess();  // Emit semnalul de succes
+        } else {
+            // Login eșuat
+            errorLabel->setStyleSheet("color: red;");
+            errorLabel->setText("Invalid username or password!");
+        }
+    });
 }
 
 void LoginWindow::goToRegisterPage()
