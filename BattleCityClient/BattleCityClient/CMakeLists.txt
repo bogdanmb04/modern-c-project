@@ -42,6 +42,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         httpmanager.h httpmanager.cpp
+        battlecitystart.h
+        battlecitystart.cpp
     )
 else()
     add_executable(BattleCityClient

@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QLabel>
 
+
 class RegisterWindow : public QWidget
 {
     Q_OBJECT

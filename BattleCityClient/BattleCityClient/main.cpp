@@ -1,39 +1,50 @@
 #include "mainwindow.h"
 #include "loginwindow.h"
 #include "registerwindow.h"
+#include "battlecitystart.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    LoginWindow loginWindow;  // Fereastra de login
-    MainWindow mainWindow;    // Fereastra principală
-    RegisterWindow registerWindow; // Fereastra de înregistrare
+    LoginWindow loginWindow;
+    MainWindow mainWindow;
+    RegisterWindow registerWindow;
+    BattleCity battleCityWindow;
 
-    // Conectează semnalul de succes al loginului cu slotul de deschidere a ferestrei principale
+
+
+
+
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&]() {
-        loginWindow.close();  // Închide fereastra de login
-        mainWindow.show();    // Afișează fereastra principală
+        loginWindow.close();
+        battleCityWindow.show();
     });
 
-    // Conectează semnalul goToLogin al RegisterWindow pentru a întoarce utilizatorul la LoginWindow
-    QObject::connect(&registerWindow, &RegisterWindow::goToLogin, [&]() {
-        registerWindow.close();  // Închide fereastra de înregistrare
-        loginWindow.show();      // Afișează fereastra de login
+
+    QObject::connect(&registerWindow, &RegisterWindow::registerCredentials, [&]() {
+        registerWindow.close();
     });
 
-    // Conectează loginWindow și registerWindow pentru a permite trecerea între feronstrele de login și înregistrare
+
     QObject::connect(&loginWindow, &LoginWindow::goToRegister, [&]() {
-        loginWindow.close();  // Închide fereastra de login
-        registerWindow.show(); // Afișează fereastra de înregistrare
+        loginWindow.close();
+        registerWindow.show();
     });
 
-    // Conectează semnalul de înregistrare din RegisterWindow pentru a salva credențialele în LoginWindow
-    QObject::connect(&registerWindow, &RegisterWindow::registerCredentials,
-                     &loginWindow, &LoginWindow::setUserCredentials);
 
-    loginWindow.show();  // Afișează fereastra de login la început
+    QObject::connect(&registerWindow, &RegisterWindow::goToLogin, [&]() {
+        registerWindow.close();
+        loginWindow.show();
+    });
+    QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
+        battleCityWindow.close();
+        mainWindow.show();
+    });
 
-    return a.exec();  // Rulează aplicația
+
+    loginWindow.show();
+
+    return a.exec();
 }

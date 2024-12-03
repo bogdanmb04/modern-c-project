@@ -130,3 +130,4 @@ void MainWindow::onCellClicked(int row, int col)
      //   QMessageBox::information(this, "Info", "Acest perete este nedestructibil!");
     }
 }
+

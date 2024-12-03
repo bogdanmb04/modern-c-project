@@ -12,7 +12,7 @@ LoginWindow::LoginWindow(QWidget *parent)
     : QWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-
+  layout->setContentsMargins(100, 100, 100, 100);
     QLabel *titleLabel = new QLabel("BattleCity", this);
     titleLabel->setAlignment(Qt::AlignCenter);
     titleLabel->setStyleSheet("font-size: 24px; font-weight: bold;");
@@ -22,6 +22,7 @@ LoginWindow::LoginWindow(QWidget *parent)
     loginLabel->setAlignment(Qt::AlignCenter);
     loginLabel->setStyleSheet("font-size: 18px;");
     layout->addWidget(loginLabel);
+
 
     usernameField = new QLineEdit(this);
     usernameField->setPlaceholderText("Username");
@@ -49,7 +50,7 @@ LoginWindow::LoginWindow(QWidget *parent)
 
     setLayout(layout);
     setWindowTitle("Login - BattleCity");
-    resize(300, 250);
+    setFixedSize(500, 400);
 }
 
 LoginWindow::~LoginWindow() {}

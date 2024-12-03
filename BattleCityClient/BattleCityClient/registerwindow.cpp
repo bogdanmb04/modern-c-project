@@ -12,6 +12,7 @@ RegisterWindow::RegisterWindow(QWidget *parent)
     : QWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
+     layout->setContentsMargins(100, 100, 100, 100);
 
     QLabel *titleLabel = new QLabel("BattleCity", this);
     titleLabel->setAlignment(Qt::AlignCenter);
@@ -50,7 +51,7 @@ RegisterWindow::RegisterWindow(QWidget *parent)
 
     setLayout(layout);
     setWindowTitle("Register - BattleCity");
-    resize(300, 300);
+     setFixedSize(500, 400);
 }
 
 RegisterWindow::~RegisterWindow() {}
