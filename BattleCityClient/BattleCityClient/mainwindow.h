@@ -24,7 +24,8 @@ public:
 
 private slots:
     void onCellClicked(int row, int col);  // Slot pentru gestionarea clicurilor pe celule
-
+//protected:
+//void resizeEvent(QResizeEvent *event) override;
 private:
     Ui::MainWindow *ui;                // UI-ul generat automat de Qt Designer
     QGridLayout *gridLayout;            // Layout-ul pentru celulele hărții

@@ -15,11 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     QWidget *centralWidget = new QWidget(this);
-    gridLayout->setSpacing(1);
+    gridLayout->setSpacing(0);
     centralWidget->setLayout(gridLayout);
     setCentralWidget(centralWidget);
 
-    resize(600, 600);
 
     // Încarcă harta din fișierul map.txt
     loadMapFromFile("map.txt");
@@ -27,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Inițializează UI-ul
     initializeMap();
+
+
 }
 
 // Destructorul
@@ -83,22 +84,22 @@ void MainWindow::initializeMap()
     for (int row = 0; row < mapData.size(); ++row) {
         for (int col = 0; col < mapData[row].size(); ++col) {
             ClickableLabel *cell = new ClickableLabel(this);
-            cell->setFixedSize(40, 40);
+            cell->setFixedSize(60, 60);
             cell->setCoordinates(row, col); // Setează coordonatele pentru etichetă
 
             // Setează stilul pe baza valorii din mapData
             if (mapData[row][col] == 1) {
-                cell->setStyleSheet("background-color: brown; border: 1px solid black;");
+                cell->setStyleSheet("background-color: brown; border: 1px solid black;margin: 0;");
             } else if (mapData[row][col] == 2) {
-                cell->setStyleSheet("background-color: red; border: 1px solid black;");
+                cell->setStyleSheet("background-color: red; border: 1px solid black;margin: 0;");
             } else {
-                cell->setStyleSheet("background-color: black; border: 1px solid black;");
+                cell->setStyleSheet("background-color: black; border: 1px solid black;margin: 0;");
             }
 
             // Setează colțurile la culoare albă cu colțuri rotunjite
             if ((row == 0 && col == 0) || (row == 0 && col == mapData[row].size() - 1) ||
                 (row == mapData.size() - 1 && col == 0) || (row == mapData.size() - 1 && col == mapData[row].size() - 1)) {
-                cell->setStyleSheet("background-color: white; border-radius: 20px; width: 10px; height: 20px;");
+                cell->setStyleSheet("background-color: white; border-radius: 5px; width: 10px; height: 5px;");
             }
 
             // Conectează semnalul de click la slotul corespunzător
@@ -130,4 +131,6 @@ void MainWindow::onCellClicked(int row, int col)
      //   QMessageBox::information(this, "Info", "Acest perete este nedestructibil!");
     }
 }
+
+
 

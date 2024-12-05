@@ -9,7 +9,8 @@ BattleCity::BattleCity(QWidget *parent)
     : QWidget(parent) {
     setupUI();
     setWindowTitle("BattleCity");
-    //showMaximized();
+
+
 
 }
 
@@ -59,5 +60,6 @@ void BattleCity::setupUI() {
 
 
     mainLayout->addLayout(buttonLayout);
+
 }
 
