@@ -3,32 +3,35 @@
 #include <vector>
 #include "powerup.h"
 
+using namespace game;
+
 std::ostream& game::operator<<(std::ostream& out, const Map& map)
 {
 
 	out << "Map Dimensions: " << map.GetWidth() << " x " << map.GetHeight() << "\n";
 
-	for (size_t x = 0; x < map.GetWidth(); ++x)
+	for (size_t y = 0; y < map.GetHeight(); ++y)
 	{
-		for (size_t y = 0; y < map.GetHeight(); ++y)
+		for (size_t x = 0; x < map.GetWidth(); ++x)
 		{
-			const auto& square = map.GetSquares().at(x).at(y);
-			const Tile& tile = square.first; 
-			const std::shared_ptr<Entity>& entity = square.second; 
+			const auto& square = map.GetSquares().at(y * map.GetWidth() + x);
+			const Tile& tile = square.first;
+			const std::shared_ptr<Entity>& entity = square.second;
 
-			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
-				out << "P" << " ";  
+			if (entity != nullptr && dynamic_cast<Player*>(entity.get()))
+			{
+				out << "P" << " ";
 			}
 			else {
 				switch (tile.GetType()) {
 				case Tile::TileType::Free:
-					out << "F" << " ";  
+					out << "F" << " ";
 					break;
 				case Tile::TileType::DestructibleWall:
-					out << "D" << " ";  
+					out << "D" << " ";
 					break;
 				case Tile::TileType::IndestructibleWall:
-					out << "I" << " ";  
+					out << "I" << " ";
 					break;
 				}
 			}
@@ -52,47 +55,40 @@ game::Map::Map()
 
 	////TODO: add conditions for tiles: how many, where and which type
 
-	m_squares.resize(m_width);
-	for (int i = 0; i < m_height; ++i)
-	{
-		m_squares.reserve(m_height);
-	}
+	m_squares.reserve(m_width * m_height);
 
-	for (size_t x = 0; x < m_width; ++x)
+	for (size_t index = 0; index < m_height * m_width; ++index)
 	{
-		for (size_t y = 0; y < m_height; ++y)
-		{
-			//instead of equal chance for all tiles, 50% free, 45% destructible wall, 15% indestructible
-			Tile::TileType type;
-			std::uint8_t random = gen() % 100;
-			if (random < 50)
-				type = Tile::TileType::Free;
-			else if (random >= 50 && random <= 85)
-				type = Tile::TileType::DestructibleWall;
-			else type = Tile::TileType::IndestructibleWall;
-			m_squares.at(x).emplace_back(type, nullptr);
-		}
+		//instead of equal chance for all tiles, 50% free, 45% destructible wall, 15% indestructible
+		Tile::TileType type;
+		std::uint8_t random = gen() % 100;
+		if (random < 50)
+			type = Tile::TileType::Free;
+		else if (random >= 50 && random <= 85)
+			type = Tile::TileType::DestructibleWall;
+		else type = Tile::TileType::IndestructibleWall;
+		m_squares.emplace_back(type, nullptr);
 	}
 
 	//change corners to assure they are free
-	m_squares.at(0).at(0).first.SetType(Tile::TileType::Free);
-	m_squares.at(m_width - 1).at(0).first.SetType(Tile::TileType::Free);
-	m_squares.at(0).at(m_height - 1).first.SetType(Tile::TileType::Free);
-	m_squares.at(m_width - 1).at(m_height - 1).first.SetType(Tile::TileType::Free);
+	m_squares.at(0).first.SetType(Tile::TileType::Free);
+	m_squares.at(m_width - 1).first.SetType(Tile::TileType::Free);
+	m_squares.at(m_height * (m_width - 1)).first.SetType(Tile::TileType::Free);
+	m_squares.at(m_width * m_height - 1).first.SetType(Tile::TileType::Free);
 }
 
-const std::vector<std::vector<game::Map::Square>>& game::Map::GetSquares() const
+const std::vector<Map::Square>& game::Map::GetSquares() const
 {
 	return m_squares;
 }
 
 std::string game::Map::ToString() const {
 	std::string mapString;
-	for (size_t x = 0; x < m_width; ++x)
+	for (size_t y = 0; y < m_height; ++y)
 	{
-		for (size_t y = 0; y < m_height; ++y)
+		for (size_t x = 0; x < m_width; ++x)
 		{
-			const auto& square = m_squares.at(x).at(y);
+			const auto& square = m_squares.at(y * m_width + x);
 			const Tile& tile = square.first;
 			const std::shared_ptr<Entity>& entity = square.second;
 
@@ -131,8 +127,8 @@ size_t game::Map::GetHeight() const
 Tile game::Map::GetTile(size_t x, size_t y) const
 {
 	if (x >= m_width || y >= m_height || x < 0 || y < 0)
-		return m_squares.at(0).at(0).first;
-	return m_squares.at(x).at(y).first;
+		throw std::out_of_range{ "Attempting to access Tile outside defined bounds!" };
+	return m_squares.at(y * m_width + x).first;
 }
 
 void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
@@ -166,18 +162,21 @@ void game::Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 
 void game::Map::PlacePlayer()
 {
-	std::array<std::pair<size_t, size_t>, 4> corners = 
+	std::array<Map::Position, 4> corners =
 	{
 		std::make_pair(0, 0),
-		{m_width - 1, 0},                    
-		{0, m_height - 1},                   
-		{m_width - 1, m_height - 1}          
+		{m_width - 1, 0},
+		{0, m_height - 1},
+		{m_width - 1, m_height - 1}
 	};
 
-	for (const auto& corner : corners) 
+	//TODO: Think of a way to shuffle players in the array (std::shuffle didn't work)
+	//Reason: Player placement is influenced by order of joining the game
+
+	for (int i = 0; i < 4; ++i)
 	{
-		const auto& [x, y] = corner;
-		m_squares.at(x).at(y).second = std::make_unique<Player>();
+		auto& [x, y] = corners[i];
+		m_squares.at(y * m_width + x).second = m_players[i];
 	}
 
 	std::cout << "Players placed in corners of the map." << std::endl;
@@ -190,31 +189,31 @@ void game::Map::MovePlayer(uint32_t playerID, Direction direction)
 		if (player->GetID() == playerID)
 		{
 			auto& playerPos = player->GetPosition();
-			int newRow = playerPos.first;
-			int newCol = playerPos.second;
+			size_t newCol = playerPos.first;
+			size_t newRow = playerPos.second;
 
 			switch (direction)
 			{
 			case Direction::UP:
-				newRow = playerPos.first - 1;
+				newRow -= 1;
 				break;
 			case Direction::DOWN:
-				newRow = playerPos.first + 1;
+				newRow += 1;
 				break;
 			case Direction::LEFT:
-				newCol = playerPos.second - 1;
+				newCol -= 1;
 				break;
 			case Direction::RIGHT:
-				newCol = playerPos.second + 1;
+				newCol += 1;
 				break;
 			}
 
-			if (newRow >= 0 && newRow < static_cast<int>(m_squares.size()) &&
-				newCol >= 0 && newCol < static_cast<int>(m_squares.at(newRow).size()))
+			if (newRow >= 0 && newRow < m_height && newCol >= 0 && newCol < m_width)
 			{
-				if (m_squares.at(newRow).at(newCol).second == nullptr && m_squares.at(newRow).at(newCol).first.GetType() == Tile::TileType::Free)
+				if (m_squares.at(newRow * m_width + newCol).second == nullptr
+					&& m_squares.at(newRow * m_width + newCol).first.GetType() == Tile::TileType::Free)
 				{
-					m_squares.at(newRow).at(newCol).second = std::move(m_squares.at(playerPos.first).at(playerPos.second).second);
+					m_squares.at(newRow * m_width + newCol).second = std::move(m_squares.at(playerPos.first * m_width + playerPos.second).second);
 					player->SetPosition({ newRow, newCol });
 				}
 			}
@@ -222,8 +221,6 @@ void game::Map::MovePlayer(uint32_t playerID, Direction direction)
 		}
 	}
 }
-
-
 
 void game::Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)
 {

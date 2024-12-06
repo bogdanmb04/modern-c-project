@@ -43,8 +43,10 @@ Database& server::GameDatabase::GetStorage()
 
 bool server::GameDatabase::ValidateUserCredentials(const std::string& username, const std::string& password)
 {
-	auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username && sql::c(&User::GetPassword) == password));
-	return !users.empty();
+	auto users = m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username));
+	if (!users.empty())
+		return users[0].GetPassword() == password;
+	return false;
 }
 
 bool server::GameDatabase::UserExists(const std::string& username)

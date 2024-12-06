@@ -8,6 +8,9 @@
 #include "entity.h"
 #include <memory>
 #include "player.h"
+#include <algorithm>
+#include <chrono>
+
 using std::uint32_t;
 
 namespace game
@@ -25,7 +28,7 @@ namespace game
 
 	public:
 		Map();
-		const std::vector<std::vector<Square>>& GetSquares() const;
+		const std::vector<Square>& GetSquares() const;
 		std::string ToString() const;
 
 		size_t GetWidth() const;
@@ -38,7 +41,7 @@ namespace game
 	private:
 		size_t m_width;
 		size_t m_height;
-		std::vector<std::vector<Square>> m_squares;
+		std::vector<Square> m_squares;
 		std::array<std::shared_ptr<Player>, 4> m_players;
 	};
 

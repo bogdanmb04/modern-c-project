@@ -16,12 +16,11 @@ namespace server
 			sql::make_table(
 				"User",
 				sql::make_column("id", &User::SetID, &User::GetID, sql::primary_key().autoincrement()),
-				sql::make_column("username", &User::GetUsername, &User::SetUsername),
+				sql::make_column("username", &User::GetUsername, &User::SetUsername, sql::unique()),
 				sql::make_column("totalScore", &User::GetTotalScore, &User::SetTotalScore),
 				sql::make_column("specialMoney", &User::GetSpecialMoney, &User::SetSpecialMoney),
 				sql::make_column("weaponID", &User::GetWeaponID, &User::SetWeaponID),
 				sql::make_column("password", &User::GetPassword, &User::SetPassword)
-				
 			),
 			sql::make_table(
 				"Weapon",
