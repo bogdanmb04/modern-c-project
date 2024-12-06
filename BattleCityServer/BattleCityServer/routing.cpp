@@ -2,10 +2,10 @@
 #include "map.h"
 #include "player.h"
 
-void http::Routing::Run(server::GameDatabase& gameDatabase)
+void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 {
     CROW_ROUTE(m_app, "/")([]() {
-        return "Welcome!";
+        return "Welcome to Battle City!";
         });
 
     CROW_ROUTE(m_app, "/register").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {
@@ -54,6 +54,30 @@ void http::Routing::Run(server::GameDatabase& gameDatabase)
         {
             return crow::response(401, "Invalid credentials");
         }
+        });
+
+    CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
+        {
+            auto body = crow::json::load(req.body);
+            std::vector<crow::json::wvalue> mapLayout;
+
+            auto layout = map.GetSquares();
+
+            //very big dummy testing here to get a hang of json
+            //will change it later so the whole layout gets ported over nicer than whatever you'll see here
+            // http://localhost:18080/map
+            for (const auto& square : layout)
+            {
+                if (square.second != nullptr)
+                    mapLayout.push_back(crow::json::wvalue{
+                        {"type", 4}
+                        });
+                else
+                    mapLayout.push_back(crow::json::wvalue{
+                        {"type", static_cast<int>(square.first.GetType())}
+                        });
+            }
+            return crow::json::wvalue{ mapLayout };
         });
 
     CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {

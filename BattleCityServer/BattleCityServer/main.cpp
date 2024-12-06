@@ -73,7 +73,8 @@ int main() {
     }*/
 
     http::Routing routing;
-    routing.Run(gameDatabase);
+    routing.Run(gameDatabase, myMap);
+    of.close();
 
     return 0;
 }
