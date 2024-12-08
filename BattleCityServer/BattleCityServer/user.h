@@ -1,5 +1,5 @@
 #pragma once
-#include "weapon.h"
+#include "Weapon.h"
 #include <iostream>
 
 using std::uint16_t;

@@ -4,10 +4,10 @@
 #include <optional>
 #include <random>
 #include <array>
-#include "tile.h"
-#include "entity.h"
+#include "Tile.h"
+#include "Entity.h"
 #include <memory>
-#include "player.h"
+#include "Player.h"
 #include <algorithm>
 #include <chrono>
 
@@ -31,6 +31,9 @@ namespace game
 		const std::vector<Square>& GetSquares() const;
 		std::string ToString() const;
 
+		const Square& operator [] (const Position& pos) const;
+		Square& operator [] (const Position& pos);
+
 		size_t GetWidth() const;
 		size_t GetHeight() const;
 		Tile GetTile(size_t x, size_t y) const;
@@ -38,6 +41,7 @@ namespace game
 		void PlacePlayer();
 		void MovePlayer(uint32_t playerID, Direction direction);
 		void InsertPlayer(const std::shared_ptr<Player>& player);
+
 	private:
 		size_t m_width;
 		size_t m_height;

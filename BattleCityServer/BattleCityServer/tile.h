@@ -1,7 +1,7 @@
 #pragma once
 
-#include "bomb.h"
-#include "entity.h"
+#include "Bomb.h"
+#include "Entity.h"
 using std::uint8_t;
 
 class Tile

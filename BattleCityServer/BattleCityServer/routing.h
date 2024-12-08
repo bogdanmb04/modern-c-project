@@ -1,8 +1,8 @@
 #pragma once
 
 #include <crow.h>
-#include "database.h"
-#include "map.h"
+#include "Database.h"
+#include "Map.h"
 
 namespace http 
 {

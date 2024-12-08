@@ -9,9 +9,3 @@ enum class Direction : uint8_t
 	LEFT,
 	RIGHT
 };
-
-class IMovable
-{
-public:
-	virtual ~IMovable() = default;
-};

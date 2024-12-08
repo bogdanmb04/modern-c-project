@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entity.h"
+#include "Entity.h"
 #include <string>
 #include <memory>
 
@@ -38,7 +38,6 @@ namespace game {
 
         void Activate(Entity& target);
         void Deactivate(Entity& target);
-
 
     private:
         PowerUpType m_type;
