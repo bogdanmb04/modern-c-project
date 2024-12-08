@@ -14,7 +14,6 @@ public:
 
     void sendGetRequest(const QString& url, ResponseCallback callback);
     void sendPostRequest(const QString& url, const QString& data, ResponseCallback callback);
-    void sendShootRequest(const QString& playerID, int bulletDirection, ResponseCallback callback);
 
 };
 
