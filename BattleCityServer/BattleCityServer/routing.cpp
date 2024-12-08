@@ -1,6 +1,6 @@
-#include "routing.h"
-#include "map.h"
-#include "player.h"
+#include "Routing.h"
+#include "Map.h"
+#include "Player.h"
 
 void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 {

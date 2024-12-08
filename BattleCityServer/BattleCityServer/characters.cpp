@@ -1,4 +1,4 @@
-#include "characters.h"
+#include "Characters.h"
 
 using namespace game;
 

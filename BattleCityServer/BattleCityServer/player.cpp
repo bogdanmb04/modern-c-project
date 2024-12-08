@@ -1,5 +1,7 @@
-#include "player.h"
+#include "Player.h"
 #include <iostream>
+
+using namespace game;
 
 void Shoot()
 {

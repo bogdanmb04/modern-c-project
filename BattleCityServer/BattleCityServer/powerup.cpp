@@ -1,4 +1,4 @@
-#include "powerup.h"
+#include "PowerUp.h"
 using namespace game;
 
 game::PowerUp::PowerUp(PowerUpType type, int attribute_value, std::string effect)

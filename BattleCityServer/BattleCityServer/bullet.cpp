@@ -1,4 +1,4 @@
-#include "bullet.h"
+#include "Bullet.h"
 
 using namespace game;
 

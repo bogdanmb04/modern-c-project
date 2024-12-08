@@ -1,9 +1,25 @@
-#include "map.h"
+#include "Map.h"
 
 #include <vector>
-#include "powerup.h"
+#include "PowerUp.h"
 
 using namespace game;
+
+
+const Map::Square& game::Map::operator[](const Position& pos) const
+{
+	const auto& [x, y] = pos;
+	if (x >= m_width || y >= m_height || x < m_width || y < m_height)
+	{
+		throw std::out_of_range("Invalid position accessed");
+	}
+	return m_squares[y * m_height + x];
+}
+
+Map::Square& game::Map::operator[](const Position& pos)
+{
+	return const_cast<Map::Square&>(std::as_const(*this)[pos]);
+}
 
 std::ostream& game::operator<<(std::ostream& out, const Map& map)
 {
@@ -14,7 +30,7 @@ std::ostream& game::operator<<(std::ostream& out, const Map& map)
 	{
 		for (size_t x = 0; x < map.GetWidth(); ++x)
 		{
-			const auto& square = map.GetSquares().at(y * map.GetWidth() + x);
+			const auto& square = map[{x, y}];
 			const Tile& tile = square.first;
 			const std::shared_ptr<Entity>& entity = square.second;
 

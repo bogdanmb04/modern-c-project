@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "Entity.h"
 
 void Entity::SetPosition(const std::pair<size_t, size_t>& position)
 {

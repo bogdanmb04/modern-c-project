@@ -6,9 +6,9 @@
 #include <iomanip>
 #include <conio.h>
 
-#include "map.h"
-#include "routing.h"
-#include "database.h"
+#include "Map.h"
+#include "Routing.h"
+#include "Database.h"
 #include "../Logging/logging.h"
 
 int main() {
@@ -26,7 +26,7 @@ int main() {
     logger.Log("Map initialized with bombs and player placed.", Logger::Level::Info);
     logger.Log(myMap.ToString(), Logger::Level::Info);
 
-    std::shared_ptr<Player> player = std::make_shared<Player>();
+    std::shared_ptr<game::Player> player = std::make_shared<game::Player>();
     myMap.InsertPlayer(player);
 
     myMap.MovePlayer(player->GetID(), Direction::DOWN);

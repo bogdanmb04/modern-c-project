@@ -1,4 +1,4 @@
-#include "weapon.h"
+#include "Weapon.h"
 
 Weapon::Weapon(uint32_t id, uint32_t bulletWaitTime, uint16_t bulletSpeed, uint32_t userID)
 	: m_bulletWaitTime{ bulletWaitTime }

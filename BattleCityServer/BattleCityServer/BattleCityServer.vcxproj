@@ -154,20 +154,20 @@
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="app.h" />
-    <ClInclude Include="bomb.h" />
-    <ClInclude Include="bullet.h" />
-    <ClInclude Include="characters.h" />
-    <ClInclude Include="database.h" />
-    <ClInclude Include="entity.h" />
-    <ClInclude Include="map.h" />
-    <ClInclude Include="movable.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="powerup.h" />
-    <ClInclude Include="routing.h" />
-    <ClInclude Include="tile.h" />
-    <ClInclude Include="user.h" />
-    <ClInclude Include="weapon.h" />
+    <ClInclude Include="App.h" />
+    <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Characters.h" />
+    <ClInclude Include="Database.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Movable.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="PowerUp.h" />
+    <ClInclude Include="Routing.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.vcxproj">
