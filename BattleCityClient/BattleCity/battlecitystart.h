@@ -11,8 +11,10 @@ public:
     ~BattleCity();
 
 signals:
-    void button1Clicked(); // Semnal pentru butonul 1
-    void button2Clicked(); // Semnal pentru butonul 2
+    void button1Clicked();
+    void button2Clicked();
+    void button3Clicked();
+    void button4Clicked();
 
 private:
     void setupUI();

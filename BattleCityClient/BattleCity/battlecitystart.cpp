@@ -3,6 +3,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QSpacerItem>
+#include <QApplication>
 
 
 BattleCity::BattleCity(QWidget* parent)
@@ -43,21 +44,23 @@ void BattleCity::setupUI() {
     QPushButton* button1 = new QPushButton("Start");
     QPushButton* button2 = new QPushButton("Shop");
     QPushButton* button3 = new QPushButton("Server");
-
+    QPushButton* button4 = new QPushButton("Quit game");
 
     button1->setFixedSize(200, 50);
     button2->setFixedSize(200, 50);
     button3->setFixedSize(200, 50);
-
+    button4->setFixedSize(200, 50);
 
     connect(button1, &QPushButton::clicked, this, &BattleCity::button1Clicked);
     connect(button2, &QPushButton::clicked, this, &BattleCity::button2Clicked);
+    connect(button3, &QPushButton::clicked, this, &BattleCity::button3Clicked);
+    connect(button4, &QPushButton::clicked, qApp, &QApplication::quit);
 
 
     buttonLayout->addWidget(button1);
     buttonLayout->addWidget(button3);
     buttonLayout->addWidget(button2);
-
+    buttonLayout->addWidget(button4);
 
     mainLayout->addLayout(buttonLayout);
 

@@ -19,17 +19,16 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
-    void initializeMap();  
-    void loadMapFromFile(const QString& filePath);  
+    void initializeMap();
+    void loadMapFromFile(const QString& filePath);
 
 private slots:
-    void onCellClicked(int row, int col);  
-    //protected:
-    //void resizeEvent(QResizeEvent *event) override;
+    void onCellClicked(int row, int col);
+
 private:
-    Ui::MainWindow* ui;               
-    QGridLayout* gridLayout;          
-    QVector<QVector<int>> mapData;    
+    Ui::MainWindow* ui;
+    QGridLayout* gridLayout;
+    QVector<QVector<int>> mapData;
 };
 
 #endif // MAINWINDOW_H
