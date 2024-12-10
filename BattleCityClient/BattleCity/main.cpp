@@ -2,6 +2,7 @@
 #include "loginwindow.h"
 #include "registerwindow.h"
 #include "battlecitystart.h"
+#include "shop.h"
 #include <QApplication>
 
 int main(int argc, char* argv[])
@@ -12,6 +13,7 @@ int main(int argc, char* argv[])
     MainWindow mainWindow;
     RegisterWindow registerWindow;
     BattleCity battleCityWindow;
+    Shop shop;
 
 
 
@@ -44,6 +46,10 @@ int main(int argc, char* argv[])
     QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
         battleCityWindow.close();
         mainWindow.showMaximized();
+        });
+    QObject::connect(&battleCityWindow, &BattleCity::button2Clicked, [&]() {
+        battleCityWindow.close();
+        shop.showMaximized();
         });
 
 

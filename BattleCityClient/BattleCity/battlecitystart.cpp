@@ -46,10 +46,10 @@ void BattleCity::setupUI() {
     QPushButton* button3 = new QPushButton("Server");
     QPushButton* button4 = new QPushButton("Quit game");
 
-    button1->setFixedSize(200, 50);
-    button2->setFixedSize(200, 50);
-    button3->setFixedSize(200, 50);
-    button4->setFixedSize(200, 50);
+    button1->setFixedSize(300, 70);
+    button2->setFixedSize(300, 70);
+    button3->setFixedSize(300,70);
+    button4->setFixedSize(300, 70);
 
     connect(button1, &QPushButton::clicked, this, &BattleCity::button1Clicked);
     connect(button2, &QPushButton::clicked, this, &BattleCity::button2Clicked);
@@ -58,8 +58,8 @@ void BattleCity::setupUI() {
 
 
     buttonLayout->addWidget(button1);
-    buttonLayout->addWidget(button3);
     buttonLayout->addWidget(button2);
+    buttonLayout->addWidget(button3);
     buttonLayout->addWidget(button4);
 
     mainLayout->addLayout(buttonLayout);

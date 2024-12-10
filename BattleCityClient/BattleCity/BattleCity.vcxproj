@@ -115,6 +115,7 @@
     <QtMoc Include="ClickableLabel.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="shop.h" />
     <QtMoc Include="battlecitystart.h" />
     <ClInclude Include="httpmanager.h" />
     <QtMoc Include="registerwindow.h" />
@@ -127,6 +128,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="registerwindow.cpp" />
+    <ClCompile Include="shop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="map.txt" />
