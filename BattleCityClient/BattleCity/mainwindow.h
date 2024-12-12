@@ -21,9 +21,10 @@ public:
 
     void initializeMap();
     void loadMapFromFile(const QString& filePath);
-
+    
 private slots:
     void onCellClicked(int row, int col);
+   // void resizeEvent(QResizeEvent* event) override;
 
 private:
     Ui::MainWindow* ui;
