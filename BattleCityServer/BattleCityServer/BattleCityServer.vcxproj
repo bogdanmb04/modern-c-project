@@ -144,6 +144,7 @@
     <ClCompile Include="characters.cpp" />
     <ClCompile Include="database.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="player.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Characters.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Movable.h" />
     <ClInclude Include="Player.h" />
