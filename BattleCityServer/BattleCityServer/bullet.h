@@ -2,18 +2,18 @@
 
 #include "Movable.h"
 #include "Entity.h"
+#include <chrono>
 
 using std::uint8_t;
-using std::uint16_t;
 
 namespace game
 {
 	class Bullet : public Entity
 	{
 	public:
-		Bullet(Direction direction, uint16_t speed);
+		Bullet(Direction direction, std::chrono::milliseconds speed);
 	private:
 		Direction m_direction : 2;
-		uint16_t m_speed;
+		std::chrono::milliseconds m_speed;
 	};
 }

@@ -16,9 +16,6 @@ int main(int argc, char* argv[])
     Shop shop;
 
 
-
-
-
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&]() {
         loginWindow.close();
         battleCityWindow.showMaximized();

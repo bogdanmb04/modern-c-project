@@ -150,6 +150,7 @@
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="routing.cpp" />
     <ClCompile Include="tile.cpp" />
+    <ClCompile Include="timer.cpp" />
     <ClCompile Include="user.cpp" />
     <ClCompile Include="weapon.cpp" />
   </ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Routing.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>

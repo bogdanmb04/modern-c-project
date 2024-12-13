@@ -2,7 +2,7 @@
 
 using namespace game;
 
-Bullet::Bullet(Direction direction, uint16_t speed)
+Bullet::Bullet(Direction direction, std::chrono::milliseconds speed)
 	: m_direction {direction}
 	, m_speed {speed}
 {/*EMPTY*/}
