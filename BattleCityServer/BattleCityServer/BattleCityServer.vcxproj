@@ -177,6 +177,9 @@
     <ProjectReference Include="..\Logging\Logging.vcxproj">
       <Project>{6e20ec51-901a-4983-bd34-bc772369e997}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\PasswordEncryption\PasswordEncryption.vcxproj">
+      <Project>{dac787d1-c906-43e6-b76b-694c388014f3}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="users.sqlite" />

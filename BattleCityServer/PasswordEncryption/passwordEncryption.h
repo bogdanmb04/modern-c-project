@@ -1,6 +1,6 @@
 #include <string>
 
-class PasswordEncryptor {
+class __declspec(dllexport) PasswordEncryptor {
 public:
 
     PasswordEncryptor() = default;
@@ -9,6 +9,6 @@ public:
     std::string encryptPassword(const std::string& password);
 
 
-    std::string verifyPassword(const std::string& password, const std::string& encryptedData);
+    bool verifyPassword(const std::string& password, const std::string& encryptedData);
 };
  

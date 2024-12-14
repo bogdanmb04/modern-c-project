@@ -40,14 +40,17 @@ std::string PasswordEncryptor::encryptPassword(const std::string& password) {
     // Append salt to encrypted password
     return encryptedPassword + salt;
 }
-std::string PasswordEncryptor::verifyPassword(const std::string& password, const std::string& encryptedData) {
 
-    bool isVerified = (password == encryptedData);
+bool PasswordEncryptor::verifyPassword(const std::string& password, const std::string& encryptedData) {
+    const size_t saltLength = 8;
+    if (encryptedData.size() < saltLength) {
+        return false;
+    }
 
-    if (isVerified) {
-        return "Password is correct";
-    }
-    else {
-        return "Password is incorrect";
-    }
+    std::string salt = encryptedData.substr(encryptedData.size() - saltLength);
+    std::string encryptedPassword = encryptedData.substr(0, encryptedData.size() - saltLength);
+
+    std::string reEncryptedPassword = simpleEncrypt(password, salt);
+
+    return reEncryptedPassword == encryptedPassword;
 }
