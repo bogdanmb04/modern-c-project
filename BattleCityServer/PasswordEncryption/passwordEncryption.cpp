@@ -1,4 +1,4 @@
-﻿#include "PasswordEncryption.h"
+#include "PasswordEncryption.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
@@ -32,7 +32,7 @@ std::string simpleEncrypt(const std::string& input, const std::string& salt) {
 }
 
 std::string PasswordEncryptor::encryptPassword(const std::string& password) {
-    const size_t saltLength = 8; 
+    const size_t saltLength = 8;
     std::string salt = generateSalt(saltLength);
 
     std::string encryptedPassword = simpleEncrypt(password, salt);
@@ -41,13 +41,13 @@ std::string PasswordEncryptor::encryptPassword(const std::string& password) {
     return encryptedPassword + salt;
 }
 std::string PasswordEncryptor::verifyPassword(const std::string& password, const std::string& encryptedData) {
-   
-    bool isVerified = (password == encryptedData);  
+
+    bool isVerified = (password == encryptedData);
 
     if (isVerified) {
-        return "Password is correct";  
+        return "Password is correct";
     }
     else {
-        return "Password is incorrect";  
+        return "Password is incorrect";
     }
 }
