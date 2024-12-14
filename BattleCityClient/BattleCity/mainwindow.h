@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QMouseEvent>
 #include <QVector>
+#include "HttpManager.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,7 +21,7 @@ public:
     ~MainWindow();
 
     void initializeMap();
-    void loadMapFromFile(const QString& filePath);
+    void loadMapFromServer();
     
 private slots:
     void onCellClicked(int row, int col);
@@ -30,6 +31,7 @@ private:
     Ui::MainWindow* ui;
     QGridLayout* gridLayout;
     QVector<QVector<int>> mapData;
+    HttpManager httpManager;
 };
 
 #endif // MAINWINDOW_H
