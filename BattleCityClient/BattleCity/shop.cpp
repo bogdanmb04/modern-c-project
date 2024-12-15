@@ -38,7 +38,7 @@ void Shop::setupUI() {
     moneyLayout->setContentsMargins(30, 0, 0, 0);
 
     QLabel* moneyImageLabel = new QLabel(this);
-    QPixmap moneyPixmap("C:/Users/Miruna/Desktop/FACULTATE/modern-c-project/BattleCityClient/resources/Coins.png");
+    QPixmap moneyPixmap(":/BattleCity/images/Coins.png");
     moneyPixmap = moneyPixmap.scaled(60, 60, Qt::KeepAspectRatio);
     moneyImageLabel->setPixmap(moneyPixmap);
     moneyImageLabel->setAlignment(Qt::AlignLeft);
@@ -66,11 +66,10 @@ void Shop::setupUI() {
     specialMoneyLayout->setContentsMargins(20, 0, 0, 0);
 
     specialMoneyImage = new QLabel(this);
-    QPixmap specialMoneyPixmap("C:/Users/Miruna/Desktop/FACULTATE/modern-c-project/BattleCityClient/resources/SpecialMoney.png");
+    QPixmap specialMoneyPixmap(":/BattleCity/images/SpecialMoney.png");
     specialMoneyPixmap = specialMoneyPixmap.scaled(60, 60, Qt::KeepAspectRatio);
     specialMoneyImage->setPixmap(specialMoneyPixmap);
     specialMoneyImage->setAlignment(Qt::AlignLeft);
-
 
 
     specialMoneyLayout->addWidget(specialMoneyImage);
@@ -88,10 +87,10 @@ void Shop::setupUI() {
     QHBoxLayout* currencyLayout = new QHBoxLayout();
     currencyLayout->addWidget(moneyBox);
     currencyLayout->addWidget(specialMoneyBox);
-    currencyLayout->setAlignment(Qt::AlignLeft);  // Aliniere la stânga
+    currencyLayout->setAlignment(Qt::AlignLeft);  
 
-    // Ajustează marginile layout-ului pentru a muta casetele mai la stânga
-    currencyLayout->setContentsMargins(40, 0, 0, 0); // ajustare margini pentru a muta la stânga
+
+    currencyLayout->setContentsMargins(40, 0, 0, 0); 
 
     mainLayout->addLayout(currencyLayout);
 
@@ -129,11 +128,11 @@ void Shop::setupUI() {
 
     mainLayout->addLayout(buttonsLayout);
 
-    // Spacer pentru sub butoane
+   
     QSpacerItem* spacerBelowButtons = new QSpacerItem(60, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
     mainLayout->addSpacerItem(spacerBelowButtons);
 
-    // Conectează butoanele
+ 
     connect(button1, &QPushButton::clicked, this, &Shop::button1Clicked);
     connect(button2, &QPushButton::clicked, this, &Shop::button2Clicked);
     connect(button3, &QPushButton::clicked, this, &Shop::button3Clicked);

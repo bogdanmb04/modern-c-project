@@ -79,6 +79,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="map.txt" />
+    <Text Include="map.json" />
   </ItemGroup>
 </Project>
