@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+#include <utility>
 #include <cstdint>
 
 enum class Direction : uint8_t
@@ -9,3 +11,5 @@ enum class Direction : uint8_t
 	LEFT,
 	RIGHT
 };
+
+std::pair<size_t, size_t> GetPositionAfterDirection(const std::pair<size_t, size_t>& position, Direction direction);

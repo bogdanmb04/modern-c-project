@@ -6,10 +6,10 @@ std::string Character::CampToString(Character::Camp camp)
 {
 	switch (camp)
 	{
-	case Camp::WARRIORS:
-		return "WARRIORS";
-	case Camp::MONSTERS:
-		return "MONSTERS";
+	case Camp::Police:
+		return "Police";
+	case Camp::Zombies:
+		return "Zombies";
 	default: 
 		return "Unknown";
 	}

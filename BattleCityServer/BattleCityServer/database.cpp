@@ -21,7 +21,7 @@ bool server::GameDatabase::RegisterUser(const std::string& username, const std::
 	return true;
 }
 
-User server::GameDatabase::GetUser(int id)
+User server::GameDatabase::GetUser(uint32_t id)
 {
 	return m_db.get<User>(id);
 }

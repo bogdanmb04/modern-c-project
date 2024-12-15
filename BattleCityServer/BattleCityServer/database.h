@@ -46,7 +46,7 @@ namespace server
 
 		void AddUser(const User& user);
 		bool RegisterUser(const std::string& username, const std::string& password);
-		User GetUser(int id);
+		User GetUser(uint32_t id);
 		User GetUserByUsername(const std::string& username);
 		bool ValidateUserCredentials(const std::string& username, const std::string& password);
 

@@ -1,54 +1,30 @@
 #include "PowerUp.h"
 using namespace game;
 
-game::PowerUp::PowerUp(PowerUpType type, int attribute_value, std::string effect)
-    : m_type(type), m_attribute_value(attribute_value), m_effect(effect) {}
+PowerUp::PowerUp(PowerUpType type, std::string effect)
+    : m_type(type)
+    , m_effect(effect) 
+{}
 
-game::PowerUp::PowerUp(const PowerUp& other) : m_type(other.m_type), m_attribute_value(other.m_attribute_value), m_effect(other.m_effect), m_duration(other.m_duration) {}
+PowerUp::PowerUp(const PowerUp& other) 
+    : m_type(other.m_type)
+    , m_effect(other.m_effect)
+{}
 
-game::PowerUp::PowerUp(PowerUp&& other) noexcept : m_type(std::move(other.m_type)), m_attribute_value(std::move(other.m_attribute_value)),
-m_effect(std::move(other.m_effect)), m_duration(std::move(other.m_duration)) {}
-
-PowerUpType game::PowerUp::GetType() const noexcept 
+PowerUpType PowerUp::GetType() const noexcept 
 { 
     return m_type; 
 }
 
-int game::PowerUp::GetAttributeValue() const noexcept
-{
-    return m_attribute_value;
-}
-
-const std::string game::PowerUp::GetEffect() const noexcept
+const std::string PowerUp::GetEffect() const noexcept
 {
     return m_effect;
 }
 
-void game::PowerUp::SetDuration(int seconds)
+std::string PowerUp::PowerUpTypeToString(PowerUpType type) const
 {
-    m_duration = seconds;
-}
-
-int game::PowerUp::GetDuration() const noexcept
-{
-    return m_duration;
-}
-
-std::string game::PowerUp::ToString() const
-{
-    std::string description = "PowerUp: " + PowerUpTypeToString(m_type) + "\n";
-    description += "Effect: " + std::string(m_effect) + "\n";
-    description += "Attribute Value: " + std::to_string(m_attribute_value) + "\n";
-    if (m_duration > 0) {
-        description += "Duration: " + std::to_string(m_duration) + " seconds\n";
-    }
-    return description;
-}
-
-
-std::string game::PowerUp::PowerUpTypeToString(PowerUpType type) const
-{
-    switch (type) {
+    switch (type) 
+    {
     case PowerUpType::GhostBullet: return "Ghost Bullet";
     case PowerUpType::MiniBombBullet: return "Mini Bomb Bullet";
     case PowerUpType::Invisibility: return "Invisibility";
@@ -58,35 +34,33 @@ std::string game::PowerUp::PowerUpTypeToString(PowerUpType type) const
     }
 }
 
-
-
-PowerUp* game::PowerUp::CreateGhostBullet()
+PowerUp* PowerUp::CreateGhostBullet()
 {
-    return new PowerUp(PowerUpType::GhostBullet, 0, "Passes through walls.");
+    return new PowerUp(PowerUpType::GhostBullet, "Makes bullets pass through walls.");
 }
 
-PowerUp* game::PowerUp::CreateMiniBombBullet()
+PowerUp* PowerUp::CreateMiniBombBullet()
 {
-    return new PowerUp(PowerUpType::MiniBombBullet, 5, "Explodes on a small radius impact");
+    return new PowerUp(PowerUpType::MiniBombBullet, "Makes bullets explode in a small radius on impact");
 }
 
-PowerUp* game::PowerUp::CreateInvisibility()
+PowerUp* PowerUp::CreateInvisibility()
 {
-    return new PowerUp(PowerUpType::Invisibility, 10, "Player becomes invisible for 10 seconds");
+    return new PowerUp(PowerUpType::Invisibility, "Player becomes invisible for 10 seconds");
 }
 
-PowerUp* game::PowerUp::CreateTracingBullet()
+PowerUp* PowerUp::CreateTracingBullet()
 {
-    return new PowerUp(PowerUpType::TracingBullet, 1, "Avoids obstacles.");
+    return new PowerUp(PowerUpType::TracingBullet, "Avoids obstacles to seek the nearest target.");
 }
 
-PowerUp* game::PowerUp::CreateBeerEffect()
+PowerUp* PowerUp::CreateBeerEffect()
 {
-    return new PowerUp(PowerUpType::BeerEffect, 3, "Inverts controls.");
+    return new PowerUp(PowerUpType::BeerEffect, "Inverts controls for all other players.");
 }
 
 
-void game::PowerUp::Activate(Entity& target) {
+void PowerUp::Activate(Entity& target) {
     switch (m_type) {
     case PowerUpType::GhostBullet:
         // interfata + coliziuni
@@ -114,7 +88,7 @@ void game::PowerUp::Activate(Entity& target) {
     }
 }
 
-void game::PowerUp::Deactivate(Entity& target) {
+void PowerUp::Deactivate(Entity& target) {
     switch (m_type) {
     case PowerUpType::Invisibility:
         //target.SetInvisible(false);

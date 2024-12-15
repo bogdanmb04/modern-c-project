@@ -24,8 +24,8 @@ namespace game
 
 		enum class Camp : uint8_t
 		{
-			WARRIORS,
-			MONSTERS
+			Police,
+			Zombies
 		};
 
 		std::string CampToString(Camp camp);

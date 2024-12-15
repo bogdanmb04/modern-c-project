@@ -147,6 +147,7 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
+    <ClCompile Include="movable.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="powerup.cpp" />
     <ClCompile Include="routing.cpp" />

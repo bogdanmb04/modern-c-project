@@ -10,10 +10,13 @@
 #include "Routing.h"
 #include "Database.h"
 #include "../Logging/logging.h"
+#include "Game.h"
 
 int main() {
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
+
+    game::Game::kGameCounter = 0;
 
     std::ofstream of("syslog.log", std::ios::app);
     Logger logger(of);
@@ -27,9 +30,13 @@ int main() {
     logger.Log(myMap.ToString(), Logger::Level::Info);
 
     std::shared_ptr<game::Player> player = std::make_shared<game::Player>();
+
     myMap.InsertPlayer(player);
 
     myMap.MovePlayer(player->GetID(), Direction::DOWN);
+    player->SetDirection(Direction::RIGHT);
+    myMap.ShootBullet(player->GetID());;
+
     logger.Log("Player moved to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
     logger.Log(myMap.ToString(), Logger::Level::Info);
 

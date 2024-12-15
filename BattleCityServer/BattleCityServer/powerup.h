@@ -3,23 +3,26 @@
 #include "Entity.h"
 #include <string>
 #include <memory>
+#include <chrono>
+#include <cstdint>
 
 namespace game {
 
-    enum class PowerUpType {
+    enum class PowerUpType : uint8_t
+    {
         GhostBullet,
         MiniBombBullet,
         Invisibility,
         TracingBullet,
-        BeerEffect
+        BeerEffect,
+        None
     };
 
-    class PowerUp : public Entity {
+    class PowerUp : public Entity 
+    {
     public:
-        PowerUp(PowerUpType type, int attribute_value, std::string effect);
+        PowerUp(PowerUpType type, std::string effect);
         PowerUp(const PowerUp& other);
-        PowerUp(PowerUp&& other) noexcept;
-
 
         PowerUpType GetType() const noexcept;
         int GetAttributeValue() const noexcept;
@@ -39,11 +42,12 @@ namespace game {
         void Activate(Entity& target);
         void Deactivate(Entity& target);
 
+    public:
+        static constexpr std::chrono::seconds kDuration{ 10 };
+
     private:
-        PowerUpType m_type;
-        int m_attribute_value;
+        PowerUpType m_type : 3;
         std::string m_effect;
-        int m_duration;
     };
 
 }

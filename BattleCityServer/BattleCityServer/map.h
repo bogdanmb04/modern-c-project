@@ -6,10 +6,12 @@
 #include <array>
 #include "Tile.h"
 #include "Entity.h"
+#include "Bullet.h"
 #include <memory>
 #include "Player.h"
 #include <algorithm>
 #include <chrono>
+#include <ranges>
 
 using std::uint32_t;
 
@@ -41,6 +43,8 @@ namespace game
 		void PlacePlayer();
 		void MovePlayer(uint32_t playerID, Direction direction);
 		void InsertPlayer(const std::shared_ptr<Player>& player);
+
+		void ShootBullet(uint32_t playerID);
 
 	private:
 		size_t m_width;

@@ -8,15 +8,12 @@ class Entity
 {
 public:
     virtual ~Entity() = default;
-    Entity& operator = (Entity&&) noexcept = default;
-    Entity(Entity&&) noexcept = default;
     Entity() = default;
 public:
     void SetPosition(const std::pair<size_t, size_t>& position);
     const std::pair<size_t, size_t>& GetPosition() const;
-    
 protected:
-    std::pair<size_t, size_t> m_position;
+    std::pair<size_t, size_t> m_position; //x, y
 
     /*virtual void SetInvisible(bool invisible) = 0;
     virtual void InvertControls(bool invert) = 0;
