@@ -117,12 +117,19 @@
   <ItemGroup>
     <QtMoc Include="shop.h" />
     <QtMoc Include="battlecitystart.h" />
+    <QtMoc Include="circle.h" />
     <ClInclude Include="httpmanager.h" />
     <QtMoc Include="registerwindow.h" />
     <QtMoc Include="loginwindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="battlecitystart.cpp" />
+    <ClCompile Include="circle.cpp">
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(Filename).moc</QtMocFileName>
+      <DynamicSource Condition="'$(Configuration)|$(Platform)'=='Release|x64'">input</DynamicSource>
+      <QtMocFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(Filename).moc</QtMocFileName>
+    </ClCompile>
     <ClCompile Include="httpmanager.cpp" />
     <ClCompile Include="loginwindow.cpp" />
     <ClCompile Include="main.cpp" />

@@ -1,18 +1,20 @@
 <RCC>
     <qresource prefix="/BattleCity">
-        <file>images/Beer.aseprite</file>
-        <file>images/BombBullet_Type1.aseprite</file>
-        <file>images/BreakableWall_Type1.aseprite</file>
-        <file>images/Bullet.aseprite</file>
+        <file>images/Beer.png</file>
+        <file>images/Bomb.png</file>
+        <file>images/BombBullet_Type1.png</file>
+        <file>images/BreakableWall_Type1.png</file>
+        <file>images/Bullet.png</file>
         <file>images/Coins.png</file>
-        <file>images/GhostBullet_Type1.aseprite</file>
-        <file>images/Gun.aseprite</file>
-        <file>images/InvisibilityPotion_Type1.aseprite</file>
-        <file>images/SpecialMoney.aseprite</file>
+        <file>images/GhostBullet_Type1.png</file>
+        <file>images/Gun.png</file>
+        <file>images/InvisibilityPotion_Type1.png</file>
+        <file>images/PoiliceOfficer.png</file>
+        <file>images/PoliceOfficer.png</file>
         <file>images/SpecialMoney.png</file>
-        <file>images/Sprite-0001.aseprite</file>
-        <file>images/UnbreakableWall_Type1.aseprite</file>
-        <file>images/Zombie_Type1.aseprite</file>
-        <file>images/ZombieBall.aseprite</file>
+        <file>images/UnbreakableWall_Type1.png</file>
+        <file>images/Zombie_Type1.png</file>
+        <file>images/ZombieBall.png</file>
+        <file>images/UpgradeIcon.png</file>
     </qresource>
 </RCC>

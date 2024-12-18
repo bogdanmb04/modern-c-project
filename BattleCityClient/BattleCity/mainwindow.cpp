@@ -38,20 +38,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadMapFromServer()
 {
-    // Se trimite cererea GET cãtre server
+
     httpManager.sendGetRequest("http://localhost:18080/map", [this](const cpr::Response& response) {
         if (response.status_code == 200) {
             QJsonDocument doc = QJsonDocument::fromJson(response.text.c_str());
 
-            // Verificãm dacã documentul JSON este valid
             if (doc.isNull() || !doc.isObject()) {
-                QMessageBox::warning(this, "Eroare", "Datele hartii sunt invalide.");
+                QMessageBox::warning(this, "Eroare", "Datele hartii sunt invalide."); //nush cum sa dau datele(am modificat map.txt)
                 return;
             }
 
             QJsonObject jsonResponse = doc.object();
 
-            // Verificãm dacã JSON-ul con?ine câmpurile necesare
+           
             if (!jsonResponse.contains("data") || !jsonResponse.contains("width") || !jsonResponse.contains("height")) {
                 QMessageBox::warning(this, "Eroare", "Datele hartii sunt incomplete.");
                 return;
@@ -69,7 +68,7 @@ void MainWindow::loadMapFromServer()
             int rowIndex = 0;
             QVector<int> currentRow;
 
-            // Parcurgem datele
+          
             for (const QJsonValue& value : dataArray) {
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
@@ -78,7 +77,7 @@ void MainWindow::loadMapFromServer()
                     }
                 }
 
-                // Dacã ajungem la sfâr?itul unui rând, adãugãm rândul în mapData
+                
                 if (currentRow.size() == width) {
                     mapData.append(currentRow);
                     currentRow.clear();
@@ -86,21 +85,20 @@ void MainWindow::loadMapFromServer()
                 rowIndex++;
             }
 
-            // Verificãm dacã dimensiunile sunt corecte
             if (mapData.isEmpty() || mapData.size() != height) {
                 QMessageBox::warning(this, "Eroare", "Harta are dimensiuni invalide.");
                 mapData.clear();
                 return;
             }
 
-            // Asigurãm cã toate liniile au aceea?i lungime
+          
             for (auto& row : mapData) {
                 while (row.size() < width) {
-                    row.append(0);  // Adãugãm 0 pentru a completa rândul
+                    row.append(0); 
                 }
             }
 
-            // Verificãm dacã harta este completã
+           
             qDebug() << "Map Data Size: " << mapData.size() << "x" << (mapData.isEmpty() ? 0 : mapData[0].size());
             initializeMap();
         }
@@ -112,7 +110,7 @@ void MainWindow::loadMapFromServer()
 
 void MainWindow::initializeMap()
 {
-    // ?tergem orice widget existent pe gridLayout
+   
     while (QLayoutItem* item = gridLayout->takeAt(0)) {
         delete item->widget();
         delete item;
@@ -127,7 +125,6 @@ void MainWindow::initializeMap()
     int cellHeight = this->height() / mapData.size();
     int cellSize = qMin(cellWidth, cellHeight);
 
-    // Parcurgem harta pentru a crea celulele
     for (int row = 0; row < mapData.size(); ++row) {
         for (int col = 0; col < mapData[row].size(); ++col) {
             ClickableLabel* cell = new ClickableLabel(this);
@@ -150,7 +147,7 @@ void MainWindow::initializeMap()
                 break;
             }
 
-            // Stil special pentru colturile bazei
+            
             if ((row == 1 && col == 1) || (row == 1 && col == mapData[row].size() - 2) ||
                 (row == mapData.size() - 2 && col == 1) || (row == mapData.size() - 2 && col == mapData[row].size() - 2)) {
                 style = "background-color: white; border-radius: 5px; border: 0px; margin: 0px; padding: 0px;";
@@ -158,14 +155,14 @@ void MainWindow::initializeMap()
 
             cell->setStyleSheet(style);
 
-            // Conectãm click-ul celulei
+    
             connect(cell, &ClickableLabel::clicked, this, &MainWindow::onCellClicked);
 
             gridLayout->addWidget(cell, row, col);
         }
     }
 
-    // For?ãm actualizarea layout-ului
+
     gridLayout->update();
     this->update();
 }
@@ -173,7 +170,7 @@ void MainWindow::initializeMap()
 void MainWindow::onCellClicked(int row, int col)
 {
     if (mapData[row][col] == 1) {
-        // Zid destructibil
+       
         mapData[row][col] = 0;
 
         QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
@@ -184,7 +181,7 @@ void MainWindow::onCellClicked(int row, int col)
         }
     }
     else if (mapData[row][col] == 2) {
-        // Zid indestructibil
+      
         QMessageBox::information(this, "Info", "Acest perete este indestructibil!");
     }
 }
