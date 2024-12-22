@@ -1,4 +1,5 @@
 #include "battlecitystart.h"
+#include "shop.h"
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -10,9 +11,6 @@ BattleCity::BattleCity(QWidget* parent)
     : QWidget(parent) {
     setupUI();
     setWindowTitle("BattleCity");
-
-
-
 }
 
 BattleCity::~BattleCity() {
@@ -64,5 +62,8 @@ void BattleCity::setupUI() {
 
     mainLayout->addLayout(buttonLayout);
 
+   
 }
+
+
 

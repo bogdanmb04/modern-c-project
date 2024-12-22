@@ -1,7 +1,9 @@
 #include "mainwindow.h"
+#include "battlecitystart.h"
 #include "ui_mainwindow.h"
-#include <QMouseEvent>
 #include "ClickableLabel.h"
+#include <QPushButton>
+#include <QVBoxLayout>
 #include <QMessageBox>
 #include <QFile>
 #include <QTextStream>
@@ -27,6 +29,20 @@ MainWindow::MainWindow(QWidget* parent)
     centralWidget->setLayout(gridLayout);
     setCentralWidget(centralWidget);
 
+    QPushButton* backButton = new QPushButton("Back", this);
+    backButton->setStyleSheet("font-size: 20px; padding: 10px;");
+    backButton->setFixedSize(100, 50);
+    QVBoxLayout* backLayout = new QVBoxLayout();
+    backLayout->addWidget(backButton);
+    backLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    QPixmap backPixmap(":/BattleCity/images/Back.png");
+    backButton->setIcon(QIcon(backPixmap));
+    backButton->setIconSize(QSize(30, 30));
+    backButton->setText("Back");
+    centralWidget->setLayout(backLayout);
+
+    connect(backButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);
+
     loadMapFromServer();
     initializeMap();
 }
@@ -36,21 +52,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::BackButtonClicked()
+{
+  
+    emit backToBattleCity();
+    this->close(); // Close the current window
+}
+
 void MainWindow::loadMapFromServer()
 {
-
     httpManager.sendGetRequest("http://localhost:18080/map", [this](const cpr::Response& response) {
         if (response.status_code == 200) {
             QJsonDocument doc = QJsonDocument::fromJson(response.text.c_str());
 
             if (doc.isNull() || !doc.isObject()) {
-                QMessageBox::warning(this, "Eroare", "Datele hartii sunt invalide."); //nush cum sa dau datele(am modificat map.txt)
+                QMessageBox::warning(this, "Eroare", "Datele hartii sunt invalide.");
                 return;
             }
 
             QJsonObject jsonResponse = doc.object();
 
-           
             if (!jsonResponse.contains("data") || !jsonResponse.contains("width") || !jsonResponse.contains("height")) {
                 QMessageBox::warning(this, "Eroare", "Datele hartii sunt incomplete.");
                 return;
@@ -68,7 +89,6 @@ void MainWindow::loadMapFromServer()
             int rowIndex = 0;
             QVector<int> currentRow;
 
-          
             for (const QJsonValue& value : dataArray) {
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
@@ -77,7 +97,6 @@ void MainWindow::loadMapFromServer()
                     }
                 }
 
-                
                 if (currentRow.size() == width) {
                     mapData.append(currentRow);
                     currentRow.clear();
@@ -91,14 +110,12 @@ void MainWindow::loadMapFromServer()
                 return;
             }
 
-          
             for (auto& row : mapData) {
                 while (row.size() < width) {
-                    row.append(0); 
+                    row.append(0);
                 }
             }
 
-           
             qDebug() << "Map Data Size: " << mapData.size() << "x" << (mapData.isEmpty() ? 0 : mapData[0].size());
             initializeMap();
         }
@@ -110,7 +127,6 @@ void MainWindow::loadMapFromServer()
 
 void MainWindow::initializeMap()
 {
-   
     while (QLayoutItem* item = gridLayout->takeAt(0)) {
         delete item->widget();
         delete item;
@@ -147,21 +163,17 @@ void MainWindow::initializeMap()
                 break;
             }
 
-            
             if ((row == 1 && col == 1) || (row == 1 && col == mapData[row].size() - 2) ||
                 (row == mapData.size() - 2 && col == 1) || (row == mapData.size() - 2 && col == mapData[row].size() - 2)) {
                 style = "background-color: white; border-radius: 5px; border: 0px; margin: 0px; padding: 0px;";
             }
 
             cell->setStyleSheet(style);
-
-    
             connect(cell, &ClickableLabel::clicked, this, &MainWindow::onCellClicked);
 
             gridLayout->addWidget(cell, row, col);
         }
     }
-
 
     gridLayout->update();
     this->update();
@@ -170,7 +182,6 @@ void MainWindow::initializeMap()
 void MainWindow::onCellClicked(int row, int col)
 {
     if (mapData[row][col] == 1) {
-       
         mapData[row][col] = 0;
 
         QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
@@ -181,7 +192,6 @@ void MainWindow::onCellClicked(int row, int col)
         }
     }
     else if (mapData[row][col] == 2) {
-      
-        QMessageBox::information(this, "Info", "Acest perete este indestructibil!");
+
     }
 }

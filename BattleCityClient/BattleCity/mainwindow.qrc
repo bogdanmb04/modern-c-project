@@ -16,5 +16,6 @@
         <file>images/Zombie_Type1.png</file>
         <file>images/ZombieBall.png</file>
         <file>images/UpgradeIcon.png</file>
+        <file>images/Back.png</file>
     </qresource>
 </RCC>

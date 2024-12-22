@@ -15,17 +15,19 @@ int main(int argc, char* argv[])
     BattleCity battleCityWindow;
     Shop shop;
 
+    QObject::connect(&mainWindow, &MainWindow::backToBattleCity, [&]() {
+        mainWindow.close();
+        battleCityWindow.showMaximized();
+        });
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&]() {
         loginWindow.close();
         battleCityWindow.showMaximized();
         });
 
-
     QObject::connect(&registerWindow, &RegisterWindow::registerCredentials, [&]() {
         registerWindow.close();
         });
-
 
     QObject::connect(&loginWindow, &LoginWindow::goToRegister, [&]() {
         loginWindow.close();
@@ -36,20 +38,21 @@ int main(int argc, char* argv[])
         registerWindow.close();
         loginWindow.show();
         });
-    QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
-        loginWindow.close();
-        battleCityWindow.showMaximized();
-        });
+
     QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
         battleCityWindow.close();
         mainWindow.showMaximized();
         });
+
     QObject::connect(&battleCityWindow, &BattleCity::button2Clicked, [&]() {
         battleCityWindow.close();
         shop.showMaximized();
         });
 
-
+    QObject::connect(&shop, &Shop::backToBattleCity, [&]() {
+        shop.close();
+        battleCityWindow.showMaximized();
+        });
 
     loginWindow.show();
 

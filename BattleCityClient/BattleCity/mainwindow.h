@@ -3,14 +3,15 @@
 
 #include <QMainWindow>
 #include <QGridLayout>
-#include <QLabel>
-#include <QMouseEvent>
 #include <QVector>
-#include "HttpManager.h"
+#include <QLabel>
+#include "httpmanager.h"
 
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
+class ClickableLabel;
+
+namespace Ui {
+    class MainWindow;
+}
 
 class MainWindow : public QMainWindow
 {
@@ -19,19 +20,21 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
-
-    void initializeMap();
-    void loadMapFromServer();
-    
 private slots:
     void onCellClicked(int row, int col);
-   // void resizeEvent(QResizeEvent* event) override;
+signals:
+    void backToBattleCity();
 
 private:
+    void loadMapFromServer();
+    void initializeMap();
+    void BackButtonClicked();
+  
     Ui::MainWindow* ui;
     QGridLayout* gridLayout;
     QVector<QVector<int>> mapData;
     HttpManager httpManager;
+
 };
 
 #endif // MAINWINDOW_H

@@ -41,12 +41,16 @@ RegisterWindow::RegisterWindow(QWidget* parent)
     registerButton = new QPushButton("Register", this);
     layout->addWidget(registerButton);
 
+    backToLoginButton = new QPushButton("Back to Login", this);
+    layout->addWidget(backToLoginButton);
+
     errorLabel = new QLabel(this);
     errorLabel->setStyleSheet("color: red;");
     errorLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(errorLabel);
 
     connect(registerButton, &QPushButton::clicked, this, &RegisterWindow::handleRegister);
+    connect(backToLoginButton, &QPushButton::clicked, this, &RegisterWindow::handleBackToLogin);
 
     setLayout(layout);
     setWindowTitle("Register - BattleCity");
@@ -113,4 +117,11 @@ void RegisterWindow::resetFields()
     passwordField->clear();
     verifyPasswordField->clear();
     errorLabel->clear();
+}
+
+
+void RegisterWindow::handleBackToLogin()
+{
+    emit goToLogin();
+    this->close(); 
 }

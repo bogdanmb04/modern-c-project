@@ -1,5 +1,7 @@
-﻿#include "shop.h"
+﻿
+#include "shop.h"
 #include "circle.h"
+#include "battlecitystart.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -7,8 +9,13 @@
 #include <QSpacerItem>
 #include <QPixmap>
 #include <QGroupBox>
+#include <QDebug>
+#include <QTimer>
 
 Shop::Shop(QWidget* parent) : QWidget(parent), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
+    priceButton1 = 25;
+    priceButton2 = 20;
+
     setupUI();
 }
 
@@ -18,18 +25,34 @@ void Shop::setupUI() {
     setWindowTitle("Shop");
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(0, 0, 0, 0);
-    mainLayout->setSpacing(10);
 
-    QSpacerItem* spacerAboveTitle = new QSpacerItem(60, 60, QSizePolicy::Minimum, QSizePolicy::Fixed);
-    mainLayout->addSpacerItem(spacerAboveTitle);
+    QPushButton* backButton = new QPushButton("Back", this);
+    backButton->setStyleSheet("font-size: 20px; padding: 10px;");
+    backButton->setFixedSize(100, 50);
+
+    QPixmap backPixmap(":/BattleCity/images/Back.png");
+    backButton->setIcon(QIcon(backPixmap));
+    backButton->setIconSize(QSize(30, 30));
+    backButton->setText("Back");
+
+    QHBoxLayout* backButtonLayout = new QHBoxLayout();
+    backButtonLayout->addWidget(backButton);
+    backButtonLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+    mainLayout->addLayout(backButtonLayout);
+
+    connect(backButton, &QPushButton::clicked, this, &Shop::BackButtonClicked);
 
     QLabel* titleLabel = new QLabel("Shop", this);
     titleLabel->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     titleLabel->setStyleSheet("font-size: 50px; font-weight: bold; margin-bottom: 20px;");
     mainLayout->addWidget(titleLabel);
 
-   
+    insufficientFundsLabel = new QLabel("", this);
+    insufficientFundsLabel->setAlignment(Qt::AlignCenter);
+    insufficientFundsLabel->setStyleSheet("font-size: 20px; color: red;");
+    mainLayout->addWidget(insufficientFundsLabel);
+
     QGroupBox* moneyBox = new QGroupBox(this);
     moneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
     moneyBox->setFixedWidth(170);
@@ -57,7 +80,6 @@ void Shop::setupUI() {
 
     moneyBox->setLayout(moneyLayout);
 
-  
     QGroupBox* specialMoneyBox = new QGroupBox(this);
     specialMoneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
     specialMoneyBox->setFixedWidth(170);
@@ -92,131 +114,131 @@ void Shop::setupUI() {
 
     mainLayout->addLayout(currencyLayout);
 
-   
-    QHBoxLayout* buttonsLayout = new QHBoxLayout();
+    QVBoxLayout* buttonsLayout = new QVBoxLayout();
 
-   
-    QVBoxLayout* leftColumn = new QVBoxLayout();
-    QGroupBox* button1Group = new QGroupBox(this);
-    button1Group->setStyleSheet("QGroupBox {border: none; padding: 0;}");
-
-   
-    QVBoxLayout* button1GroupLayout = new QVBoxLayout();
-
-  
     QPushButton* button1 = new QPushButton("Wait Time", this);
-    button1->setStyleSheet(
-        "font-size: 25px;"
-        "text-align: left;"
-        "padding-left: 10px;"
-    );
+    button1->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
     button1->setFixedSize(700, 150);
 
-  
+    QPixmap imagePixmap(":/BattleCity/images/UpgradeIcon.png");
     QWidget* circlesContainer1 = new QWidget(button1);
-    circlesContainer1->setGeometry(QRect(0, 0, button1->width(), button1->height()));  
+    circlesContainer1->setGeometry(QRect(0, 0, button1->width(), button1->height()));
 
-    QHBoxLayout* circlesLayout = new QHBoxLayout(circlesContainer1); 
-    circlesLayout->setAlignment(Qt::AlignBottom | Qt::AlignRight);  
+    QHBoxLayout* circlesLayout = new QHBoxLayout(circlesContainer1);
+    circlesLayout->setAlignment(Qt::AlignBottom | Qt::AlignRight);
     circlesLayout->setSpacing(10);
 
-    QLabel* imageLabel1 = new QLabel(button1); 
-    QPixmap imagePixmap(":/BattleCity/images/UpgradeIcon.png"); 
-    imagePixmap = imagePixmap.scaled(40, 40, Qt::KeepAspectRatio); 
+    QLabel* imageLabel1 = new QLabel(button1);
+    imagePixmap = imagePixmap.scaled(40, 40, Qt::KeepAspectRatio);
     imageLabel1->setPixmap(imagePixmap);
     imageLabel1->setAlignment(Qt::AlignCenter);
+    imageLabel1->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    circlesLayout->addWidget(imageLabel1);
 
-    circlesLayout->addWidget(imageLabel1); 
-    Circle* circle1 = new Circle(this);
-    circle1->setFixedSize(20, 20);
-    circlesLayout->addWidget(circle1);
-     
-   
-    for (int i = 1; i < 5; ++i) {
+    for (int i = 0; i < 5; ++i) {
         Circle* circle = new Circle(this);
         button1Circles.push_back(circle);
         circle->setFixedSize(20, 20);
         circlesLayout->addWidget(circle);
     }
 
-    button1GroupLayout->addWidget(button1);
-    button1Group->setLayout(button1GroupLayout);
-    leftColumn->addWidget(button1Group);
+    QLabel* priceLabel1 = new QLabel(QString::number(priceButton1), this);
+    priceLabel1->setStyleSheet("font-size: 16px; font-weight: bold;");
+    priceLabel1->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    priceLabel1->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
-   
-    QVBoxLayout* rightColumn = new QVBoxLayout();
-    QGroupBox* button2Group = new QGroupBox(this);
-    button2Group->setStyleSheet("QGroupBox {border: none; padding: 0;}");
+    QHBoxLayout* button1Layout = new QHBoxLayout(button1);
+    button1Layout->setContentsMargins(0, 0, 0, 0);
+    button1Layout->addWidget(priceLabel1, 0, Qt::AlignTop | Qt::AlignRight);
 
-    QVBoxLayout* button2GroupLayout = new QVBoxLayout();
+    buttonsLayout->addWidget(button1);
 
     QPushButton* button2 = new QPushButton("Bullet Speed", this);
-    button2->setStyleSheet(
-        "font-size: 25px;"
-        "text-align: left;"
-        "padding-left: 10px;"
-    );
+    button2->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
     button2->setFixedSize(700, 150);
 
-   
+    QPixmap imagePixmap2(":/BattleCity/images/UpgradeIcon.png");
     QWidget* circlesContainer2 = new QWidget(button2);
-    circlesContainer2->setGeometry(QRect(0, 0, button2->width(), button2->height())); 
+    circlesContainer2->setGeometry(QRect(0, 0, button2->width(), button2->height()));
 
-    QHBoxLayout* circlesLayout2 = new QHBoxLayout(circlesContainer2); 
-    circlesLayout2->setAlignment(Qt::AlignBottom | Qt::AlignRight); 
+    QHBoxLayout* circlesLayout2 = new QHBoxLayout(circlesContainer2);
+    circlesLayout2->setAlignment(Qt::AlignBottom | Qt::AlignRight);
     circlesLayout2->setSpacing(7);
 
-    
     QLabel* imageLabel2 = new QLabel(button2);
-    QPixmap imagePixmap2(":/BattleCity/images/UpgradeIcon.png"); 
-    imagePixmap2 = imagePixmap2.scaled(30, 30); 
+    imagePixmap2 = imagePixmap2.scaled(40, 40, Qt::KeepAspectRatio);
     imageLabel2->setPixmap(imagePixmap2);
     imageLabel2->setAlignment(Qt::AlignCenter);
+    imageLabel2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    circlesLayout2->addWidget(imageLabel2);
 
-     circlesLayout2->addWidget(imageLabel2);
-    Circle* circle2 = new Circle(this);
-    circle2->setFixedSize(20, 20);
-    circlesLayout2->addWidget(circle2);
-    
-
-  
-    for (int i = 1; i < 5; ++i) {
+    for (int i = 0; i < 5; ++i) {
         Circle* circle = new Circle(this);
         button2Circles.push_back(circle);
         circle->setFixedSize(20, 20);
         circlesLayout2->addWidget(circle);
     }
 
-    button2GroupLayout->addWidget(button2);
-    button2Group->setLayout(button2GroupLayout);
-    rightColumn->addWidget(button2Group);
+    QLabel* priceLabel2 = new QLabel(QString::number(priceButton2), this);
+    priceLabel2->setStyleSheet("font-size: 16px; font-weight: bold; padding-left: 10px;");
+    priceLabel2->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    priceLabel2->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
-    buttonsLayout->addLayout(leftColumn);
-    buttonsLayout->addLayout(rightColumn);
+    QHBoxLayout* button2Layout = new QHBoxLayout(button2);
+    button2Layout->setContentsMargins(0, 0, 0, 0);
+    button2Layout->addWidget(priceLabel2, 0, Qt::AlignTop | Qt::AlignRight);
 
+    buttonsLayout->addWidget(button2);
+
+    buttonsLayout->setAlignment(Qt::AlignCenter);
     mainLayout->addLayout(buttonsLayout);
 
     QSpacerItem* spacerBelowButtons = new QSpacerItem(60, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
     mainLayout->addSpacerItem(spacerBelowButtons);
-
-    connect(button1, &QPushButton::clicked, this, &Shop::button1Clicked);
-    connect(button2, &QPushButton::clicked, this, &Shop::button2Clicked);
 }
 
 void Shop::button1Clicked() {
-    if (button1CircleCount < button1Circles.size()) {
-        button1Circles[button1CircleCount]->setFilled(true);
-        button1CircleCount++;
+    if (money >= priceButton1) {
+        if (button1CircleCount < button1Circles.size()) {
+            button1Circles[button1CircleCount]->setFilled(true);
+            button1CircleCount++;
+        }
+        money -= priceButton1;
+        moneyLabel->setText(QString::number(money));
+        insufficientFundsLabel->clear();
     }
-    money -= 0; 
-    moneyLabel->setText(QString::number(money));
+    else {
+        insufficientFundsLabel->setText("Insufficient funds");
+        QTimer::singleShot(2000, this, [this]() {
+            insufficientFundsLabel->clear();
+            });
+    }
 }
 
 void Shop::button2Clicked() {
-    if (button2CircleCount < button2Circles.size()) {
-        button2Circles[button2CircleCount]->setFilled(true);
-        button2CircleCount++;
+    if (money >= priceButton2) {
+        if (button2CircleCount < button2Circles.size()) {
+            button2Circles[button2CircleCount]->setFilled(true);
+            button2CircleCount++;
+        }
+        money -= priceButton2;
+        moneyLabel->setText(QString::number(money));
+        insufficientFundsLabel->clear();
     }
-    specialMoney -= 0; 
-    specialMoneyLabel->setText(QString::number(specialMoney));
+    else {
+        insufficientFundsLabel->setText("Insufficient funds");
+        QTimer::singleShot(2000, this, [this]() {
+            insufficientFundsLabel->clear();
+            });
+    }
+}
+void Shop::onBackButtonClicked()
+{
+    emit backToBattleCity();
+    this->close();
+}
+
+void Shop::BackButtonClicked() {
+    emit backToBattleCity();
+    this->close();
 }
