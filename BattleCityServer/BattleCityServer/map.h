@@ -32,15 +32,17 @@ namespace game
 		Map();
 		const std::vector<Square>& GetSquares() const;
 		std::string ToString() const;
+		std::string GetTileLayout() const;
+		std::string GetEntityLayout() const;
 
 		const Square& operator [] (const Position& pos) const;
 		Square& operator [] (const Position& pos);
 
 		size_t GetWidth() const;
 		size_t GetHeight() const;
-		Tile GetTile(size_t x, size_t y) const;
+		Tile GetTile(const Position& pos) const;
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
-		void PlacePlayer();
+		void PlacePlayers();
 		void MovePlayer(uint32_t playerID, Direction direction);
 		void InsertPlayer(const std::shared_ptr<Player>& player);
 

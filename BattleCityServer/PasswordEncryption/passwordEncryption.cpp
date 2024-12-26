@@ -22,7 +22,7 @@ std::string generateSalt(size_t length) {
 /**
  * Simple substitution-based encryption algorithm.
  */
-std::string simpleEncrypt(const std::string& input, const std::string& salt) {
+static std::string simpleEncrypt(const std::string& input, const std::string& salt) {
     std::string encrypted;
     for (size_t i = 0; i < input.size(); ++i) {
         char encryptedChar = input[i] + salt[i % salt.size()];

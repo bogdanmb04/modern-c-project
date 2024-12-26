@@ -25,17 +25,19 @@ int main() {
     game::Map myMap;
     std::vector<Bomb> bombs;
     myMap.PlaceBombsOnWalls(bombs);
-    myMap.PlacePlayer();
     logger.Log("Map initialized with bombs and player placed.", Logger::Level::Info);
     logger.Log(myMap.ToString(), Logger::Level::Info);
 
-    std::shared_ptr<game::Player> player = std::make_shared<game::Player>();
+    auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
+
+    std::shared_ptr<game::Player> player = std::make_shared<game::Player>(bogdan);
 
     myMap.InsertPlayer(player);
-
-    myMap.MovePlayer(player->GetID(), Direction::DOWN);
+    myMap.PlacePlayers();
     player->SetDirection(Direction::RIGHT);
-    myMap.ShootBullet(player->GetID());;
+    myMap.ShootBullet(player->GetID());
+
+    std::cout << myMap;
 
     logger.Log("Player moved to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
     logger.Log(myMap.ToString(), Logger::Level::Info);

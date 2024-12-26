@@ -1,3 +1,4 @@
+Already up to date.
 -- From: Fri Oct 25 12:00:00 GTBDT 2024 To: Sun Nov  3 23:59:00 GTBST 2024 --
 BogdanB: 5 commits (295 insertions(+), 16 deletions(-))
 Badin Miruna Cristina: 3 commits (147 insertions(+), 2 deletions(-))
@@ -5,46 +6,59 @@ Flavia0320: 3 commits (171 insertions(+), 19 deletions(-))
 njrrrr: 3 commits (55 insertions(+), 18 deletions(-))
 Bogdan: 1 commits (8 insertions(+), 0 deletions(-))
 Total number of commits: 15
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
 -- From: Sun Nov  3 23:59:00 GTBST 2024 To: Sun Nov 10 23:59:00 GTBST 2024 --
 BogdanB: 6 commits (281 insertions(+), 319 deletions(-))
 Flavia0320: 1 commits (53 insertions(+), 0 deletions(-))
 Badin Miruna Cristina: 2 commits (187 insertions(+), 0 deletions(-))
 njrrrr: 3 commits (53 insertions(+), 0 deletions(-))
 Total number of commits: 12
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
 -- From: Sun Nov 10 23:59:00 GTBST 2024 To: Sun Nov 17 23:59:00 GTBST 2024 --
 BogdanB: 3 commits (87 insertions(+), 129 deletions(-))
 Badin Miruna Cristina: 2 commits (73 insertions(+), 13 deletions(-))
 Flavia0320: 4 commits (258 insertions(+), 185 deletions(-))
 njrrrr: 3 commits (58 insertions(+), 1 deletions(-))
 Total number of commits: 12
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
 -- From: Sun Nov 17 23:59:00 GTBST 2024 To: Sun Nov 24 23:59:00 GTBST 2024 --
 BogdanB: 5 commits (538 insertions(+), 221 deletions(-))
 Badin Miruna Cristina: 2 commits (127 insertions(+), 0 deletions(-))
 Flavia0320: 5 commits (615 insertions(+), 145 deletions(-))
 njrrrr: 1 commits (63 insertions(+), 0 deletions(-))
 Total number of commits: 13
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
 -- From: Sun Nov 24 23:59:00 GTBST 2024 To: Sun Dec  1 23:59:00 GTBST 2024 --
 BogdanB: 7 commits (1105 insertions(+), 583 deletions(-))
 Badin Miruna Cristina: 4 commits (951 insertions(+), 92 deletions(-))
 Flavia0320: 4 commits (322 insertions(+), 292 deletions(-))
 njrrrr: 2 commits (22 insertions(+), 0 deletions(-))
 Total number of commits: 17
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
 -- From: Sun Dec  1 23:59:00 GTBST 2024 To: Sun Dec  8 23:59:00 GTBST 2024 --
-BogdanB: 2 commits (22574 insertions(+), 50 deletions(-))
-Badin Miruna Cristina: 2 commits (147 insertions(+), 35 deletions(-))
-Flavia0320: 3 commits (47357 insertions(+), 70384 deletions(-))
-Total number of commits: 7
-Repository /c/Users/cioco/Downloads/modern-c-project/  NOT ok.
+BogdanB: 5 commits (23517 insertions(+), 129 deletions(-))
+Flavia0320: 4 commits (47385 insertions(+), 70398 deletions(-))
+Badin Miruna Cristina: 3 commits (201 insertions(+), 68 deletions(-))
+njrrrr: 2 commits (25 insertions(+), 1 deletions(-))
+Total number of commits: 14
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
+-- From: Sun Dec  8 23:59:00 GTBST 2024 To: Sun Dec 15 23:59:00 GTBST 2024 --
+BogdanB: 4 commits (331 insertions(+), 192 deletions(-))
+Flavia0320: 3 commits (627 insertions(+), 299 deletions(-))
+Badin Miruna Cristina: 3 commits (408 insertions(+), 143 deletions(-))
+njrrrr: 3 commits (350 insertions(+), 19 deletions(-))
+Total number of commits: 13
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
+-- From: Sun Dec 15 23:59:00 GTBST 2024 To: Tue Dec 31 23:59:00 GTBST 2024 --
+Badin Miruna Cristina: 2 commits (379 insertions(+), 195 deletions(-))
+Total number of commits: 2
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [31m NOT ok[0m.
 -- From: Fri Oct 25 12:00:00 GTBDT 2024 To: Sun Jan 19 23:59:00 GTBST 2025 --
-BogdanB: 28 commits (24880 insertions(+), 1318 deletions(-))
-Badin Miruna Cristina: 15 commits (1632 insertions(+), 142 deletions(-))
-Flavia0320: 20 commits (48776 insertions(+), 71025 deletions(-))
-njrrrr: 12 commits (251 insertions(+), 19 deletions(-))
+BogdanB: 35 commits (26154 insertions(+), 1589 deletions(-))
+Flavia0320: 24 commits (49431 insertions(+), 71338 deletions(-))
+Badin Miruna Cristina: 21 commits (2473 insertions(+), 513 deletions(-))
+njrrrr: 17 commits (626 insertions(+), 39 deletions(-))
 Bogdan: 1 commits (8 insertions(+), 0 deletions(-))
-Total number of commits: 76
-Repository /c/Users/cioco/Downloads/modern-c-project/ ok.
+Total number of commits: 98
+Repository /C/Facultate/Licenta/An_II/Sem_I/MC/modern-c-project [32mok[0m.
+

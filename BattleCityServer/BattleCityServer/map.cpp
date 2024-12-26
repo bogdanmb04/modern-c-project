@@ -72,7 +72,8 @@ const std::vector<Map::Square>& game::Map::GetSquares() const
 	return m_squares;
 }
 
-std::string Map::ToString() const {
+std::string Map::ToString() const 
+{
 	std::string mapString;
 	for (size_t y = 0; y < m_height; ++y)
 	{
@@ -85,23 +86,59 @@ std::string Map::ToString() const {
 			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
 				mapString += "P";
 			}
-			else {
-				switch (tile.GetType()) {
-				case Tile::TileType::Free:
-					mapString += "F";
-					break;
-				case Tile::TileType::DestructibleWall:
-					mapString += "D";
-					break;
-				case Tile::TileType::IndestructibleWall:
-					mapString += "I";
-					break;
-				}
+			else 
+			{
+				mapString += tile.TileTypeToChar();
 			}
 		}
 		mapString += "\n";
 	}
-	return mapString;
+	return std::move(mapString);
+}
+
+std::string game::Map::GetTileLayout() const
+{
+	std::string result{};
+
+	for (const auto& elem : m_squares)
+	{
+		result.push_back(static_cast<int>(elem.first.GetType()));
+		result.push_back(' ');
+	}
+
+	return result;
+}
+
+std::string game::Map::GetEntityLayout() const
+{
+	std::string result{};
+
+	for (const auto& elem : m_squares)
+	{
+		if (auto player = std::dynamic_pointer_cast<Player>(elem.second); player)
+		{
+			result += std::to_string(player->GetID());
+		}
+		else if (auto bomb = std::dynamic_pointer_cast<Bomb>(elem.second); bomb)
+		{
+			result += "B";
+		}
+		else if (auto powerUp = std::dynamic_pointer_cast<PowerUp>(elem.second); powerUp)
+		{
+			result += "P";
+		}
+		else if (auto bullet = std::dynamic_pointer_cast<Bullet>(elem.second); bullet)
+		{
+			result += "b";
+		}
+		else
+		{
+			result += "N";
+		}
+		result.push_back(' ');
+	}
+
+	return result;
 }
 
 size_t Map::GetWidth() const
@@ -114,23 +151,22 @@ size_t Map::GetHeight() const
 	return m_height;
 }
 
-Tile Map::GetTile(size_t x, size_t y) const
+Tile Map::GetTile(const Position& pos) const
 {
-	if (x >= m_width || y >= m_height || x < 0 || y < 0)
+	if (pos.first >= m_width || pos.second >= m_height || pos.first < 0 || pos.second < 0)
 		throw std::out_of_range{ "Attempting to access Tile outside defined bounds!" };
-	return m_squares.at(y * m_width + x).first;
+	return m_squares.at(pos.second * m_width + pos.first).first;
 }
 
 void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 {
-	size_t no_bombs = kNoBombs;
 
 	std::vector<Position> destructibleWalls;
 	for (size_t y = 0; y < m_height; ++y)
 	{
 		for (size_t x = 0; x < m_width; ++x)
 		{
-			const Tile& tile = GetTile(x, y);
+			const Tile& tile = GetTile({x, y});
 			if (tile.GetType() == Tile::TileType::DestructibleWall)
 			{
 				destructibleWalls.emplace_back(x, y);
@@ -142,7 +178,7 @@ void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 	std::mt19937 gen(rd());
 	std::shuffle(destructibleWalls.begin(), destructibleWalls.end(), gen);
 
-	for (size_t i = 0; i < std::min(no_bombs, destructibleWalls.size()); ++i)
+	for (size_t i = 0; i < std::min(kNoBombs, destructibleWalls.size()); ++i)
 	{
 		const auto& [x, y] = destructibleWalls[i];
 		//bombs.emplace_back(std::make_pair(static_cast<uint16_t>(x), y));
@@ -150,7 +186,7 @@ void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 	}
 }
 
-void Map::PlacePlayer()
+void Map::PlacePlayers()
 {
 	std::array<Map::Position, 4> corners =
 	{
@@ -231,9 +267,9 @@ void Map::ShootBullet(uint32_t playerID)
 	auto direction = (*playerPtr)->GetDirection();
 
 	if (auto bulletPos = GetPositionAfterDirection((*playerPtr)->GetPosition(), direction);  
-		bulletPos.first > 0 && bulletPos.second > 0 && bulletPos.first < m_width && bulletPos.second < m_height)
+		bulletPos.first >= 0 && bulletPos.second >= 0 && bulletPos.first < m_width && bulletPos.second < m_height)
 	{
-		if ((*this).GetTile(bulletPos.first, bulletPos.second).GetType() == Tile::TileType::Free)
+		if ((*this).GetTile({bulletPos.first, bulletPos.second}).GetType() == Tile::TileType::Free)
 		{
 			(*this)[{bulletPos.first, bulletPos.second}].second = std::make_shared<Bullet>(direction, (*playerPtr)->GetWeaponWaitTime());
 		}
@@ -250,11 +286,11 @@ std::ostream& game::operator<<(std::ostream& out, const Map& map)
 		{
 			const auto& square = map[{x, y}];
 
-			if (const std::shared_ptr<Entity>& entity = square.second; entity != nullptr && dynamic_cast<Player*>(entity.get()))
+			if (const std::shared_ptr<Entity>& entity = square.second; entity != nullptr && std::dynamic_pointer_cast<Player>(entity))
 			{
 				out << "P" << " ";
 			}
-			else if (dynamic_cast<Bullet*>(entity.get()))
+			else if (std::dynamic_pointer_cast<Bullet>(entity))
 			{
 				out << "B" << " ";
 			}

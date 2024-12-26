@@ -59,28 +59,22 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
     CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
         {
             auto body = crow::json::load(req.body);
-            std::vector<crow::json::wvalue> mapLayout;
-
-            auto layout = map.GetSquares();
+            std::vector<crow::json::wvalue> info;
 
             //very big dummy testing here to get a hang of json
             //will change it later so the whole layout gets ported over nicer than whatever you'll see here
             // http://localhost:18080/map
-            for (const auto& square : layout)
-            {
-                if (square.second != nullptr)
-                    mapLayout.push_back(crow::json::wvalue{
-                        {"type", 4}
-                        });
-                else
-                    mapLayout.push_back(crow::json::wvalue{
-                        {"type", static_cast<int>(square.first.GetType())}
-                        });
-            }
-            return crow::json::wvalue{ mapLayout };
+            info.push_back(crow::json::wvalue{
+                {"width", map.GetWidth()},
+                {"height", map.GetHeight()},
+                {"tiles", map.GetTileLayout()},
+                {"entities", map.GetEntityLayout()}
+                });
+
+            return crow::json::wvalue{ info };
         });
 
-    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {
+    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&gameDatabase, &map](const crow::request& req) {
         auto body = crow::json::load(req.body);
         if (!body)
         {
@@ -89,25 +83,16 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
         uint32_t playerID = body["playerID"].i();
         std::string directionStr = body["direction"].s();
-        Direction direction;
-
-        if (directionStr == "UP") {
-            direction = Direction::UP;
+        Direction direction{};
+        try 
+        {
+            direction = StringToDirection(directionStr);
         }
-        else if (directionStr == "DOWN") {
-            direction = Direction::DOWN;
-        }
-        else if (directionStr == "LEFT") {
-            direction = Direction::LEFT;
-        }
-        else if (directionStr == "RIGHT") {
-            direction = Direction::RIGHT;
-        }
-        else {
-            return crow::response(400, "Invalid direction");
+        catch (const std::exception& e)
+        {
+            return crow::response(401, "Invalid move");
         }
 
-        game::Map map;
         map.MovePlayer(playerID, direction);
 
         return crow::response(200, "Move successful");

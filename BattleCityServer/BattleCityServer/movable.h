@@ -13,3 +13,5 @@ enum class Direction : uint8_t
 };
 
 std::pair<size_t, size_t> GetPositionAfterDirection(const std::pair<size_t, size_t>& position, Direction direction);
+
+Direction StringToDirection(const std::string_view& message);

@@ -22,6 +22,7 @@ public:
 
     TileType GetType() const;
     void SetType(TileType type);
+    char TileTypeToChar() const;
 
 private:
     TileType m_type : 2;
