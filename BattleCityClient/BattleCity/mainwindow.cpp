@@ -72,24 +72,24 @@ void MainWindow::loadMapFromServer()
 
             QJsonObject jsonResponse = doc.object();
 
-            if (!jsonResponse.contains("data") || !jsonResponse.contains("width") || !jsonResponse.contains("height")) {
+            if (!jsonResponse.contains("width") || !jsonResponse.contains("height") || !jsonResponse.contains("layout")) {
                 QMessageBox::warning(this, "Eroare", "Datele hartii sunt incomplete.");
                 return;
             }
 
             int width = jsonResponse["width"].toInt();
             int height = jsonResponse["height"].toInt();
-            QJsonArray dataArray = jsonResponse["data"].toArray();
+            QJsonArray layoutArray = jsonResponse["layout"].toArray();
 
             qDebug() << "Width: " << width;
             qDebug() << "Height: " << height;
-            qDebug() << "Data Array Size: " << dataArray.size();
+            qDebug() << "Layout Array Size: " << layoutArray.size();
 
             mapData.clear();
             int rowIndex = 0;
             QVector<int> currentRow;
 
-            for (const QJsonValue& value : dataArray) {
+            for (const QJsonValue& value : layoutArray) {
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
                     if (obj.contains("type")) {
@@ -124,6 +124,7 @@ void MainWindow::loadMapFromServer()
         }
         });
 }
+
 
 void MainWindow::initializeMap()
 {

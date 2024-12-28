@@ -59,19 +59,25 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
     CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
         {
             auto body = crow::json::load(req.body);
-            std::vector<crow::json::wvalue> info;
+            std::vector<crow::json::wvalue> mapLayout;
+            auto layout = map.GetSquares();
 
-            //very big dummy testing here to get a hang of json
-            //will change it later so the whole layout gets ported over nicer than whatever you'll see here
-            // http://localhost:18080/map
-            info.push_back(crow::json::wvalue{
-                {"width", map.GetWidth()},
-                {"height", map.GetHeight()},
-                {"tiles", map.GetTileLayout()},
-                {"entities", map.GetEntityLayout()}
-                });
+            int width = map.GetWidth();  
+            int height = map.GetHeight();  
 
-            return crow::json::wvalue{ info };
+            for (const auto& square : layout)
+            {
+                mapLayout.push_back(crow::json::wvalue{
+                        {"type", static_cast<int>(square.first.GetType())}
+                    });
+            }
+
+            return crow::json::wvalue{
+                {"width", width},  
+                {"height", height},  
+                {"layout", mapLayout}
+            };
+
         });
 
     CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&gameDatabase, &map](const crow::request& req) {
