@@ -29,6 +29,8 @@ private:
     void loadMapFromServer();
     void initializeMap();
     void BackButtonClicked();
+    void keyPressEvent(QKeyEvent* event) override;
+    void sendMoveRequest(int playerID, const QString& direction);
   
     Ui::MainWindow* ui;
     QGridLayout* gridLayout;

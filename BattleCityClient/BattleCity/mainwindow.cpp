@@ -196,3 +196,49 @@ void MainWindow::onCellClicked(int row, int col)
 
     }
 }
+
+void MainWindow::keyPressEvent(QKeyEvent* event)
+{
+    int playerID = 1;
+    QString direction;
+
+    switch (event->key()) {
+    case Qt::Key_W:
+        direction = "up";
+        break;
+    case Qt::Key_A:
+        direction = "left";
+        break;
+    case Qt::Key_S:
+        direction = "down";
+        break;
+    case Qt::Key_D:
+        direction = "right";
+        break;
+    default:
+        QMainWindow::keyPressEvent(event);
+        return;
+    }
+
+    sendMoveRequest(playerID, direction);
+    QMainWindow::keyPressEvent(event);
+}
+
+void MainWindow::sendMoveRequest(int playerID, const QString& direction)
+{
+    QJsonObject jsonData;
+    jsonData["playerID"] = playerID;
+    jsonData["direction"] = direction;
+
+    QJsonDocument doc(jsonData);
+    QByteArray data = doc.toJson();
+
+    httpManager.sendPostRequest("http://localhost:18080/move", data, [this](const cpr::Response& response) {
+        if (response.status_code == 200) {
+            QMessageBox::information(this, "Success", "Move successful!");
+        }
+        else {
+            QMessageBox::critical(this, "Error", "Failed to move the player.");
+        }
+        });
+}
