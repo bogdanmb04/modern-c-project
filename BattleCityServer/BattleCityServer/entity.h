@@ -9,6 +9,7 @@ class Entity
 public:
     virtual ~Entity() = default;
     Entity() = default;
+    Entity(const std::pair<size_t, size_t>& pos);
 public:
     void SetPosition(const std::pair<size_t, size_t>& position);
     const std::pair<size_t, size_t>& GetPosition() const;

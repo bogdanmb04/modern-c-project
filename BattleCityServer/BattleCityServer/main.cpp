@@ -16,7 +16,7 @@ int main() {
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
 
-    game::Game::kGameCounter = 0;
+    game::Game::kGameCounter = 1;
 
     std::ofstream of("syslog.log", std::ios::app);
     Logger logger(of);
@@ -29,18 +29,21 @@ int main() {
     logger.Log(myMap.ToString(), Logger::Level::Info);
 
     auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
+    auto weapon = gameDatabase.GetWeapon(bogdan.GetID());
 
-    std::shared_ptr<game::Player> player = std::make_shared<game::Player>(bogdan);
+    game::Player playerBogdan{ std::forward<User>(bogdan), std::forward<Weapon>(weapon) };
 
-    myMap.InsertPlayer(player);
-    myMap.PlacePlayers();
-    player->SetDirection(Direction::RIGHT);
-    myMap.ShootBullet(player->GetID());
+    std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerBogdan);
 
-    std::cout << myMap;
+    //myMap.InsertPlayer(player);
+    //myMap.PlacePlayers();
+    //player->SetDirection(Direction::RIGHT);
+    //myMap.ShootBullet(player->GetID());
 
-    logger.Log("Player moved to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
-    logger.Log(myMap.ToString(), Logger::Level::Info);
+    //std::cout << myMap;
+
+    //logger.Log("Player moved to position: " + std::to_string(player->GetPosition().first) + " " + std::to_string(player->GetPosition().second), Logger::Level::Info);
+    //logger.Log(myMap.ToString(), Logger::Level::Info);
 
     /*bool running = true;
     while (running)
