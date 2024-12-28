@@ -35,7 +35,7 @@ namespace server
 	/*sql::foreign_key(&User::GetID).references(&Weapon::GetID)*/
 	/*sql::foreign_key(&Weapon::GetUserID).references(&User::GetID)*/
 
-	//https://sqliteorm.com/files/SQLITE_ORM%20Tutorial%202.7.pdf - see pages 58-60 for foreign key constraints!
+	//https://sqliteorm.com/files/SQLITE_ORM%20Tutorial%204.3.pdf - see foreign key constraints!
 
 	using Database = decltype(CreateDatabase(""));
 
@@ -53,7 +53,7 @@ namespace server
 		bool UserExists(const std::string& username);
 
 		void AddWeapon(const Weapon& weapon);
-		std::vector<Weapon> GetWeaponsByUser(int userId);
+		Weapon GetWeapon(int userId);
 
 		Database& GetStorage();
 

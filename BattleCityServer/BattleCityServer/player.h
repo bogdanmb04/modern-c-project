@@ -5,6 +5,7 @@
 #include "Movable.h"
 #include "Weapon.h"
 #include "Timer.h"
+#include "database.h"
 #include <iostream>
 #include <utility>
 #include <string>
@@ -21,14 +22,12 @@ namespace game
 		uint8_t GetLives() const;
 		uint32_t GetID() const;
 		Direction GetDirection() const;
-		const std::chrono::milliseconds& GetWeaponWaitTime() const;
+		std::chrono::milliseconds GetWeaponWaitTime() const;
 		void SetDirection(Direction direction);
 		void AddScore(uint8_t points);
 
 	public:
-		Player() = default;
-		Player(const User& user);
-		Player(uint32_t ID);
+		Player(const User& user, const Weapon& weapon);
 
 	private:
 		//game::Character m_character;

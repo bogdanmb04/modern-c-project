@@ -10,6 +10,17 @@ User::User(uint32_t userID, const std::string& username, uint8_t totalScore, uin
 	, m_weaponID {weaponID}
 {/*EMPTY*/}
 
+User::User(const std::string & username, const std::string & password)
+	: m_id{}
+	, m_username {username}
+	, m_password {password}
+	, m_totalScore{ 0 }
+	, m_specialMoney{ 0 }
+	, m_weaponID{}
+{
+	/*EMPTY*/
+}
+
 const std::string& user::User::GetUsername() const
 {
 	return m_username;

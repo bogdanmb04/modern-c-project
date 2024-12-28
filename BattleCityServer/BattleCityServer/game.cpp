@@ -11,6 +11,6 @@ Game::Game()
 
 Game::~Game()
 {
-	if (kGameCounter == 255)
-		kGameCounter = 0;
+	if (kGameCounter >= 255)
+		kGameCounter = 1;
 }

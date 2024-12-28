@@ -14,10 +14,13 @@ void GameDatabase::AddUser(const User& user)
 
 bool GameDatabase::RegisterUser(const std::string& username, const std::string& password)
 {
-	User user;
-	user.SetUsername(username);
-	user.SetPassword(password);
-	m_db.insert(user);
+	User user{ username, password };
+	auto userID = m_db.insert(user);
+	Weapon weapon{ static_cast<uint32_t>(userID) };
+	auto weaponID = m_db.insert(weapon);
+	user.SetWeaponID(weaponID);
+	user.SetID(userID);
+	m_db.update(user);
 	return true;
 }
 
@@ -31,9 +34,9 @@ void GameDatabase::AddWeapon(const Weapon& weapon)
 	m_db.insert(weapon);
 }
 
-std::vector<Weapon> GameDatabase::GetWeaponsByUser(int userId)
+Weapon GameDatabase::GetWeapon(int userId)
 {
-	return m_db.get_all<Weapon>(sql::where(sql::c(&Weapon::GetUserID) == userId));
+	return m_db.get_all<Weapon>(sql::where(sql::c(&Weapon::GetUserID) == userId))[0];
 }
 
 Database& GameDatabase::GetStorage()

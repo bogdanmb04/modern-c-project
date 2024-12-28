@@ -5,7 +5,16 @@ Weapon::Weapon(uint32_t id, uint32_t bulletWaitTime, uint16_t bulletSpeed, uint3
 	, m_bulletSpeed{ bulletSpeed }
 	, m_id{ id }
 	, m_userID{ userID }
-{/*EMPTY*/
+{
+	/*EMPTY*/
+}
+
+Weapon::Weapon(uint32_t userID)
+	: m_userID{userID}
+	, m_bulletSpeed{ 1 }
+	, m_bulletWaitTime{ 4000 }
+{
+	/*EMPTY*/
 }
 
 uint16_t Weapon::GetSpeed() const
