@@ -12,8 +12,9 @@ namespace game
 	{
 	public:
 		Bullet(Direction direction, std::chrono::milliseconds speed);
+		Direction GetDirection() const;
 	private:
-		Direction m_direction : 2;
+		Direction m_direction : 3;
 		std::chrono::milliseconds m_speed;
 	};
 }

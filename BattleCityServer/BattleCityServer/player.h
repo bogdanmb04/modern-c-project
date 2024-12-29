@@ -34,7 +34,7 @@ namespace game
 		uint32_t m_id;
 		uint16_t m_score;
 		uint8_t m_lives : 2;
-		Direction m_direction : 2;
+		Direction m_direction : 3;
 		Weapon m_weapon;
 		Timer m_timer;
 	};
