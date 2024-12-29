@@ -22,6 +22,8 @@ public:
     ~MainWindow();
 private slots:
     void onCellClicked(int row, int col);
+    void triggerExplosion(int row, int col);
+   
 signals:
     void backToBattleCity();
 
@@ -31,6 +33,7 @@ private:
     void BackButtonClicked();
     void keyPressEvent(QKeyEvent* event) override;
     void sendMoveRequest(int playerID, const QString& direction);
+    void placeRandomBombsAround(int row, int col);
   
     Ui::MainWindow* ui;
     QGridLayout* gridLayout;

@@ -1,0 +1,223 @@
+[33mcommit 0445bfd875929aae1547d386fc282b96249eeb83[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Sun Dec 22 16:07:24 2024 +0200
+
+    Shop is done + added "back buttons" register+map
+
+[33mcommit 487075d68b39a2b3d93de4d6d85d2e409cbf4f59[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Wed Dec 18 19:07:30 2024 +0200
+
+    Modified shop,not done
+
+[33mcommit b66653ae58b6f6e6b6336922d6ea4da9d5dc756d[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sun Dec 15 22:28:00 2024 +0200
+
+    Changed some things:
+    - added shoot functionality for map (player cannot do it as we cannot just make players be able to modify the map)
+    - removed more unnecessary move semantics
+    - added more modern C++ features -> ranges + lambdas
+    
+    TODO: change implementation of weapon to instead have wait time as std::chrono::milliseconds
+
+[33mcommit 0005aa3cddc217c0079ee911e4ecf52412bc307c[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Sun Dec 15 13:05:54 2024 +0200
+
+    Modified image path. Tried to update map with json..Help:(
+
+[33mcommit 27cf784110699d524b2b094c755954d17b0cc3e3[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sun Dec 15 00:57:47 2024 +0200
+
+    added request for map from client side
+
+[33mcommit e35eefeeb0741579c9b84c49bd4806244d855ff2[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sat Dec 14 23:58:58 2024 +0200
+
+    added dll export :) apparently it was not from the beginning
+
+[33mcommit 08589dd9fcca018f5a8705dbda5821727302ce7d[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sat Dec 14 23:38:49 2024 +0200
+
+    deleted old password encryption sln and added as dll for the project
+
+[33mcommit f41037fe238b65a216a4f28f81aeb1ef78a1dd6b[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sat Dec 14 01:07:18 2024 +0200
+
+    fixed a foreign std:: declaration
+
+[33mcommit 28c8179985c598ec4a3d7d07df06f67667a3d1b9[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sat Dec 14 01:06:04 2024 +0200
+
+    Added small implementation of game class. will extend on it in the weekend.
+
+[33mcommit b58b131d0573db38d24f48fe05a993df128982b3[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Fri Dec 13 22:06:17 2024 +0200
+
+    Added password verification functionality to compare encrypted data.
+
+[33mcommit aac9d5f5bdca253768c10292f13e98f471041c8b[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Fri Dec 13 22:02:23 2024 +0200
+
+    Implemented password encryption with a custom algorithm and random salt.
+
+[33mcommit f239bbe851f7f1643079290b133052de49a4a0da[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Fri Dec 13 21:59:47 2024 +0200
+
+    Initial setup: Added header and source files for PasswordEncryptor class.
+
+[33mcommit 0bea9b2b2b96e1216d0dd13235072637bad9687a[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Thu Dec 12 18:32:13 2024 +0200
+
+    Update Shop(added money)
+
+[33mcommit 002f605984753d2f06215b49a412faec768a4cbf[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Thu Dec 12 13:47:06 2024 +0200
+
+    Added Timer class.
+
+[33mcommit 003fba315865c5f9bd075846badfaf48d331e0b4[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Tue Dec 10 13:58:40 2024 +0200
+
+    Added shop interface
+
+[33mcommit 95fd2a6f1c8ad36fdd6e6591b147b16b5b6ecdf5[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sun Dec 8 23:37:56 2024 +0200
+
+    Committing this again from VS because smartgit is dumb
+
+[33mcommit 4e732b9d7fc282210b19d1305aac0b511f86070b[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sun Dec 8 23:28:22 2024 +0200
+
+    Changed header file names
+
+[33mcommit 886605da334530b3d5bb887e593e0f55dd38c68e[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sun Dec 8 23:26:22 2024 +0200
+
+    Changed header file names. Implemented [] operator for Map. TODO: Definitively tie server and client, create game class to enable possible multigaming.
+    Optional: add unit testing
+
+[33mcommit 991bd598ff6cb1f305e15b9716d08d949ee89a18[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sun Dec 8 20:30:16 2024 +0200
+
+    cleane up
+
+[33mcommit a3781fa0acdc39220e902ec955e0224ea08489d9[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Sun Dec 8 21:12:59 2024 +0200
+
+    Added log for playerID and bulletDirection in sendShootRequest for debugging
+
+[33mcommit e38eeb6b1af61188a48edbc51dec0392558ab1ff[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Sun Dec 8 21:09:15 2024 +0200
+
+    Added function definition in Httpmanager.cpp
+
+[33mcommit d168dd5036bec805984e90074e641d7fcc505d83[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Sun Dec 8 21:08:31 2024 +0200
+
+    added the sendShootRequest function to httpmanager.h
+
+[33mcommit b67c9f220fc67bb50f2a65aef06219f167807c9b[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Sun Dec 8 17:55:15 2024 +0200
+
+    Add "quit game" + modified map(didn t resolved the problem)
+
+[33mcommit 468fab3bc35d0091f96e5b6987ade2c67a9537f3[m
+Author: Flavia0320 <163464604+Flavia0320@users.noreply.github.com>
+Date:   Sat Dec 7 20:29:41 2024 +0200
+
+    Update WeeklyCommits.log
+
+[33mcommit dbeeeca7c4ee376deb78f3e2da2d9356d8dbb6f9[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sat Dec 7 20:26:25 2024 +0200
+
+    changed qt creator project in vs project
+
+[33mcommit fc53776ccc0e6f0c3ce6e3db998b1a4c033ea888[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Sat Dec 7 00:04:17 2024 +0200
+
+    Added a dummy map request.
+
+[33mcommit b622ca3c82ffcd4c9b10be34eca5ba4f1e0d0cc2[m
+Author: BogdanB <103338406+Bogdan-MB@users.noreply.github.com>
+Date:   Fri Dec 6 22:48:21 2024 +0200
+
+    Added unique requirement for username in database. Changed map to be a single vector.
+    TODO: add an easier method to get the desired index in the vector (maybe overload [] operator?)
+
+[33mcommit ff2b2ab6e01a1869590373eb43ec58d16cafe11b[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Thu Dec 5 11:48:36 2024 +0200
+
+    Repair visual for mainwindow and battlecitystart
+
+[33mcommit 77da7fcb731180c89f09212b4109b66f91059ffc[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Tue Dec 3 20:11:41 2024 +0200
+
+    New interface for the start of the app, resiez the log in and register
+
+[33mcommit da14bc241f06d8f4ba1b84736bd72bf8060f11b1[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Mon Dec 2 23:20:37 2024 +0200
+
+    login, register working [connected with database, server, client], I had to deactivate foreign key because we have to create a weapon/weapons
+
+[33mcommit 1bd55583a8b7d1e61658abf08377bd16231c6127[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Mon Dec 2 22:06:38 2024 +0200
+
+    add cpr + requests
+
+[33mcommit bd861a07ca31649e1d89b2dd2ff1291e2b89099d[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sun Dec 1 21:35:54 2024 +0200
+
+    changed std::cout in logging [main] + converted powerup from smartpointer to normal pointer
+
+[33mcommit 4fdace9f99e74aa0a752fd2d9f9ec05425e67328[m
+Author: Flavia0320 <ciocoiuflavia008@gmail.com>
+Date:   Sun Dec 1 21:10:26 2024 +0200
+
+    moved every .h implementation in .cpp
+
+[33mcommit 4018f5922238bdb5d049f32486a0ffc1252986fe[m
+Author: Badin Miruna Cristina <miruna.badin@student.unitbv.ro>
+Date:   Sat Nov 30 16:42:10 2024 +0200
+
+    Created registre interface and connected with login
+
+[33mcommit 6a1965da095679e4cdd3b0b4848f468b790ad839[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Sat Nov 30 16:19:03 2024 +0200
+
+    Added function sendPostRequest to handle HTTP POST requests
+
+[33mcommit 9531bbe5453387352a51974fa88ac322c57694e4[m
+Author: njrrrr <eduard.ardeleanu@student.unitbv.ro>
+Date:   Sat Nov 30 16:18:04 2024 +0200
+
+    Added function sendRequest to handle HTTP GET requests
+

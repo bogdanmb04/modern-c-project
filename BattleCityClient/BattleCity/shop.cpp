@@ -27,12 +27,12 @@ void Shop::setupUI() {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
     QPushButton* backButton = new QPushButton("Back", this);
-    backButton->setStyleSheet("font-size: 20px; padding: 10px;");
-    backButton->setFixedSize(100, 50);
+    backButton->setStyleSheet("font-size: 15px; padding: 10px;");
+    backButton->setFixedSize(70, 40);
 
     QPixmap backPixmap(":/BattleCity/images/Back.png");
     backButton->setIcon(QIcon(backPixmap));
-    backButton->setIconSize(QSize(30, 30));
+    backButton->setIconSize(QSize(10, 10));
     backButton->setText("Back");
 
     QHBoxLayout* backButtonLayout = new QHBoxLayout();

@@ -9,7 +9,6 @@
         <file>images/GhostBullet_Type1.png</file>
         <file>images/Gun.png</file>
         <file>images/InvisibilityPotion_Type1.png</file>
-        <file>images/PoiliceOfficer.png</file>
         <file>images/PoliceOfficer.png</file>
         <file>images/SpecialMoney.png</file>
         <file>images/UnbreakableWall_Type1.png</file>
@@ -17,5 +16,6 @@
         <file>images/ZombieBall.png</file>
         <file>images/UpgradeIcon.png</file>
         <file>images/Back.png</file>
+        <file>images/Path.png</file>
     </qresource>
 </RCC>
