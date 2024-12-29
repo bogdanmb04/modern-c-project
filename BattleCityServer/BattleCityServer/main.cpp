@@ -12,7 +12,8 @@
 #include "../Logging/logging.h"
 #include "Game.h"
 
-int main() {
+int main() 
+{
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
 
@@ -31,14 +32,14 @@ int main() {
     auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
     auto weapon = gameDatabase.GetWeapon(bogdan.GetID());
 
-    game::Player playerBogdan{ std::forward<User>(bogdan), std::forward<Weapon>(weapon) };
+    game::Player playerBogdan{ std::move(bogdan), std::move(weapon) };
 
     std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerBogdan);
 
-    //myMap.InsertPlayer(player);
-    //myMap.PlacePlayers();
-    //player->SetDirection(Direction::RIGHT);
-    //myMap.ShootBullet(player->GetID());
+    myMap.InsertPlayer(player);
+    myMap.PlacePlayers();
+    player->SetDirection(Direction::RIGHT);
+    myMap.ShootBullet(player->GetID());
 
     //std::cout << myMap;
 

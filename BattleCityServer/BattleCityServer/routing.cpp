@@ -1,6 +1,44 @@
 #include "Routing.h"
 #include "Map.h"
 #include "Player.h"
+#include "powerup.h"
+
+static int EntityToValue(std::shared_ptr<Entity> entity)
+{
+    if (entity == nullptr)
+    {
+        return 0;
+    }
+    if (auto player = std::dynamic_pointer_cast<game::Player>(entity); player)
+    {
+        return player->GetID();
+    }
+    if (auto bullet = std::dynamic_pointer_cast<game::Bullet>(entity); bullet)
+    {
+        return -1;
+    }
+    if (auto bomb = std::dynamic_pointer_cast<Bomb>(entity); bomb)
+    {
+        return -2;
+    }
+    if (auto powerUp = std::dynamic_pointer_cast<game::PowerUp>(entity); powerUp)
+    {
+        return -3;
+    }
+}
+
+static Direction ConfigureDirection(std::shared_ptr<Entity> entity)
+{
+    if (auto player = std::dynamic_pointer_cast<game::Player>(entity); player)
+    {
+        return player->GetDirection();
+    }
+    if (auto bullet = std::dynamic_pointer_cast<game::Bullet>(entity); bullet)
+    {
+        return bullet->GetDirection();
+    }
+    return Direction::NONE;
+}
 
 void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 {
@@ -58,19 +96,23 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
     CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
         {
+            //all players have IDs starting from 1
+
             auto body = crow::json::load(req.body);
             std::vector<crow::json::wvalue> mapLayout;
-            auto layout = map.GetSquares();
+            size_t width = map.GetWidth();  
+            size_t height = map.GetHeight();  
 
-            int width = map.GetWidth();  
-            int height = map.GetHeight();  
+            auto checkInfo = [&mapLayout](const game::Map::Square& square) -> void
+                {
+                    mapLayout.push_back(crow::json::wvalue{
+                        {"tile", static_cast<int>(square.first.GetType())},
+                        {"entity", EntityToValue(square.second)},
+                        {"direction", static_cast<int>(ConfigureDirection(square.second))}
+                        });
+                };
 
-            for (const auto& square : layout)
-            {
-                mapLayout.push_back(crow::json::wvalue{
-                        {"type", static_cast<int>(square.first.GetType())}
-                    });
-            }
+            std::ranges::for_each(map.GetSquares(), checkInfo);
 
             return crow::json::wvalue{
                 {"width", width},  
@@ -80,7 +122,7 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
         });
 
-    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&gameDatabase, &map](const crow::request& req) {
+    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
         auto body = crow::json::load(req.body);
         if (!body)
         {
