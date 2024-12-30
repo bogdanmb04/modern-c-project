@@ -1,5 +1,4 @@
-﻿
-#include "shop.h"
+﻿#include "shop.h"
 #include "circle.h"
 #include "battlecitystart.h"
 #include <QVBoxLayout>
@@ -12,10 +11,9 @@
 #include <QDebug>
 #include <QTimer>
 
-Shop::Shop(QWidget* parent) : QWidget(parent), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
+Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
     priceButton1 = 25;
     priceButton2 = 20;
-
     setupUI();
 }
 
@@ -47,11 +45,39 @@ void Shop::setupUI() {
     titleLabel->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     titleLabel->setStyleSheet("font-size: 50px; font-weight: bold; margin-bottom: 20px;");
     mainLayout->addWidget(titleLabel);
-
+    QSpacerItem* topSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    mainLayout->addSpacerItem(topSpacer);
     insufficientFundsLabel = new QLabel("", this);
     insufficientFundsLabel->setAlignment(Qt::AlignCenter);
     insufficientFundsLabel->setStyleSheet("font-size: 20px; color: red;");
     mainLayout->addWidget(insufficientFundsLabel);
+
+    QGroupBox* coinsBox = new QGroupBox(this);
+    coinsBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
+    coinsBox->setFixedWidth(170);
+    coinsBox->setContentsMargins(20, 5, 5, 5);
+
+    QHBoxLayout* coinsLayout = new QHBoxLayout();
+    coinsLayout->setAlignment(Qt::AlignLeft);
+    coinsLayout->setContentsMargins(30, 0, 0, 0);
+
+    QLabel* coinsImageLabel = new QLabel(this);
+    QPixmap coinsPixmap(":/BattleCity/images/Coins.png");
+    coinsPixmap = coinsPixmap.scaled(60, 60, Qt::KeepAspectRatio);
+    coinsImageLabel->setPixmap(coinsPixmap);
+    coinsImageLabel->setAlignment(Qt::AlignLeft);
+
+    coinsLayout->addWidget(coinsImageLabel);
+
+    QSpacerItem* spacer = new QSpacerItem(10, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
+    coinsLayout->addSpacerItem(spacer);
+
+    coinsLabel = new QLabel(QString::number(coins), this);
+    coinsLabel->setAlignment(Qt::AlignLeft);
+    coinsLabel->setStyleSheet("font-size: 30px;");
+    coinsLayout->addWidget(coinsLabel);
+
+    coinsBox->setLayout(coinsLayout);
 
     QGroupBox* moneyBox = new QGroupBox(this);
     moneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
@@ -60,34 +86,7 @@ void Shop::setupUI() {
 
     QHBoxLayout* moneyLayout = new QHBoxLayout();
     moneyLayout->setAlignment(Qt::AlignLeft);
-    moneyLayout->setContentsMargins(30, 0, 0, 0);
-
-    QLabel* moneyImageLabel = new QLabel(this);
-    QPixmap moneyPixmap(":/BattleCity/images/Coins.png");
-    moneyPixmap = moneyPixmap.scaled(60, 60, Qt::KeepAspectRatio);
-    moneyImageLabel->setPixmap(moneyPixmap);
-    moneyImageLabel->setAlignment(Qt::AlignLeft);
-
-    moneyLayout->addWidget(moneyImageLabel);
-
-    QSpacerItem* spacer = new QSpacerItem(10, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-    moneyLayout->addSpacerItem(spacer);
-
-    moneyLabel = new QLabel(QString::number(money), this);
-    moneyLabel->setAlignment(Qt::AlignLeft);
-    moneyLabel->setStyleSheet("font-size: 30px;");
-    moneyLayout->addWidget(moneyLabel);
-
-    moneyBox->setLayout(moneyLayout);
-
-    QGroupBox* specialMoneyBox = new QGroupBox(this);
-    specialMoneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
-    specialMoneyBox->setFixedWidth(170);
-    specialMoneyBox->setContentsMargins(20, 5, 5, 5);
-
-    QHBoxLayout* specialMoneyLayout = new QHBoxLayout();
-    specialMoneyLayout->setAlignment(Qt::AlignLeft);
-    specialMoneyLayout->setContentsMargins(20, 0, 0, 0);
+    moneyLayout->setContentsMargins(20, 0, 0, 0);
 
     specialMoneyImage = new QLabel(this);
     QPixmap specialMoneyPixmap(":/BattleCity/images/SpecialMoney.png");
@@ -95,20 +94,20 @@ void Shop::setupUI() {
     specialMoneyImage->setPixmap(specialMoneyPixmap);
     specialMoneyImage->setAlignment(Qt::AlignLeft);
 
-    specialMoneyLayout->addWidget(specialMoneyImage);
+    moneyLayout->addWidget(specialMoneyImage);
 
     QSpacerItem* spacer2 = new QSpacerItem(10, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
-    specialMoneyLayout->addSpacerItem(spacer2);
+    moneyLayout->addSpacerItem(spacer2);
 
     specialMoneyLabel = new QLabel(QString::number(specialMoney), this);
     specialMoneyLabel->setStyleSheet("font-size: 30px;");
-    specialMoneyLayout->addWidget(specialMoneyLabel);
+    moneyLayout->addWidget(specialMoneyLabel);
     specialMoneyLabel->setAlignment(Qt::AlignLeft);
-    specialMoneyBox->setLayout(specialMoneyLayout);
+    moneyBox->setLayout(moneyLayout);
 
     QHBoxLayout* currencyLayout = new QHBoxLayout();
+    currencyLayout->addWidget(coinsBox);
     currencyLayout->addWidget(moneyBox);
-    currencyLayout->addWidget(specialMoneyBox);
     currencyLayout->setAlignment(Qt::AlignLeft);
     currencyLayout->setContentsMargins(40, 0, 0, 0);
 
@@ -195,50 +194,49 @@ void Shop::setupUI() {
 
     QSpacerItem* spacerBelowButtons = new QSpacerItem(60, 60, QSizePolicy::Minimum, QSizePolicy::Expanding);
     mainLayout->addSpacerItem(spacerBelowButtons);
-}
 
-void Shop::button1Clicked() {
-    if (money >= priceButton1) {
-        if (button1CircleCount < button1Circles.size()) {
-            button1Circles[button1CircleCount]->setFilled(true);
-            button1CircleCount++;
-        }
-        money -= priceButton1;
-        moneyLabel->setText(QString::number(money));
-        insufficientFundsLabel->clear();
-    }
-    else {
-        insufficientFundsLabel->setText("Insufficient funds");
-        QTimer::singleShot(2000, this, [this]() {
-            insufficientFundsLabel->clear();
-            });
-    }
-}
-
-void Shop::button2Clicked() {
-    if (money >= priceButton2) {
-        if (button2CircleCount < button2Circles.size()) {
-            button2Circles[button2CircleCount]->setFilled(true);
-            button2CircleCount++;
-        }
-        money -= priceButton2;
-        moneyLabel->setText(QString::number(money));
-        insufficientFundsLabel->clear();
-    }
-    else {
-        insufficientFundsLabel->setText("Insufficient funds");
-        QTimer::singleShot(2000, this, [this]() {
-            insufficientFundsLabel->clear();
-            });
-    }
-}
-void Shop::onBackButtonClicked()
-{
-    emit backToBattleCity();
-    this->close();
+    connect(button1, &QPushButton::clicked, this, &Shop::onButton1Clicked);
+    connect(button2, &QPushButton::clicked, this, &Shop::onButton2Clicked);
 }
 
 void Shop::BackButtonClicked() {
     emit backToBattleCity();
-    this->close();
+}
+
+void Shop::onButton1Clicked() {
+    if (coins >= priceButton1) {
+        coins -= priceButton1;
+        coinsLabel->setText(QString::number(coins));
+        button1CircleCount++;
+        for (int i = 0; i < button1CircleCount; ++i) {
+            button1Circles[i]->setVisible(true);
+        }
+    }
+    else {
+        insufficientFundsLabel->setText("Insufficient funds");
+        insufficientFundsLabel->setVisible(true);
+
+        QTimer::singleShot(1000, this, [this]() {
+            insufficientFundsLabel->setVisible(false);
+            });
+    }
+}
+
+void Shop::onButton2Clicked() {
+    if (money >= priceButton2) {
+        money -= priceButton2;
+        moneyLabel->setText(QString::number(money));
+        button2CircleCount++;
+        for (int i = 0; i < button2CircleCount; ++i) {
+            button2Circles[i]->setVisible(true);
+        }
+    }
+    else {
+        insufficientFundsLabel->setText("Insufficient funds");
+        insufficientFundsLabel->setVisible(true);
+
+        QTimer::singleShot(1000, this, [this]() {
+            insufficientFundsLabel->setVisible(false);
+            });
+    }
 }

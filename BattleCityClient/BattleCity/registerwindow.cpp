@@ -7,10 +7,19 @@
 #include <QDebug>
 #include "HttpManager.h"
 #include <cpr/cpr.h>
+#include <QPalette>
+#include <QPixmap>
 
 RegisterWindow::RegisterWindow(QWidget* parent)
     : QWidget(parent)
 {
+    QPixmap background(":/BattleCity/images/Intro2.png");
+    background = background.scaled(500, 400, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(background));
+    setPalette(palette);
+
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(100, 100, 100, 100);
 
@@ -119,9 +128,8 @@ void RegisterWindow::resetFields()
     errorLabel->clear();
 }
 
-
 void RegisterWindow::handleBackToLogin()
 {
     emit goToLogin();
-    this->close(); 
+    this->close();
 }

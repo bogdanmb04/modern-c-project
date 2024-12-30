@@ -2,45 +2,52 @@
 #define SHOP_H
 
 #include <QWidget>
-#include <QLabel>
 #include <QPushButton>
-#include <QTimer>
-#include <vector>
+#include <QLabel>
+#include <QVector>
 
-class Circle;  
+class Circle;
 
-class Shop : public QWidget {
+class Shop : public QWidget
+{
     Q_OBJECT
 
 public:
-    explicit Shop(QWidget* parent = nullptr);
+    explicit Shop(QWidget *parent = nullptr);
     ~Shop();
 
-      
-public slots:
-    void onBackButtonClicked();
-signals:
-    void backToBattleCity(); 
-
 private:
-    void setupUI(); 
-    void BackButtonClicked();  
+    void setupUI();
+    
+    void onButton1Clicked();
+    void onButton2Clicked();
+    void BackButtonClicked();
+
+    QPushButton* backButton;
+    QPushButton* button1;
+    QPushButton* button2;
+
+    QLabel* coinsLabel;
     QLabel* moneyLabel;
     QLabel* specialMoneyLabel;
     QLabel* insufficientFundsLabel;
+    QLabel* moneyImageLabel;
     QLabel* specialMoneyImage;
+
+    QVector<Circle*> button1Circles;
+    QVector<Circle*> button2Circles;
+
     int money;
     int specialMoney;
-    int priceButton1;
-    int priceButton2;
+    int coins;
     int button1CircleCount;
     int button2CircleCount;
-    std::vector<Circle*> button1Circles;
-    std::vector<Circle*> button2Circles;
 
-private slots:
-    void button1Clicked();  
-    void button2Clicked(); 
+    int priceButton1;
+    int priceButton2;
+
+signals:
+    void backToBattleCity();
 };
 
 #endif // SHOP_H

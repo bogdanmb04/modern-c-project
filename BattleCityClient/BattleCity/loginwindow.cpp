@@ -7,10 +7,19 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QDebug>
+#include <QPalette>
+#include <QPixmap>
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
 {
+
+    QPixmap background(":/BattleCity/images/Intro2.png");
+    background = background.scaled(500, 400, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, QBrush(background));
+    setPalette(palette);
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(100, 100, 100, 100);
     QLabel* titleLabel = new QLabel("BattleCity", this);

@@ -33,19 +33,19 @@ MainWindow::MainWindow(QWidget* parent)
     centralWidget->setLayout(gridLayout);
     setCentralWidget(centralWidget);
 
-    QPushButton* backButton = new QPushButton("Back", this);
-    backButton->setStyleSheet("font-size: 10px; padding: 10px;");
-    backButton->setFixedSize(70, 40);
+    QPushButton* menuButton = new QPushButton("Menu", this);
+    menuButton->setStyleSheet("font-size: 10px; padding: 10px;");
+    menuButton->setFixedSize(70, 40);
     QVBoxLayout* backLayout = new QVBoxLayout();
-    backLayout->addWidget(backButton);
+    backLayout->addWidget(menuButton);
     backLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     QPixmap backPixmap(":/BattleCity/images/Back.png");
-    backButton->setIcon(QIcon(backPixmap));
-    backButton->setIconSize(QSize(10, 10));
-    backButton->setText("Back");
+    menuButton->setIcon(QIcon(backPixmap));
+    menuButton->setIconSize(QSize(10, 10));
+    menuButton->setText("Menu");
     centralWidget->setLayout(backLayout);
 
-    connect(backButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);
+    connect(menuButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);
 
     loadMapFromServer();
     initializeMap();
@@ -58,9 +58,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::BackButtonClicked()
 {
-  
-    emit backToBattleCity();
-    this->close(); 
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirmare", "Are you sure you want quit?",
+        QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        emit backToBattleCity();
+        this->close();
+    }
 }
 
 void MainWindow::loadMapFromServer()
@@ -83,17 +87,17 @@ void MainWindow::loadMapFromServer()
 
             int width = jsonResponse["width"].toInt();
             int height = jsonResponse["height"].toInt();
-            QJsonArray layoutArray = jsonResponse["layout"].toArray();
+            QJsonArray layout= jsonResponse["layout"].toArray();
 
             qDebug() << "Width: " << width;
             qDebug() << "Height: " << height;
-            qDebug() << "Layout Array Size: " << layoutArray.size();
+            qDebug() << "Layout Array Size: " << layout.size();
 
             mapData.clear();
             int rowIndex = 0;
             QVector<int> currentRow;
 
-            for (const QJsonValue& value : layoutArray) {
+            for (const QJsonValue& value : layout) {
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
                     if (obj.contains("type")) {
@@ -154,22 +158,22 @@ void MainWindow::initializeMap()
 
             QString imagePath;
             switch (mapData[row][col]) {
-            case 1: 
+            case 1:
                 imagePath = ":/BattleCity/images/BreakableWall_Type1.png";
                 break;
             case 2:
                 imagePath = ":/BattleCity/images/UnbreakableWall_Type1.png";
                 break;
-            case 0: 
+            case 0:
                 imagePath = ":/BattleCity/images/Path.png";
                 break;
-            case 3: 
+            case 3:
                 imagePath = ":/BattleCity/images/Bomb.png";
                 break;
             default:
-                imagePath = ":/BattleCity/images/Path.png"; 
+                imagePath = ":/BattleCity/images/Path.png";
                 break;
-          
+
             }
             QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;")
                 .arg(imagePath);
@@ -187,13 +191,13 @@ void MainWindow::initializeMap()
 
     gridLayout->update();
     this->update();
-   
+
 }
 
 void MainWindow::onCellClicked(int row, int col)
 {
-    if (mapData[row][col] == 1) { 
-        mapData[row][col] = 3; 
+    if (mapData[row][col] == 1) {
+        mapData[row][col] = 3;
 
         QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
         QLabel* cell = qobject_cast<QLabel*>(widget);
@@ -209,7 +213,7 @@ void MainWindow::onCellClicked(int row, int col)
             });
     }
     else if (mapData[row][col] == 3) {
-        triggerExplosion(row, col); 
+        triggerExplosion(row, col);
     }
 }
 
@@ -262,7 +266,7 @@ void MainWindow::sendMoveRequest(int playerID, const QString& direction)
 
 void MainWindow::triggerExplosion(int row, int col)
 {
-    const int explosionRadius = 10;
+    const int explosionRadius = 3;
 
     if (mapData[row][col] == 1) {
         mapData[row][col] = 0;

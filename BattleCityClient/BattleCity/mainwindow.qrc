@@ -17,5 +17,7 @@
         <file>images/UpgradeIcon.png</file>
         <file>images/Back.png</file>
         <file>images/Path.png</file>
+        <file>images/Intro.png</file>
+        <file>images/Intro2.png</file>
     </qresource>
 </RCC>
