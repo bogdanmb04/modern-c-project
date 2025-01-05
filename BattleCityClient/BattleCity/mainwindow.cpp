@@ -49,6 +49,14 @@ MainWindow::MainWindow(QWidget* parent)
 
     loadMapFromServer();
     initializeMap();
+
+    coinTimer = new QTimer(this);
+    connect(coinTimer, &QTimer::timeout, this, &MainWindow::placeCoins);
+    coinTimer->start(60000);
+
+    objectSpawnTimer = new QTimer(this);
+    connect(objectSpawnTimer, &QTimer::timeout, this, &MainWindow::spawnRandomObjects);
+    objectSpawnTimer->start(120000);
 }
 
 MainWindow::~MainWindow()
@@ -59,7 +67,7 @@ MainWindow::~MainWindow()
 void MainWindow::BackButtonClicked()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Confirmare", "Are you sure you want quit?",
+    reply = QMessageBox::question(this, "Confirmare", "Are you sure you want to quit?",
         QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         emit backToBattleCity();
@@ -87,11 +95,7 @@ void MainWindow::loadMapFromServer()
 
             int width = jsonResponse["width"].toInt();
             int height = jsonResponse["height"].toInt();
-            QJsonArray layout= jsonResponse["layout"].toArray();
-
-            qDebug() << "Width: " << width;
-            qDebug() << "Height: " << height;
-            qDebug() << "Layout Array Size: " << layout.size();
+            QJsonArray layout = jsonResponse["layout"].toArray();
 
             mapData.clear();
             int rowIndex = 0;
@@ -124,7 +128,6 @@ void MainWindow::loadMapFromServer()
                 }
             }
 
-            qDebug() << "Map Data Size: " << mapData.size() << "x" << (mapData.isEmpty() ? 0 : mapData[0].size());
             initializeMap();
         }
         else {
@@ -132,7 +135,6 @@ void MainWindow::loadMapFromServer()
         }
         });
 }
-
 
 void MainWindow::initializeMap()
 {
@@ -173,8 +175,8 @@ void MainWindow::initializeMap()
             default:
                 imagePath = ":/BattleCity/images/Path.png";
                 break;
-
             }
+
             QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;")
                 .arg(imagePath);
             if ((row == 1 && col == 1) || (row == 1 && col == mapData[row].size() - 2) ||
@@ -191,7 +193,16 @@ void MainWindow::initializeMap()
 
     gridLayout->update();
     this->update();
+}
 
+void MainWindow::placeCoins()
+{
+    int coinsToPlace = QRandomGenerator::global()->bounded(1, 6);
+    for (int i = 0; i < coinsToPlace; ++i) {
+        if (!placeCoinAtRandomLocation()) {
+            break;
+        }
+    }
 }
 
 void MainWindow::onCellClicked(int row, int col)
@@ -207,7 +218,6 @@ void MainWindow::onCellClicked(int row, int col)
             cell->setStyleSheet(style);
         }
 
-
         QTimer::singleShot(500, [this, row, col]() {
             triggerExplosion(row, col);
             });
@@ -215,53 +225,6 @@ void MainWindow::onCellClicked(int row, int col)
     else if (mapData[row][col] == 3) {
         triggerExplosion(row, col);
     }
-}
-
-
-void MainWindow::keyPressEvent(QKeyEvent* event)
-{
-    int playerID = 1;
-    QString direction;
-
-    switch (event->key()) {
-    case Qt::Key_W:
-        direction = "up";
-        break;
-    case Qt::Key_A:
-        direction = "left";
-        break;
-    case Qt::Key_S:
-        direction = "down";
-        break;
-    case Qt::Key_D:
-        direction = "right";
-        break;
-    default:
-        QMainWindow::keyPressEvent(event);
-        return;
-    }
-
-    sendMoveRequest(playerID, direction);
-    QMainWindow::keyPressEvent(event);
-}
-
-void MainWindow::sendMoveRequest(int playerID, const QString& direction)
-{
-    QJsonObject jsonData;
-    jsonData["playerID"] = playerID;
-    jsonData["direction"] = direction;
-
-    QJsonDocument doc(jsonData);
-    QByteArray data = doc.toJson();
-
-    httpManager.sendPostRequest("http://localhost:18080/move", data, [this](const cpr::Response& response) {
-        if (response.status_code == 200) {
-            QMessageBox::information(this, "Success", "Move successful!");
-        }
-        else {
-            QMessageBox::critical(this, "Error", "Failed to move the player.");
-        }
-        });
 }
 
 void MainWindow::triggerExplosion(int row, int col)
@@ -284,15 +247,10 @@ void MainWindow::triggerExplosion(int row, int col)
     QTimer::singleShot(200, [this, row, col]() {
         for (int i = -explosionRadius; i <= explosionRadius; ++i) {
             for (int j = -explosionRadius; j <= explosionRadius; ++j) {
-                int targetRow = row + i;
-                int targetCol = col + j;
-
-                if (targetRow >= 0 && targetRow < mapData.size() &&
-                    targetCol >= 0 && targetCol < mapData[0].size()) {
-
-                    if (mapData[targetRow][targetCol] == 1) {
-                        mapData[targetRow][targetCol] = 0;
-                        QWidget* widget = gridLayout->itemAtPosition(targetRow, targetCol)->widget();
+                if (row + i >= 0 && row + i < mapData.size() && col + j >= 0 && col + j < mapData[0].size()) {
+                    if (mapData[row + i][col + j] == 1) {
+                        mapData[row + i][col + j] = 0;
+                        QWidget* widget = gridLayout->itemAtPosition(row + i, col + j)->widget();
                         QLabel* cell = qobject_cast<QLabel*>(widget);
 
                         if (cell) {
@@ -300,62 +258,95 @@ void MainWindow::triggerExplosion(int row, int col)
                             cell->setStyleSheet(style);
                         }
                     }
-                    else if (mapData[targetRow][targetCol] == 3) {
-                        triggerExplosion(targetRow, targetCol);
-                    }
                 }
             }
-        }
-
-        mapData[row][col] = 0;
-        QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
-        QLabel* cell = qobject_cast<QLabel*>(widget);
-
-        if (cell) {
-            QString style = "background-image: url(:/BattleCity/images/Path.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
-            cell->setStyleSheet(style);
         }
         });
 }
 
 void MainWindow::placeRandomBombsAround(int row, int col)
 {
-    QVector<QPair<int, int>> neighbors;
-    for (int i = -1; i <= 1; ++i) {
-        for (int j = -1; j <= 1; ++j) {
-            int newRow = row + i;
-            int newCol = col + j;
+    int rowOffset[] = { -1, 1, 0, 0 };
+    int colOffset[] = { 0, 0, -1, 1 };
+    for (int i = 0; i < 4; ++i) {
+        int newRow = row + rowOffset[i];
+        int newCol = col + colOffset[i];
+        if (newRow >= 0 && newRow < mapData.size() && newCol >= 0 && newCol < mapData[0].size() &&
+            mapData[newRow][newCol] == 0) {
+            mapData[newRow][newCol] = 3;
 
-            if (newRow >= 0 && newRow < mapData.size() &&
-                newCol >= 0 && newCol < mapData[0].size() &&
-                mapData[newRow][newCol] == 1) {
-                neighbors.append(qMakePair(newRow, newCol));
-            }
-        }
-    }
-
-    if (!neighbors.isEmpty()) {
-        QPair<int, int> randomNeighbor = neighbors[QRandomGenerator::global()->bounded(neighbors.size())];
-        int bombRow = randomNeighbor.first;
-        int bombCol = randomNeighbor.second;
-
-        mapData[bombRow][bombCol] = 3;
-
-        QWidget* widget = gridLayout->itemAtPosition(bombRow, bombCol)->widget();
-        QLabel* cell = qobject_cast<QLabel*>(widget);
-        if (cell) {
-            QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
-            cell->setStyleSheet(style);
-        }
-
-        QTimer::singleShot(100, [this, bombRow, bombCol]() {
-            mapData[bombRow][bombCol] = 0;
-            QWidget* widget = gridLayout->itemAtPosition(bombRow, bombCol)->widget();
+            QWidget* widget = gridLayout->itemAtPosition(newRow, newCol)->widget();
             QLabel* cell = qobject_cast<QLabel*>(widget);
             if (cell) {
-                QString style = "background-image: url(:/BattleCity/images/Path.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+                QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
                 cell->setStyleSheet(style);
             }
-            });
+        }
     }
+}
+
+void MainWindow::spawnRandomObjects()
+{
+    static QRandomGenerator generator;
+
+    const QStringList objectTypes = {
+        ":/BattleCity/images/Beer.png",
+        ":/BattleCity/images/Invisible.png",
+        ":/BattleCity/images/BombBall_Type1.png",
+        ":/BattleCity/images/Bomb.png",
+        ":/BattleCity/images/Powerup.png"
+    };
+
+    for (int i = 0; i < 3; ++i) {
+        int row = generator.bounded(mapData.size());
+        int col = generator.bounded(mapData[row].size());
+
+        if (mapData[row][col] == 0) {
+            mapData[row][col] = 4 + i;
+
+            QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
+            QLabel* cell = qobject_cast<QLabel*>(widget);
+            if (cell) {
+                QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;")
+                    .arg(objectTypes[i]);
+                cell->setStyleSheet(style);
+            }
+        }
+    }
+}
+
+bool MainWindow::placeCoinAtRandomLocation()
+{
+  
+    QVector<QPair<int, int>> emptyCells;
+    for (int row = 0; row < mapData.size(); ++row) {
+        for (int col = 0; col < mapData[row].size(); ++col) {
+            if (mapData[row][col] == 0) { 
+                emptyCells.append(qMakePair(row, col));
+            }
+        }
+    }
+
+    if (emptyCells.isEmpty()) {
+        return false;
+    }
+
+   
+    QPair<int, int> randomCell = emptyCells[QRandomGenerator::global()->bounded(emptyCells.size())];
+    int row = randomCell.first;
+    int col = randomCell.second;
+
+  
+    mapData[row][col] = 4; 
+
+  
+    QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
+    QLabel* cell = qobject_cast<QLabel*>(widget);
+
+    if (cell) {
+        QString style = "background-image: url(:/BattleCity/images/Coin.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+        cell->setStyleSheet(style);
+    }
+
+    return true;
 }

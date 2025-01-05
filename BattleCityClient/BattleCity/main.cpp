@@ -17,12 +17,12 @@ int main(int argc, char* argv[])
 
     QObject::connect(&mainWindow, &MainWindow::backToBattleCity, [&]() {
         mainWindow.close();
-        battleCityWindow.showMaximized();
+        battleCityWindow.showFullScreen();
         });
 
     QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&]() {
         loginWindow.close();
-        battleCityWindow.showMaximized();
+        battleCityWindow.showFullScreen();
         });
 
     QObject::connect(&registerWindow, &RegisterWindow::registerCredentials, [&]() {
@@ -41,17 +41,17 @@ int main(int argc, char* argv[])
 
     QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
         battleCityWindow.close();
-        mainWindow.showMaximized();
+        mainWindow.showFullScreen();
         });
 
     QObject::connect(&battleCityWindow, &BattleCity::button2Clicked, [&]() {
         battleCityWindow.close();
-        shop.showMaximized();
+        shop.showFullScreen();
         });
 
     QObject::connect(&shop, &Shop::backToBattleCity, [&]() {
         shop.close();
-        battleCityWindow.showMaximized();
+        battleCityWindow.showFullScreen();
         });
 
     loginWindow.show();

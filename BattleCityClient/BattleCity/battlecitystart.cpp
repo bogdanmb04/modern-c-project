@@ -11,6 +11,7 @@ BattleCity::BattleCity(QWidget* parent)
     : QWidget(parent) {
     setupUI();
     setWindowTitle("BattleCity");
+    
 }
 
 BattleCity::~BattleCity() {
