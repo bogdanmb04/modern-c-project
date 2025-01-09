@@ -87,23 +87,26 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
     CROW_ROUTE(m_app, "/login").methods(crow::HTTPMethod::POST)([&gameDatabase](const crow::request& req) {
         auto body = crow::json::load(req.body);
-        if (!body)
-        {
+        if (!body) {
             return crow::response(400, "Invalid JSON");
         }
 
         std::string username = body["username"].s();
         std::string password = body["password"].s();
+        int userId = gameDatabase.ValidateUserCredentials(username, password);
 
-        if (gameDatabase.ValidateUserCredentials(username, password))
-        {
-            return crow::response(200, "Login successful");
+        if (userId != -1) {
+            crow::json::wvalue responseJson;
+            responseJson["status"] = "Login successful";
+            responseJson["userId"] = userId;
+
+            return crow::response{ responseJson };
         }
-        else
-        {
+        else {
             return crow::response(401, "Invalid credentials");
         }
         });
+
 
     CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
         {
@@ -152,14 +155,6 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
         return crow::response(200, "Move successful");
         });
-
-
-
-
-
-
-
-
 
     m_app.port(18080).multithreaded().run();
 }

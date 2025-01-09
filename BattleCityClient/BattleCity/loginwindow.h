@@ -25,6 +25,8 @@ private slots:
     void handleLogin();          
     void goToRegisterPage();     
 private:
+    int userId;
+
     QString registeredUsername;  
     QString registeredPassword;  
     QLineEdit* usernameField;    

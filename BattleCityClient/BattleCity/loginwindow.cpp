@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <QPalette>
 #include <QPixmap>
+#include <nlohmann/json.hpp>
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
@@ -85,15 +86,32 @@ void LoginWindow::handleLogin()
 
     httpManager.sendPostRequest("http://localhost:18080/login", loginData, [this](const cpr::Response& response) {
         if (response.status_code == 200) {
-            errorLabel->setStyleSheet("color: green;");
-            errorLabel->setText("Login successful!");
-            emit loginSuccess();
+            try {
+                auto jsonResponse = nlohmann::json::parse(response.text);
+                if (jsonResponse.contains("userId")) {
+                    userId = jsonResponse["userId"].get<int>();
+
+                    errorLabel->setStyleSheet("color: green;");
+                    errorLabel->setText("Login successful!");
+
+                    emit loginSuccess();
+                }
+                else {
+                    errorLabel->setStyleSheet("color: red;");
+                    errorLabel->setText("Invalid response format!");
+                }
+            }
+            catch (const std::exception& e) {
+                errorLabel->setStyleSheet("color: red;");
+                errorLabel->setText("Error parsing the server response!");
+            }
         }
         else {
             errorLabel->setStyleSheet("color: red;");
             errorLabel->setText("Invalid username or password!");
         }
         });
+
 }
 
 void LoginWindow::goToRegisterPage()

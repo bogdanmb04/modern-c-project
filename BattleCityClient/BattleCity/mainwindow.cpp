@@ -225,7 +225,7 @@ void MainWindow::onCellClicked(int row, int col)
 
 void MainWindow::triggerExplosion(int row, int col)
 {
-    const int explosionRadius = 3;
+    const int explosionRadius = 5;
 
     if (mapData[row][col] == 1) {
         mapData[row][col] = 0;
@@ -262,22 +262,24 @@ void MainWindow::placeRandomBombsAround(int row, int col)
 {
     int rowOffset[] = { -1, 1, 0, 0 };
     int colOffset[] = { 0, 0, -1, 1 };
+
     for (int i = 0; i < 4; ++i) {
         int newRow = row + rowOffset[i];
         int newCol = col + colOffset[i];
-        if (newRow >= 0 && newRow < mapData.size() && newCol >= 0 && newCol < mapData[0].size() &&
-            mapData[newRow][newCol] == 0) {
-            mapData[newRow][newCol] = 3;
 
-            QWidget* widget = gridLayout->itemAtPosition(newRow, newCol)->widget();
-            QLabel* cell = qobject_cast<QLabel*>(widget);
-            if (cell) {
-                QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
-                cell->setStyleSheet(style);
+        if (newRow >= 0 && newRow < mapData.size() && newCol >= 0 && newCol < mapData[0].size()) {
+            if (mapData[newRow][newCol] == 3) {
+                QWidget* widget = gridLayout->itemAtPosition(newRow, newCol)->widget();
+                QLabel* cell = qobject_cast<QLabel*>(widget);
+                if (cell) {
+                    QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+                    cell->setStyleSheet(style);
+                }
             }
         }
     }
 }
+
 
 void MainWindow::spawnRandomObjects()
 {
