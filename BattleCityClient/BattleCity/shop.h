@@ -14,6 +14,7 @@ class Shop : public QWidget
 
 public:
     explicit Shop(QWidget *parent = nullptr);
+
     ~Shop();
 
 private:
@@ -45,6 +46,8 @@ private:
 
     int priceButton1;
     int priceButton2;
+
+    int weaponID;
 
 signals:
     void backToBattleCity();

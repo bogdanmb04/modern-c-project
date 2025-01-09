@@ -97,43 +97,36 @@ void MainWindow::loadMapFromServer()
             int height = jsonResponse["height"].toInt();
             QJsonArray layout = jsonResponse["layout"].toArray();
 
+            int expectedLayoutSize = width * height;
+
             mapData.clear();
-            int rowIndex = 0;
             QVector<int> currentRow;
 
-            for (const QJsonValue& value : layout) {
+            for (int i = 0; i < layout.size(); ++i) {
+                const QJsonValue& value = layout[i];
                 if (value.isObject()) {
                     QJsonObject obj = value.toObject();
-                    if (obj.contains("type")) {
-                        currentRow.append(obj["type"].toInt());
+                    int tile = obj["tile"].toInt();
+                    int direction = obj["direction"].toInt();
+                    QString entity = obj["entity"].toString();
+
+                    currentRow.append(tile);
+
+                    if (currentRow.size() == width) {
+                        mapData.append(currentRow);
+                        currentRow.clear();
                     }
-                }
-
-                if (currentRow.size() == width) {
-                    mapData.append(currentRow);
-                    currentRow.clear();
-                }
-                rowIndex++;
-            }
-
-            if (mapData.isEmpty() || mapData.size() != height) {
-                QMessageBox::warning(this, "Eroare", "Harta are dimensiuni invalide.");
-                mapData.clear();
-                return;
-            }
-
-            for (auto& row : mapData) {
-                while (row.size() < width) {
-                    row.append(0);
                 }
             }
 
             initializeMap();
         }
         else {
-            QMessageBox::warning(this, "Eroare", "Nu s-a putut obtine harta de la server.");
+            QMessageBox::warning(this, "Error", "The map couldn't be loaded from server.");
         }
         });
+
+
 }
 
 void MainWindow::initializeMap()
@@ -148,9 +141,16 @@ void MainWindow::initializeMap()
 
     if (mapData.isEmpty()) return;
 
-    int cellWidth = this->width() / mapData[0].size();
-    int cellHeight = this->height() / mapData.size();
+    int cellWidth = this->width();
+    int cellHeight = this->height();
     int cellSize = qMin(cellWidth, cellHeight);
+
+    int windowWidth = cellSize * mapData[0].size();
+    int windowHeight = cellSize * mapData.size();
+    this->resize(windowWidth, windowHeight);
+
+    gridLayout->setHorizontalSpacing(0);
+    gridLayout->setVerticalSpacing(0);
 
     for (int row = 0; row < mapData.size(); ++row) {
         for (int col = 0; col < mapData[row].size(); ++col) {
@@ -179,10 +179,6 @@ void MainWindow::initializeMap()
 
             QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;")
                 .arg(imagePath);
-            if ((row == 1 && col == 1) || (row == 1 && col == mapData[row].size() - 2) ||
-                (row == mapData.size() - 2 && col == 1) || (row == mapData.size() - 2 && col == mapData[row].size() - 2)) {
-                style = "background-color: white; border-radius: 5px; border: 0px; margin: 0px; padding: 0px;";
-            }
 
             cell->setStyleSheet(style);
             connect(cell, &ClickableLabel::clicked, this, &MainWindow::onCellClicked);
@@ -241,8 +237,6 @@ void MainWindow::triggerExplosion(int row, int col)
             cell->setStyleSheet(style);
         }
     }
-
-    placeRandomBombsAround(row, col);
 
     QTimer::singleShot(200, [this, row, col]() {
         for (int i = -explosionRadius; i <= explosionRadius; ++i) {

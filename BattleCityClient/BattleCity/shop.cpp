@@ -10,6 +10,8 @@
 #include <QGroupBox>
 #include <QDebug>
 #include <QTimer>
+#include <cpr/cpr.h>
+#include "httpmanager.h"
 
 Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
     priceButton1 = 25;
@@ -224,6 +226,9 @@ void Shop::onButton1Clicked() {
 
 void Shop::onButton2Clicked() {
     if (money >= priceButton2) {
+        HttpManager httpManager;
+        
+
         money -= priceButton2;
         moneyLabel->setText(QString::number(money));
         button2CircleCount++;
