@@ -16,13 +16,18 @@
 #include <cstdlib>
 #include <ctime>
 #include <QRandomGenerator>
+#include <nlohmann/json.hpp>
+#include <QtWidgets>
+
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
+    , userId(0)
     , ui(new Ui::MainWindow)
     , gridLayout(new QGridLayout())
     , httpManager()
 {
+
     ui->setupUi(this);
 
     QWidget* centralWidget = new QWidget(this);
@@ -63,6 +68,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
+void MainWindow::onLoginSuccess(uint32_t userId)
+{
+    this->userId = userId;
+    loadMapFromServer();
+}
+
 
 void MainWindow::BackButtonClicked()
 {
@@ -278,6 +291,65 @@ void MainWindow::placeRandomBombsAround(int row, int col)
             }
         }
     }
+}
+
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+    case Qt::Key_W:
+        playerDirection = Direction::Up;
+        break;
+    case Qt::Key_S:
+        playerDirection = Direction::Down;
+        break;
+    case Qt::Key_A:
+        playerDirection = Direction::Left;
+        break;
+    case Qt::Key_D:
+        playerDirection = Direction::Right;
+        break;
+    default:
+        return;
+    }
+    movePlayer(userId, playerDirection);
+}
+
+
+void MainWindow::movePlayer(uint32_t playerID, Direction direction) {
+    QString directionStr;
+    switch (direction) {
+    case Direction::Up: directionStr = "Up"; break;
+    case Direction::Down: directionStr = "Down"; break;
+    case Direction::Left: directionStr = "Left"; break;
+    case Direction::Right: directionStr = "Right"; break;
+    }
+
+    QJsonObject moveData;
+    moveData["playerID"] = static_cast<int>(userId);
+    moveData["direction"] = directionStr;
+
+    QJsonDocument doc(moveData);
+    QString moveDataStr = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
+
+
+    httpManager.sendPostRequest("http://localhost:18080/move", moveDataStr, [this](const cpr::Response& response) {
+        if (response.status_code == 200) {
+            try {
+                auto jsonResponse = nlohmann::json::parse(response.text);
+                if (jsonResponse.contains("status") && jsonResponse["status"] == "Move successful") {
+                    QMessageBox::warning(this, "Eroare", "Player moved successfully!");
+                }
+                else {
+                    QMessageBox::warning(this, "Eroare", "Invalid response format!");
+                }
+            }
+            catch (const std::exception& e) {
+                QMessageBox::warning(this, "Eroare", "Error parsing the server response");
+            }
+        }
+        else {
+            QMessageBox::warning(this, "Eroare", "Server error");
+        }
+        });
 }
 
 

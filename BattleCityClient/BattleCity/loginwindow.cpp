@@ -13,6 +13,7 @@
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
+    , userId(0)
 {
 
     QPixmap background(":/BattleCity/images/Intro2.png");
@@ -73,6 +74,11 @@ void LoginWindow::setUserCredentials(const QString& username, const QString& pas
     qDebug() << "Saved credentials in LoginWindow:" << registeredUsername << registeredPassword;
 }
 
+uint32_t LoginWindow::getUserId() const
+{
+    return userId;
+}
+
 void LoginWindow::handleLogin()
 {
     QString username = usernameField->text();
@@ -89,12 +95,12 @@ void LoginWindow::handleLogin()
             try {
                 auto jsonResponse = nlohmann::json::parse(response.text);
                 if (jsonResponse.contains("userId")) {
-                    userId = jsonResponse["userId"].get<int>();
+                    userId = jsonResponse["userId"].get<uint32_t>();
 
                     errorLabel->setStyleSheet("color: green;");
                     errorLabel->setText("Login successful!");
 
-                    emit loginSuccess();
+                    emit loginSuccess(userId);
                 }
                 else {
                     errorLabel->setStyleSheet("color: red;");

@@ -17,6 +17,12 @@
 namespace Ui {
     class MainWindow;
 }
+enum class Direction {
+    Up,
+    Down,
+    Left,
+    Right
+};
 
 class MainWindow : public QMainWindow
 {
@@ -37,6 +43,9 @@ private:
     QTimer* objectSpawnTimer;
     HttpManager httpManager;
 
+    uint32_t userId;
+    Direction playerDirection;
+
     void loadMapFromServer();
     void initializeMap();
     void placeCoins();
@@ -44,10 +53,13 @@ private:
     bool placeCoinAtRandomLocation();
     void triggerExplosion(int row, int col);
     void placeRandomBombsAround(int row, int col);
+    void movePlayer(uint32_t playerID, Direction direction);
+    void keyPressEvent(QKeyEvent* event);
 
 private slots:
     void BackButtonClicked();
     void onCellClicked(int row, int col);
+    void onLoginSuccess(uint32_t userId);
 };
 
 #endif // MAINWINDOW_H
