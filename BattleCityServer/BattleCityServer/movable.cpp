@@ -6,26 +6,26 @@ std::pair<size_t, size_t> GetPositionAfterDirection(const std::pair<size_t, size
 
 	switch (direction)
 	{
-	case Direction::UP:
-	{
-		line -= 1;
-		break;
-	}
-	case Direction::DOWN:
-	{
-		line += 1;
-		break;
-	}
-	case Direction::LEFT:
-	{
-		column -= 1;
-		break;
-	}
-	case Direction::RIGHT:
-	{
-		column += 1;
-		break;
-	}
+		case Direction::UP:
+		{
+			line -= 1;
+			break;
+		}
+		case Direction::DOWN:
+		{
+			line += 1;
+			break;
+		}
+		case Direction::LEFT:
+		{
+			column -= 1;
+			break;
+		}
+		case Direction::RIGHT:
+		{
+			column += 1;
+			break;
+		}
 	}
 
 	return { column, line };

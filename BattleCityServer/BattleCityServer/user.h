@@ -11,7 +11,6 @@ namespace user
 {
 	class User
 	{
-
 	public:
 		User(uint32_t userID, const std::string& username, uint8_t totalScore, uint16_t specialMoney, uint32_t weapon);
 		User(const std::string& username, const std::string& password);

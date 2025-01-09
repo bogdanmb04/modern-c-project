@@ -32,7 +32,7 @@ int main()
     auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
     auto weapon = gameDatabase.GetWeapon(bogdan.GetID());
 
-    game::Player playerBogdan{ std::move(bogdan), std::move(weapon) };
+    game::Player playerBogdan{ bogdan, std::move(weapon)};
 
     std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerBogdan);
 

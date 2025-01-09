@@ -2,9 +2,10 @@
 
 using namespace game;
 
-Bullet::Bullet(Direction direction, std::chrono::milliseconds speed)
-	: m_direction {direction}
-	, m_speed {speed}
+Bullet::Bullet(const Player& player)
+	: m_direction {player.GetDirection()}
+	, m_speed {player.GetWeapon().GetBulletSpeed()}
+	, m_timer{}
 {/*EMPTY*/}
 
 Direction game::Bullet::GetDirection() const

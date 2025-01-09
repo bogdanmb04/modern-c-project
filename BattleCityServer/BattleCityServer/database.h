@@ -25,8 +25,8 @@ namespace server
 			sql::make_table(
 				"Weapon",
 				sql::make_column("id", &Weapon::SetID, &Weapon::GetID, sql::primary_key().autoincrement()),
-				sql::make_column("bulletWaitTime", &Weapon::GetWaitTime, &Weapon::SetWaitTime),
-				sql::make_column("bulletSpeed", &Weapon::GetSpeed, &Weapon::SetSpeed),
+				sql::make_column("bulletWaitTime", &Weapon::GetBulletWaitTime, &Weapon::SetBulletWaitTime),
+				sql::make_column("bulletSpeed", &Weapon::GetBulletSpeed, &Weapon::SetBulletSpeed),
 				sql::make_column("userID", &Weapon::GetUserID, &Weapon::SetUserID)
 				
 			)
@@ -49,11 +49,13 @@ namespace server
 		User GetUser(uint32_t id);
 		User GetUserByUsername(const std::string& username);
 		bool ValidateUserCredentials(const std::string& username, const std::string& password);
-
 		bool UserExists(const std::string& username);
 
 		void AddWeapon(const Weapon& weapon);
 		Weapon GetWeapon(int userId);
+
+		void UpgradeBulletWaitTime(uint32_t id);
+		void UpgradeBulletSpeed(uint32_t id);
 
 		Database& GetStorage();
 

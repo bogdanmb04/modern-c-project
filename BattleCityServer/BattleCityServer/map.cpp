@@ -271,7 +271,7 @@ void Map::ShootBullet(uint32_t playerID)
 	{
 		if ((*this).GetTile({bulletPos.first, bulletPos.second}).GetType() == Tile::TileType::Free)
 		{
-			(*this)[{bulletPos.first, bulletPos.second}].second = std::make_shared<Bullet>(direction, (*playerPtr)->GetWeaponWaitTime());
+			(*this)[{bulletPos.first, bulletPos.second}].second = std::make_shared<Bullet>(*((*playerPtr).get()));
 		}
 	}
 }

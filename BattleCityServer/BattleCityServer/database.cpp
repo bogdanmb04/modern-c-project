@@ -39,6 +39,26 @@ Weapon GameDatabase::GetWeapon(int userId)
 	return m_db.get_all<Weapon>(sql::where(sql::c(&Weapon::GetUserID) == userId))[0];
 }
 
+void server::GameDatabase::UpgradeBulletWaitTime(uint32_t id)
+{
+	auto weapon = this->GetWeapon(id);
+	if (weapon.GetBulletWaitTime() > weapon.kDefaultBulletWaitTime / 16)
+	{
+		weapon.SetBulletWaitTime(weapon.GetBulletWaitTime() / 2);
+	}
+	m_db.update(weapon);
+}
+
+void server::GameDatabase::UpgradeBulletSpeed(uint32_t id)
+{
+	auto weapon = this->GetWeapon(id);
+	if (weapon.GetBulletSpeed() == weapon.kDefaultBulletSpeed)
+	{
+		weapon.SetBulletSpeed(weapon.GetBulletSpeed() * 2);
+	}
+	m_db.update(weapon);
+}
+
 Database& GameDatabase::GetStorage()
 {
 	return m_db;

@@ -3,28 +3,39 @@
 #include "Player.h"
 #include "powerup.h"
 
-static int EntityToValue(std::shared_ptr<Entity> entity)
+using std::uint32_t;
+
+static std::string EntityToValue(std::shared_ptr<Entity> entity)
 {
     if (entity == nullptr)
     {
-        return 0;
+        return "nothing";
     }
     if (auto player = std::dynamic_pointer_cast<game::Player>(entity); player)
     {
-        return player->GetID();
+        return std::to_string(player->GetID());
     }
     if (auto bullet = std::dynamic_pointer_cast<game::Bullet>(entity); bullet)
     {
-        return -1;
+        return "bullet";
     }
     if (auto bomb = std::dynamic_pointer_cast<Bomb>(entity); bomb)
     {
-        return -2;
+        return "bomb";
     }
     if (auto powerUp = std::dynamic_pointer_cast<game::PowerUp>(entity); powerUp)
     {
-        return -3;
+        switch (powerUp->GetType())
+        {
+        case game::PowerUpType::BeerEffect: return "beer";
+        case game::PowerUpType::TracingBullet: return "tracing";
+        case game::PowerUpType::GhostBullet: return "ghost";
+        case game::PowerUpType::MiniBombBullet: return "explosive";
+        case game::PowerUpType::Invisibility: return "invisible";
+        }
     }
+
+    throw std::exception{ "Non-game component received" };
 }
 
 static Direction ConfigureDirection(std::shared_ptr<Entity> entity)
@@ -96,12 +107,8 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
     CROW_ROUTE(m_app, "/map").methods(crow::HTTPMethod::GET)([&map](const crow::request& req)
         {
-            //all players have IDs starting from 1
-
             auto body = crow::json::load(req.body);
             std::vector<crow::json::wvalue> mapLayout;
-            size_t width = map.GetWidth();  
-            size_t height = map.GetHeight();  
 
             auto checkInfo = [&mapLayout](const game::Map::Square& square) -> void
                 {
@@ -115,8 +122,8 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
             std::ranges::for_each(map.GetSquares(), checkInfo);
 
             return crow::json::wvalue{
-                {"width", width},  
-                {"height", height},  
+                {"width", map.GetWidth()},
+                {"height", map.GetHeight()},
                 {"layout", mapLayout}
             };
 

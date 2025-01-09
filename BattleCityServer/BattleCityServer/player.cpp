@@ -29,10 +29,9 @@ Direction Player::GetDirection() const
 	return m_direction;
 }
 
-std::chrono::milliseconds Player::GetWeaponWaitTime() const
+const Weapon& game::Player::GetWeapon() const
 {
-	std::chrono::milliseconds duration{ m_weapon.GetWaitTime() };
-	return duration;
+	return m_weapon;
 }
 
 void Player::SetDirection(Direction direction)
@@ -45,12 +44,12 @@ void Player::AddScore(uint8_t points)
 	m_score += points;
 }
 
-Player::Player(const User& user, const Weapon& weapon)
+Player::Player(const User& user, Weapon&& weapon)
 	: m_id{ user.GetID() }
 	, m_score{ 0 }
 	, m_lives{ 3 }
 	, m_direction {Direction::UP}
-	, m_weapon{ weapon }
+	, m_weapon{ std::move(weapon) }
 {
 	//EMPTY
 }

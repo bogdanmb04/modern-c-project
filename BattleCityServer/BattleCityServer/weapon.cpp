@@ -1,6 +1,6 @@
 #include "Weapon.h"
 
-Weapon::Weapon(uint32_t id, uint32_t bulletWaitTime, uint16_t bulletSpeed, uint32_t userID)
+Weapon::Weapon(uint32_t id, uint16_t bulletWaitTime, double bulletSpeed, uint32_t userID)
 	: m_bulletWaitTime{ bulletWaitTime }
 	, m_bulletSpeed{ bulletSpeed }
 	, m_id{ id }
@@ -11,18 +11,18 @@ Weapon::Weapon(uint32_t id, uint32_t bulletWaitTime, uint16_t bulletSpeed, uint3
 
 Weapon::Weapon(uint32_t userID)
 	: m_userID{userID}
-	, m_bulletSpeed{ 1 }
-	, m_bulletWaitTime{ 4000 }
+	, m_bulletSpeed{ kDefaultBulletSpeed }
+	, m_bulletWaitTime{ kDefaultBulletWaitTime }
 {
 	/*EMPTY*/
 }
 
-uint16_t Weapon::GetSpeed() const
+double Weapon::GetBulletSpeed() const
 {
 	return m_bulletSpeed;
 }
 
-uint32_t Weapon::GetWaitTime() const
+uint16_t Weapon::GetBulletWaitTime() const
 {
 	return m_bulletWaitTime;
 }
@@ -37,12 +37,18 @@ uint32_t Weapon::GetUserID() const
 	return m_userID;
 }
 
-void Weapon::SetSpeed(uint16_t speed)
+std::chrono::milliseconds Weapon::GetBulletWaitTimeMilliseconds() const
+{
+	std::chrono::milliseconds duration{ this->GetBulletWaitTime()};
+	return duration;
+}
+
+void Weapon::SetBulletSpeed(double speed)
 {
 	m_bulletSpeed = speed;
 }
 
-void Weapon::SetWaitTime(uint32_t waitTime)
+void Weapon::SetBulletWaitTime(uint16_t waitTime)
 {
 	m_bulletWaitTime = waitTime;
 }

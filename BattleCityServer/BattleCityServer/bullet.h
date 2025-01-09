@@ -2,7 +2,8 @@
 
 #include "Movable.h"
 #include "Entity.h"
-#include <chrono>
+#include "Timer.h"
+#include "Player.h"
 
 using std::uint8_t;
 
@@ -11,10 +12,12 @@ namespace game
 	class Bullet : public Entity
 	{
 	public:
-		Bullet(Direction direction, std::chrono::milliseconds speed);
+		Bullet(const Player& player);
 		Direction GetDirection() const;
+
 	private:
-		Direction m_direction : 3;
-		std::chrono::milliseconds m_speed;
+		Direction m_direction : 2;
+		double m_speed;
+		Timer m_timer;
 	};
 }
