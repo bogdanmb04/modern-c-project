@@ -20,10 +20,10 @@ namespace game
 	class Map
 	{
 	public:
-		static const size_t kWidthMin{ 20 };
-		static const size_t kWidthMax{ 25 };
-		static const size_t kHeightMin{ 20 };
-		static const size_t kHeightMax{ 25 };
+		static const size_t kWidthMin{ 45 };
+		static const size_t kWidthMax{ 50 };
+		static const size_t kHeightMin{ 25 };
+		static const size_t kHeightMax{ 30 };
 		static const size_t kNoBombs{ 3 };
 		using Position = std::pair<size_t, size_t>;
 		using Square = std::pair<Tile, std::shared_ptr<Entity>>;

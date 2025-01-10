@@ -96,7 +96,7 @@ void LoginWindow::handleLogin()
                 auto jsonResponse = nlohmann::json::parse(response.text);
                 if (jsonResponse.contains("userId")) {
                     userId = jsonResponse["userId"].get<uint32_t>();
-
+                    
                     errorLabel->setStyleSheet("color: green;");
                     errorLabel->setText("Login successful!");
 

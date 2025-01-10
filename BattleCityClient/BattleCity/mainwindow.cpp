@@ -149,9 +149,6 @@ void MainWindow::initializeMap()
         delete item;
     }
 
-    gridLayout->setSpacing(0);
-    gridLayout->setContentsMargins(0, 0, 0, 0);
-
     if (mapData.isEmpty()) return;
 
     int cellWidth = this->width();
@@ -161,9 +158,6 @@ void MainWindow::initializeMap()
     int windowWidth = cellSize * mapData[0].size();
     int windowHeight = cellSize * mapData.size();
     this->resize(windowWidth, windowHeight);
-
-    gridLayout->setHorizontalSpacing(0);
-    gridLayout->setVerticalSpacing(0);
 
     for (int row = 0; row < mapData.size(); ++row) {
         for (int col = 0; col < mapData[row].size(); ++col) {
