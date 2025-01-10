@@ -31,7 +31,6 @@ namespace game
 	public:
 		Map();
 		const std::vector<Square>& GetSquares() const;
-		std::string ToString() const;
 		std::string GetTileLayout() const;
 		std::string GetEntityLayout() const;
 
