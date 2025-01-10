@@ -21,7 +21,7 @@ void BattleCity::setupUI() {
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-
+   // this->setStyleSheet("background-color: #2b2b2b;");
     QVBoxLayout* titleLayout = new QVBoxLayout();
     QLabel* titleLabel1 = new QLabel("Welcome to");
     titleLabel1->setAlignment(Qt::AlignBottom | Qt::AlignHCenter);

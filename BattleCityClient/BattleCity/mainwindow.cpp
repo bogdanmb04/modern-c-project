@@ -27,7 +27,6 @@ MainWindow::MainWindow(QWidget* parent)
     , gridLayout(new QGridLayout())
     , httpManager()
 {
-
     ui->setupUi(this);
 
     QWidget* centralWidget = new QWidget(this);
@@ -36,6 +35,9 @@ MainWindow::MainWindow(QWidget* parent)
     gridLayout->setSpacing(0);
     gridLayout->setContentsMargins(0, 0, 0, 0);
     centralWidget->setLayout(gridLayout);
+
+    //centralWidget->setStyleSheet("background-color: #2b2b2b;");
+
     setCentralWidget(centralWidget);
 
     QPushButton* menuButton = new QPushButton("Menu", this);
@@ -63,6 +65,7 @@ MainWindow::MainWindow(QWidget* parent)
     connect(objectSpawnTimer, &QTimer::timeout, this, &MainWindow::spawnRandomObjects);
     objectSpawnTimer->start(120000);
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -186,7 +189,7 @@ void MainWindow::initializeMap()
                 imagePath = ":/BattleCity/images/Bomb.png";
                 break;
             default:
-                imagePath = ":/BattleCity/images/Path.png";
+                imagePath = ":/BattleCity/images/Path2.png";
                 break;
             }
 
@@ -246,7 +249,7 @@ void MainWindow::triggerExplosion(int row, int col)
         QLabel* cell = qobject_cast<QLabel*>(widget);
 
         if (cell) {
-            QString style = "background-image: url(:/BattleCity/images/Path.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+            QString style = "background-image: url(:/BattleCity/images/Path2.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
             cell->setStyleSheet(style);
         }
     }
@@ -261,7 +264,7 @@ void MainWindow::triggerExplosion(int row, int col)
                         QLabel* cell = qobject_cast<QLabel*>(widget);
 
                         if (cell) {
-                            QString style = "background-image: url(:/BattleCity/images/Path.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+                            QString style = "background-image: url(:/BattleCity/images/Path2.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
                             cell->setStyleSheet(style);
                         }
                     }
@@ -280,17 +283,19 @@ void MainWindow::placeRandomBombsAround(int row, int col)
         int newRow = row + rowOffset[i];
         int newCol = col + colOffset[i];
 
-        if (newRow >= 0 && newRow < mapData.size() && newCol >= 0 && newCol < mapData[0].size()) {
-            if (mapData[newRow][newCol] == 3) {
-                QWidget* widget = gridLayout->itemAtPosition(newRow, newCol)->widget();
-                QLabel* cell = qobject_cast<QLabel*>(widget);
-                if (cell) {
-                    QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
-                    cell->setStyleSheet(style);
-                }
-            }
-        }
+        if (mapData[row][col] == 1) {
+    mapData[row][col] = 0;
+    QWidget* widget = gridLayout->itemAtPosition(row, col)->widget();
+    QLabel* cell = qobject_cast<QLabel*>(widget);
+
+    if (cell) {
+        QString style = "background-image: url(:/BattleCity/images/Path2.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+        cell->setStyleSheet(style);
     }
+}
+
+    }
+
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event) {
