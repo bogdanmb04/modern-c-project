@@ -25,7 +25,7 @@ void Shop::setupUI() {
     setWindowTitle("Shop");
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-
+    //this->setStyleSheet("background-color: #2b2b2b;");
     QPushButton* backButton = new QPushButton("Back", this);
     backButton->setStyleSheet("font-size: 15px; padding: 10px;");
     backButton->setFixedSize(70, 40);
@@ -83,6 +83,7 @@ void Shop::setupUI() {
 
     QGroupBox* moneyBox = new QGroupBox(this);
     moneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
+
     moneyBox->setFixedWidth(170);
     moneyBox->setContentsMargins(20, 5, 5, 5);
 
@@ -155,7 +156,7 @@ void Shop::setupUI() {
     buttonsLayout->addWidget(button1);
 
     QPushButton* button2 = new QPushButton("Bullet Speed", this);
-    button2->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
+    button2->setStyleSheet("font-size: 25px; text-align: left;background-color: #D3D3D3; padding-left: 10px;");
     button2->setFixedSize(700, 150);
 
     QPixmap imagePixmap2(":/BattleCity/images/UpgradeIcon.png");
