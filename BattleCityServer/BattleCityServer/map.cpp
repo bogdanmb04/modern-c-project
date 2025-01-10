@@ -72,30 +72,6 @@ const std::vector<Map::Square>& game::Map::GetSquares() const
 	return m_squares;
 }
 
-std::string Map::ToString() const 
-{
-	std::string mapString;
-	for (size_t y = 0; y < m_height; ++y)
-	{
-		for (size_t x = 0; x < m_width; ++x)
-		{
-			const auto& square = m_squares.at(y * m_width + x);
-			const Tile& tile = square.first;
-			const std::shared_ptr<Entity>& entity = square.second;
-
-			if (entity != nullptr && dynamic_cast<Player*>(entity.get())) {
-				mapString += "P";
-			}
-			else 
-			{
-				mapString += tile.TileTypeToChar();
-			}
-		}
-		mapString += "\n";
-	}
-	return std::move(mapString);
-}
-
 std::string game::Map::GetTileLayout() const
 {
 	std::string result{};
@@ -180,9 +156,8 @@ void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 
 	for (size_t i = 0; i < std::min(kNoBombs, destructibleWalls.size()); ++i)
 	{
-		const auto& [x, y] = destructibleWalls[i];
-		//bombs.emplace_back(std::make_pair(static_cast<uint16_t>(x), y));
-		std::cout << "Placed bomb at (" << x << ", " << y << ")" << std::endl;
+		auto [x, y] = destructibleWalls[i];
+		(*this)[{x, y}].second = std::make_shared<Bomb>(Position{x, y});
 	}
 }
 
