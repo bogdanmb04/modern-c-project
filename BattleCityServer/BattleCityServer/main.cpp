@@ -27,7 +27,6 @@ int main()
     std::vector<Bomb> bombs;
     myMap.PlaceBombsOnWalls(bombs);
     logger.Log("Map initialized with bombs and player placed.", Logger::Level::Info);
-    logger.Log(myMap.ToString(), Logger::Level::Info);
 
     auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
     auto weapon = gameDatabase.GetWeapon(bogdan.GetID());

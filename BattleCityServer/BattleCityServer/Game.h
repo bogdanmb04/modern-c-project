@@ -10,6 +10,13 @@ namespace game
 	class Game
 	{
 	public:
+		enum class GameType : uint8_t
+		{
+			_1V4,
+			_2V2
+		};
+
+	public:
 		Game();
 		~Game();
 		void StartGame();
@@ -22,6 +29,7 @@ namespace game
 		Map m_map;
 		std::array<std::shared_ptr<Player>, 4> m_players;
 		Timer m_timer;
+		GameType m_type : 1;
 	};
 }
 
