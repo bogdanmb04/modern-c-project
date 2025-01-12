@@ -43,7 +43,6 @@ namespace server
 	{
 	public:
 		void Initialize();
-
 		void AddUser(const User& user);
 		bool RegisterUser(const std::string& username, const std::string& password);
 		User GetUser(uint32_t id);

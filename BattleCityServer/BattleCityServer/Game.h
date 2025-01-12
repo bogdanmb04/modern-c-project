@@ -10,26 +10,20 @@ namespace game
 	class Game
 	{
 	public:
-		enum class GameType : uint8_t
-		{
-			_1V4,
-			_2V2
-		};
 
 	public:
 		Game();
 		~Game();
 		void StartGame();
 		void EndGame();
-		void AddPlayer(uint32_t playerID);
-
+		void AddPlayer(Player& player);
+		const Timer& GetTimer();
 	public:
 		inline static uint8_t kGameCounter;
 	private:
 		Map m_map;
 		std::array<std::shared_ptr<Player>, 4> m_players;
 		Timer m_timer;
-		GameType m_type : 1;
 	};
 }
 

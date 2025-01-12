@@ -11,7 +11,7 @@ void Timer::Restart()
 	m_startTime = std::chrono::steady_clock::now();
 }
 
-float Timer::GetElapsedTime()
+float Timer::GetElapsedTime() const
 {
 	std::chrono::duration<float> elapsedTime = std::chrono::steady_clock::now() - m_startTime;
 	return elapsedTime.count();

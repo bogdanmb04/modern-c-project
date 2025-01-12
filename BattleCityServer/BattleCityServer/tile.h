@@ -7,7 +7,6 @@ using std::uint8_t;
 class Tile
 {
 public:
-    friend class Bomb;
     enum class TileType : uint8_t
     {
         Free,

@@ -6,7 +6,7 @@ class Timer
 public:
 	Timer();
 	void Restart();
-	float GetElapsedTime();
+	float GetElapsedTime() const;
 private:
 	std::chrono::steady_clock::time_point m_startTime;
 };
