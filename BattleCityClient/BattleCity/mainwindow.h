@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
-
+    
 signals:
     void backToBattleCity();
 
@@ -55,7 +55,7 @@ private:
     void placeRandomBombsAround(int row, int col);
     void movePlayer(uint32_t playerID, Direction direction);
     void keyPressEvent(QKeyEvent* event);
-
+   
 private slots:
     void BackButtonClicked();
     void onCellClicked(int row, int col);

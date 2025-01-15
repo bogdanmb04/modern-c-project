@@ -3,6 +3,7 @@
 #include "registerwindow.h"
 #include "battlecitystart.h"
 #include "shop.h"
+#include "CharacterSelection.h"
 #include <QApplication>
 
 int main(int argc, char* argv[])
@@ -14,6 +15,7 @@ int main(int argc, char* argv[])
     RegisterWindow registerWindow;
     BattleCity battleCityWindow;
     Shop shop;
+    CharacterSelection character;
 
     QObject::connect(&mainWindow, &MainWindow::backToBattleCity, [&]() {
         mainWindow.close();
@@ -54,6 +56,25 @@ int main(int argc, char* argv[])
         battleCityWindow.showFullScreen();
         });
 
+   
+    QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
+        battleCityWindow.close();
+        mainWindow.showFullScreen(); 
+        });
+
+   
+    QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
+        battleCityWindow.close();
+        mainWindow.showFullScreen();
+        });
+
+
+    QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
+        battleCityWindow.close();
+        character.showFullScreen();
+        });
+
+    // Începe cu LoginWindow
     loginWindow.show();
 
     return a.exec();

@@ -1,6 +1,6 @@
 {
-  "width": 50,
-  "height": 50,
+  "width": 10,
+  "height": 20,
   "layout": [
     {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2}, {"type": 2},
     {"type": 2}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 0}, {"type": 2},

@@ -19,5 +19,12 @@
         <file>images/Path.png</file>
         <file>images/Intro.png</file>
         <file>images/Intro2.png</file>
+        <file>images/Coin2.png</file>
+        <file>images/PoliceOfficer2.png</file>
+        <file>images/PoliceOfficer3.png</file>
+        <file>images/PoliceOfficer4.png</file>
+        <file>images/Zombie1.png</file>
+        <file>images/Zombie2.png</file>
+        <file>images/Zombie3.png</file>
     </qresource>
 </RCC>

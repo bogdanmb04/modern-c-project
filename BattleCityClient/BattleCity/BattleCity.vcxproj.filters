@@ -52,6 +52,9 @@
     <QtMoc Include="circle.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="CharacterSelection.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="httpmanager.h">
@@ -81,6 +84,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="circle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSelection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
