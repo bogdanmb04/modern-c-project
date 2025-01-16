@@ -6,7 +6,6 @@ Circle::Circle(QWidget* parent)
 {
     setFixedSize(30, 30);
 }
-
 void Circle::setFilled(bool filled)
 {
     if (m_filled != filled) {
