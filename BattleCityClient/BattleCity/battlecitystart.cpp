@@ -64,14 +64,5 @@ void BattleCity::onButton1Clicked() {
     dialog->exec();
 }
 
-void BattleCity::onCharacterChosen(const QString& character) {
-    if (!character.isEmpty()) {
-        qDebug() << "Character chosen:" << character;
-        emit gameStarted(character);
-        this->close();
-       // MainWindow* mainWindow = new MainWindow();
-       //mainWindow->show();
-    }
-}
 
 
