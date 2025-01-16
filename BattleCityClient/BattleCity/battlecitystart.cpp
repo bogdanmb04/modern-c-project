@@ -57,6 +57,12 @@ void BattleCity::setupUI() {
     mainLayout->addLayout(buttonLayout);
 }
 
+void BattleCity::onButton1Clicked() {
+
+    CharacterSelection* dialog = new CharacterSelection(this);
+    connect(dialog, &CharacterSelection::characterChosen, this, &BattleCity::onCharacterChosen);
+    dialog->exec();
+}
 
 void BattleCity::onCharacterChosen(const QString& character) {
     if (!character.isEmpty()) {
