@@ -120,3 +120,13 @@ void LoginWindow::handleLogin()
 
 }
 
+void LoginWindow::goToRegisterPage()
+{
+    
+    RegisterWindow* registerWindow = new RegisterWindow();
+    connect(registerWindow, &RegisterWindow::goToLogin, this, &LoginWindow::show); 
+    connect(registerWindow, &RegisterWindow::registerCredentials,
+        this, &LoginWindow::setUserCredentials);  
+    registerWindow->show();
+    this->close();  
+}
