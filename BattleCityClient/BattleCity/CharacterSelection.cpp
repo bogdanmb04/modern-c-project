@@ -12,7 +12,7 @@ CharacterSelection::CharacterSelection(QWidget* parent)
 
 void CharacterSelection::setupUI() {
     this->setWindowState(Qt::WindowMaximized);
-    this->setStyleSheet("background-color: #380c03;");
+    this->setStyleSheet("background-color: #022423;");
     QHBoxLayout* layout = new QHBoxLayout(this);
 
     QVBoxLayout* leftLayout = new QVBoxLayout();
