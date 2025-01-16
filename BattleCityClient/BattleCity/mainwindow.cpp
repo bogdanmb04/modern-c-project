@@ -292,7 +292,25 @@ void MainWindow::placeRandomBombsAround(int row, int col)
 
 }
 
-
+void MainWindow::keyPressEvent(QKeyEvent* event) {
+    switch (event->key()) {
+    case Qt::Key_W:
+        playerDirection = Direction::Up;
+        break;
+    case Qt::Key_S:
+        playerDirection = Direction::Down;
+        break;
+    case Qt::Key_A:
+        playerDirection = Direction::Left;
+        break;
+    case Qt::Key_D:
+        playerDirection = Direction::Right;
+        break;
+    default:
+        return;
+    }
+    movePlayer(userId, playerDirection);
+}
 
 
 void MainWindow::movePlayer(uint32_t playerID, Direction direction) {
