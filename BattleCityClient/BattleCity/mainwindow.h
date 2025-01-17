@@ -38,7 +38,7 @@ signals:
 private:
     Ui::MainWindow* ui;
     QGridLayout* gridLayout;
-    QVector<QVector<int>> mapData;
+    QVector<QVector<QPair<int, QString>>> mapData;
     QTimer* coinTimer;
     QTimer* objectSpawnTimer;
     HttpManager httpManager;

@@ -33,13 +33,13 @@ std::pair<size_t, size_t> GetPositionAfterDirection(const std::pair<size_t, size
 
 Direction StringToDirection(const std::string_view& message)
 {
-	if (message == "UP")
+	if (message == "Up")
 		return Direction::UP;
-	if (message == "DOWN")
+	if (message == "Down")
 		return Direction::DOWN;
-	if (message == "LEFT")
+	if (message == "Left")
 		return Direction::LEFT;
-	if (message == "RIGHT")
+	if (message == "Right")
 		return Direction::RIGHT;
 	throw std::exception{ "Invalid direction" };
 }

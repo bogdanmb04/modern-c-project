@@ -209,6 +209,7 @@ void Map::MovePlayer(uint32_t playerID, Direction direction)
 			}
 		}
 	}
+
 }
 
 void Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)

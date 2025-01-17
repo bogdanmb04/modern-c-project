@@ -43,8 +43,9 @@ void BattleCity::setupUI() {
     button2->setFixedSize(300, 70);
     button3->setFixedSize(300, 70);
     button4->setFixedSize(300, 70);
-
-    connect(button1, &QPushButton::clicked, this, &BattleCity::onButton1Clicked);
+    //poate reusim pe final
+    //connect(button1, &QPushButton::clicked, this, &BattleCity::onButton1Clicked);
+    connect(button1, &QPushButton::clicked, this, &BattleCity::button1Clicked);
     connect(button2, &QPushButton::clicked, this, &BattleCity::button2Clicked);
     connect(button3, &QPushButton::clicked, this, &BattleCity::button3Clicked);
     connect(button4, &QPushButton::clicked, qApp, &QApplication::quit);

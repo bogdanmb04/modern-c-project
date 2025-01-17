@@ -145,6 +145,7 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         try 
         {
             direction = StringToDirection(directionStr);
+            std::cout<< directionStr;
         }
         catch (const std::exception& e)
         {
@@ -152,6 +153,7 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         }
 
         map.MovePlayer(playerID, direction);
+
 
         return crow::response(200, "Move successful");
         });
