@@ -339,36 +339,60 @@ void MainWindow::movePlayer(uint32_t playerID, Direction direction) {
     }
 
     QJsonObject moveData;
-    moveData["playerID"] = static_cast<int>(userId);
+    moveData["playerID"] = static_cast<int>(playerID);
     moveData["direction"] = directionStr;
 
     QJsonDocument doc(moveData);
     QString moveDataStr = QString::fromUtf8(doc.toJson(QJsonDocument::Compact));
 
-
     httpManager.sendPostRequest("http://localhost:18080/move", moveDataStr, [this](const cpr::Response& response) {
         if (response.status_code == 200) {
-            try {
-                //qDebug() << "Raw server response: " << QString::fromStdString(response.text);
-                //auto jsonResponse = nlohmann::json::parse(response.text);
-                if (QString::fromStdString(response.text) == "Move successful") {
-                    QMessageBox::warning(this, "Eroare", "Player moved successfully!");
+            QJsonDocument doc = QJsonDocument::fromJson(response.text.c_str());
+            QJsonObject jsonResponse = doc.object();
+
+            if (jsonResponse["status"].toString() == "Move successful" && jsonResponse.contains("updates")) {
+                QJsonArray updates = jsonResponse["updates"].toArray();
+
+                for (const auto& updateValue : updates) {
+                    QJsonObject update = updateValue.toObject();
+
+                    size_t x = static_cast<size_t>(update["x"].toInt());
+                    size_t y = static_cast<size_t>(update["y"].toInt());
+                    int tile = update["tile"].toInt();
+                    QString entity = update["entity"].toString();
+
+                    mapData[y][x].first = tile;
+                    mapData[y][x].second = entity;
+
+                    QWidget* widget = gridLayout->itemAtPosition(static_cast<int>(y), static_cast<int>(x))->widget();
+                    QLabel* cell = qobject_cast<QLabel*>(widget);
+
+                    if (cell) {
+                        QString imagePath;
+                        switch (tile) {
+                        case 1: imagePath = ":/BattleCity/images/BreakableWall_Type1.png"; break;
+                        case 2: imagePath = ":/BattleCity/images/UnbreakableWall_Type1.png"; break;
+                        case 0: imagePath = ":/BattleCity/images/Path.png"; break;
+                        default: imagePath = ":/BattleCity/images/Path2.png"; break;
+                        }
+
+                        QString style = QString("background-image: url(%1);").arg(imagePath);
+                        if (entity == "1") { 
+                            style = "background-image: url(:/BattleCity/images/PoliceOfficer.png);";
+                        }
+
+                        cell->setStyleSheet(style); 
+                    }
                 }
-                else {
-                    QMessageBox::warning(this, "Eroare", "Invalid response format!");
-                }
-            }
-            catch (const std::exception& e) {
-                qDebug() << "Server response status code: " << response.status_code << " Message: " << QString::fromStdString(response.text)<<e.what();
-                QMessageBox::warning(this, "Eroare", "Error parsing the server response");
             }
         }
         else {
-            qDebug() << "Server response status code: " << response.status_code << " Message: " << QString::fromStdString(response.text);
-            QMessageBox::warning(this, "Eroare", "Server error");
+            QMessageBox::warning(this, "Error", "Server move error");
         }
         });
 }
+
+
 
 void MainWindow::spawnRandomObjects()
 {
