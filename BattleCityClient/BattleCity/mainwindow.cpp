@@ -59,11 +59,11 @@ MainWindow::MainWindow(QWidget* parent)
 
     coinTimer = new QTimer(this);
     connect(coinTimer, &QTimer::timeout, this, &MainWindow::placeCoins);
-    coinTimer->start(60000);
+    coinTimer->start(10000);
 
     objectSpawnTimer = new QTimer(this);
     connect(objectSpawnTimer, &QTimer::timeout, this, &MainWindow::spawnRandomObjects);
-    objectSpawnTimer->start(120000);
+    objectSpawnTimer->start(10000);
 }
 
 

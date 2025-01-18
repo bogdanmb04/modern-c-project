@@ -56,6 +56,24 @@ int main(int argc, char* argv[])
         battleCityWindow.showFullScreen();
         });
 
+   
+    /*QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
+        battleCityWindow.close();
+        mainWindow.showFullScreen(); 
+        });
+
+   
+    QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
+        battleCityWindow.close();
+        mainWindow.showFullScreen();
+        });*/
+
+
+    /*QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
+        battleCityWindow.close();
+        character.showFullScreen();
+        });*/
+
     // Începe cu LoginWindow
     loginWindow.show();
 
