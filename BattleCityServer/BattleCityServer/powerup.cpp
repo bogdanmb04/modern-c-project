@@ -64,6 +64,7 @@ void PowerUp::Activate(Entity& target) {
     switch (m_type) {
     case PowerUpType::GhostBullet:
         // interfata + coliziuni
+
         break;
 
     case PowerUpType::Invisibility:
@@ -92,6 +93,7 @@ void PowerUp::Deactivate(Entity& target) {
     switch (m_type) {
     case PowerUpType::Invisibility:
         //target.SetInvisible(false);
+
         break;
 
     case PowerUpType::BeerEffect:

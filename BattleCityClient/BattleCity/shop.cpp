@@ -156,7 +156,7 @@ void Shop::setupUI() {
     buttonsLayout->addWidget(button1);
 
     QPushButton* button2 = new QPushButton("Bullet Speed", this);
-    button2->setStyleSheet("font-size: 25px; text-align: left;background-color: #D3D3D3; padding-left: 10px;");
+    button2->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
     button2->setFixedSize(700, 150);
 
     QPixmap imagePixmap2(":/BattleCity/images/UpgradeIcon.png");

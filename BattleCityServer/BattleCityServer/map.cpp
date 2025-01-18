@@ -1,6 +1,10 @@
 #include "Map.h"
 #include <vector>
 #include "PowerUp.h"
+#include <queue>
+#include <unordered_map>
+#include <cmath>
+#include <algorithm>
 
 using namespace game;
 
@@ -142,7 +146,7 @@ void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 	{
 		for (size_t x = 0; x < m_width; ++x)
 		{
-			const Tile& tile = GetTile({x, y});
+			const Tile& tile = GetTile({ x, y });
 			if (tile.GetType() == Tile::TileType::DestructibleWall)
 			{
 				destructibleWalls.emplace_back(x, y);
@@ -157,7 +161,7 @@ void Map::PlaceBombsOnWalls(std::vector<Bomb>& bombs)
 	for (size_t i = 0; i < std::min(kNoBombs, destructibleWalls.size()); ++i)
 	{
 		auto [x, y] = destructibleWalls[i];
-		(*this)[{x, y}].second = std::make_shared<Bomb>(Position{x, y});
+		(*this)[{x, y}].second = std::make_shared<Bomb>(Position{ x, y });
 	}
 }
 
@@ -242,10 +246,10 @@ void Map::ShootBullet(uint32_t playerID)
 
 	auto direction = (*playerPtr)->GetDirection();
 
-	if (auto bulletPos = GetPositionAfterDirection((*playerPtr)->GetPosition(), direction);  
+	if (auto bulletPos = GetPositionAfterDirection((*playerPtr)->GetPosition(), direction);
 		bulletPos.first >= 0 && bulletPos.second >= 0 && bulletPos.first < m_width && bulletPos.second < m_height)
 	{
-		if ((*this).GetTile({bulletPos.first, bulletPos.second}).GetType() == Tile::TileType::Free)
+		if ((*this).GetTile({ bulletPos.first, bulletPos.second }).GetType() == Tile::TileType::Free)
 		{
 			(*this)[{bulletPos.first, bulletPos.second}].second = std::make_shared<Bullet>(*((*playerPtr).get()));
 		}
@@ -288,4 +292,74 @@ std::ostream& game::operator<<(std::ostream& out, const Map& map)
 	}
 
 	return out;
+}
+
+
+std::vector<Map::Position> Map::FindPath(const Position& start, const Position& goal) {
+	struct Node {
+		Position pos;
+		size_t g_cost;
+		size_t h_cost;
+		size_t f_cost() const { return g_cost + h_cost; }
+
+		bool operator>(const Node& other) const {
+			return f_cost() > other.f_cost();
+		}
+	};
+
+	std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_list;
+	std::map<Position, size_t> g_costs;  // Replaced unordered_map with map
+	std::map<Position, Position> came_from; // Replaced unordered_map with map
+
+	open_list.push(Node{ start, 0, CalculateHeuristic(start, goal) });
+	g_costs[start] = 0;
+
+	const std::vector<Position> directions = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+	while (!open_list.empty()) {
+		Node current = open_list.top();
+		open_list.pop();
+
+		if (current.pos == goal) {
+			return ReconstructPath(came_from, current.pos);
+		}
+
+		for (const auto& direction : directions) {
+			Position neighbor = { current.pos.first + direction.first, current.pos.second + direction.second };
+
+			if (isValid(neighbor) && GetTile(neighbor).GetType() != Tile::TileType::IndestructibleWall) {
+				size_t tentative_g_cost = current.g_cost + 1;
+
+				if (g_costs.find(neighbor) == g_costs.end() || tentative_g_cost < g_costs[neighbor]) {
+					g_costs[neighbor] = tentative_g_cost;
+					size_t h_cost = CalculateHeuristic(neighbor, goal);
+					open_list.push(Node{ neighbor, tentative_g_cost, h_cost });
+					came_from[neighbor] = current.pos;
+				}
+			}
+		}
+	}
+
+	return {};
+}
+
+bool Map::isValid(const Position& pos) const {
+	return pos.first < m_width && pos.second < m_height;
+}
+
+std::vector<Map::Position> Map::ReconstructPath(const std::map<Position, Position>& came_from, Position current) {
+	std::vector<Position> path;
+	while (came_from.find(current) != came_from.end()) {
+		path.push_back(current);
+		current = came_from.at(current);
+	}
+
+	std::reverse(path.begin(), path.end());
+	return path;
+}
+
+size_t Map::CalculateHeuristic(const Position& start, const Position& goal) const {
+	size_t dx = std::abs(static_cast<int>(start.first) - static_cast<int>(goal.first));
+	size_t dy = std::abs(static_cast<int>(start.second) - static_cast<int>(goal.second));
+	return dx + dy;
 }

@@ -13,6 +13,8 @@ public:
 public:
     void SetPosition(const std::pair<size_t, size_t>& position);
     const std::pair<size_t, size_t>& GetPosition() const;
+    void InvertControls(bool invert);
+    bool AreControlsInverted() const;
 protected:
     std::pair<size_t, size_t> m_position; //x, y
 
