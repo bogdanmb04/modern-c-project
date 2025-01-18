@@ -165,5 +165,39 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         };
         });
 
+    CROW_ROUTE(m_app, "/upgrade/bullet-wait-time").methods(crow::HTTPMethod::POST)
+        ([&gameDatabase](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            return crow::response(400, "Invalid JSON");
+        }
+
+        uint32_t userId = body["userId"].i();
+        try {
+            gameDatabase.UpgradeBulletWaitTime(userId);
+            return crow::response(200, "Bullet wait time upgraded successfully");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to upgrade bullet wait time");
+        }
+            });
+
+    CROW_ROUTE(m_app, "/upgrade/bullet-speed").methods(crow::HTTPMethod::POST)
+        ([&gameDatabase](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            return crow::response(400, "Invalid JSON");
+        }
+
+        uint32_t userId = body["userId"].i();
+        try {
+            gameDatabase.UpgradeBulletSpeed(userId);
+            return crow::response(200, "Bullet speed upgraded successfully");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to upgrade bullet speed");
+        }
+            });
+
     m_app.port(18080).multithreaded().run();
 }

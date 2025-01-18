@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVector>
+#include "httpmanager.h"
 
 class Circle;
 
@@ -14,6 +15,7 @@ class Shop : public QWidget
 
 public:
     explicit Shop(QWidget *parent = nullptr);
+    void setUserId(uint32_t id) { userId = id; }
 
     ~Shop();
 
@@ -48,6 +50,9 @@ private:
     int priceButton2;
 
     int weaponID;
+    uint32_t userId;
+
+    HttpManager httpManager;
 
 signals:
     void backToBattleCity();

@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <cpr/cpr.h>
 #include "httpmanager.h"
+#include <nlohmann/json.hpp>
 
 Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
     priceButton1 = 25;
@@ -208,17 +209,34 @@ void Shop::BackButtonClicked() {
 
 void Shop::onButton1Clicked() {
     if (coins >= priceButton1) {
-        coins -= priceButton1;
-        coinsLabel->setText(QString::number(coins));
-        button1CircleCount++;
-        for (int i = 0; i < button1CircleCount; ++i) {
-            button1Circles[i]->setVisible(true);
-        }
+        nlohmann::json requestData;
+        requestData["userId"] = userId;
+
+        httpManager.sendPostRequest(
+            "http://localhost:18080/upgrade/bullet-wait-time",
+            QString::fromStdString(requestData.dump()),
+            [this](const cpr::Response& response) {
+                if (response.status_code == 200) {
+                    coins -= priceButton1;
+                    coinsLabel->setText(QString::number(coins));
+                    button1CircleCount++;
+                    for (int i = 0; i < button1CircleCount; ++i) {
+                        button1Circles[i]->setVisible(true);
+                    }
+                }
+                else {
+                    insufficientFundsLabel->setText("Upgrade failed!");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+        );
     }
     else {
         insufficientFundsLabel->setText("Insufficient funds");
         insufficientFundsLabel->setVisible(true);
-
         QTimer::singleShot(1000, this, [this]() {
             insufficientFundsLabel->setVisible(false);
             });
@@ -227,20 +245,34 @@ void Shop::onButton1Clicked() {
 
 void Shop::onButton2Clicked() {
     if (money >= priceButton2) {
-        HttpManager httpManager;
-        
+        nlohmann::json requestData;
+        requestData["userId"] = userId;
 
-        money -= priceButton2;
-        moneyLabel->setText(QString::number(money));
-        button2CircleCount++;
-        for (int i = 0; i < button2CircleCount; ++i) {
-            button2Circles[i]->setVisible(true);
-        }
+        httpManager.sendPostRequest(
+            "http://localhost:18080/upgrade/bullet-speed",
+            QString::fromStdString(requestData.dump()),
+            [this](const cpr::Response& response) {
+                if (response.status_code == 200) {
+                    money -= priceButton2;
+                    moneyLabel->setText(QString::number(money));
+                    button2CircleCount++;
+                    for (int i = 0; i < button2CircleCount; ++i) {
+                        button2Circles[i]->setVisible(true);
+                    }
+                }
+                else {
+                    insufficientFundsLabel->setText("Upgrade failed!");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+        );
     }
     else {
         insufficientFundsLabel->setText("Insufficient funds");
         insufficientFundsLabel->setVisible(true);
-
         QTimer::singleShot(1000, this, [this]() {
             insufficientFundsLabel->setVisible(false);
             });
