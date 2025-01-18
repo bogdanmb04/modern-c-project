@@ -5,8 +5,12 @@
 #include <unordered_map>
 #include <cmath>
 #include <algorithm>
+#include <crow.h>
+#include "routing.cpp"
 
 using namespace game;
+using Position = std::pair<int, int>;
+
 
 namespace ranges = std::ranges;
 namespace views = std::views;
@@ -186,35 +190,39 @@ void Map::PlacePlayers()
 	std::cout << "Players placed in corners of the map." << std::endl;
 }
 
-void Map::MovePlayer(uint32_t playerID, Direction direction)
-{
+std::vector<std::pair<Position, std::string>> Map::MovePlayer(uint32_t playerID, Direction direction) {
+	std::vector<std::pair<Position, std::string>> updates;
 
-	auto matchID = [playerID](const std::shared_ptr<Player>& player) -> bool
-		{
-			if (player->GetID() == playerID)
-				return true;
+	auto matchID = [playerID](const std::shared_ptr<Player>& player) -> bool {
+		return player->GetID() == playerID;
 		};
 
-	auto player = ranges::find_if(m_players, matchID);
+	auto player = std::ranges::find_if(m_players, matchID);
 
-	if ((*player)->GetID() == playerID)
-	{
+	if (player != m_players.end() && (*player)->GetID() == playerID) {
 		const auto& playerPos = (*player)->GetPosition();
 		auto newPos = GetPositionAfterDirection(playerPos, direction);
 
 		if (const auto& [newCol, newRow] = newPos;
-			newRow >= 0 && newRow < m_height && newCol >= 0 && newCol < m_width)
-		{
-			if ((*this)[{newCol, newRow}].second == nullptr
-				&& (*this)[{newCol, newRow}].first.GetType() == Tile::TileType::Free)
-			{
-				(*this)[{newCol, newRow}].second = std::move((*this)[{playerPos.first, playerPos.second}].second);
+			newRow >= 0 && newRow < m_height && newCol >= 0 && newCol < m_width) {
+
+			if ((*this)[{newCol, newRow}].second == nullptr &&
+				(*this)[{newCol, newRow}].first.GetType() == Tile::TileType::Free) {
+
+				updates.emplace_back(playerPos, "empty");
+
+				(*this)[{newCol, newRow}].second = std::move((*this)[playerPos].second);
 				(*player)->SetPosition({ newCol, newRow });
+
+				updates.emplace_back(newPos, "player");
 			}
 		}
 	}
 
+	return updates;
 }
+
+
 
 void Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)
 {
