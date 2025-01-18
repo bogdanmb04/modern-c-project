@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     setCentralWidget(centralWidget);
 
-    QPushButton* menuButton = new QPushButton("Menu", this);
+   /* QPushButton* menuButton = new QPushButton("Menu", this);
     menuButton->setStyleSheet("font-size: 10px; padding: 10px;");
     menuButton->setFixedSize(70, 40);
     QVBoxLayout* backLayout = new QVBoxLayout();
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent)
     menuButton->setText("Menu");
     centralWidget->setLayout(backLayout);
 
-    connect(menuButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);
+    connect(menuButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);*/
 
     loadMapFromServer();
     initializeMap();
@@ -349,25 +349,47 @@ void MainWindow::movePlayer(uint32_t playerID, Direction direction) {
     httpManager.sendPostRequest("http://localhost:18080/move", moveDataStr, [this](const cpr::Response& response) {
         if (response.status_code == 200) {
             try {
-                //qDebug() << "Raw server response: " << QString::fromStdString(response.text);
-                //auto jsonResponse = nlohmann::json::parse(response.text);
-                if (QString::fromStdString(response.text) == "Move successful") {
-                    QMessageBox::warning(this, "Eroare", "Player moved successfully!");
+                auto jsonResponse = nlohmann::json::parse(response.text);
+                if (jsonResponse.contains("width") && jsonResponse.contains("height") && jsonResponse.contains("layout")) {
+                    int width = jsonResponse["width"];
+                    int height = jsonResponse["height"];
+                    auto layout = jsonResponse["layout"];
+
+                    mapData.clear();
+                    QVector<QPair<int, QString>> currentRow;
+
+                    for (const auto& square : layout) {
+                        int tileType = square["tile"];
+                        QString entity = QString::fromStdString(square["entity"].get<std::string>());
+                        int direction = square["direction"];
+
+                        currentRow.append(qMakePair(tileType, entity));
+                        if (currentRow.size() == width) {
+                            mapData.append(currentRow);
+                            currentRow.clear();
+                        }
+                    }
+
+                    initializeMap();
+                    QMessageBox::information(this, "Success", "Player moved successfully and map updated!");
                 }
                 else {
                     QMessageBox::warning(this, "Eroare", "Invalid response format!");
                 }
             }
             catch (const std::exception& e) {
-                qDebug() << "Server response status code: " << response.status_code << " Message: " << QString::fromStdString(response.text)<<e.what();
+                qDebug() << "Server response status code: " << response.status_code
+                    << " Message: " << QString::fromStdString(response.text) << e.what();
                 QMessageBox::warning(this, "Eroare", "Error parsing the server response");
             }
         }
         else {
-            qDebug() << "Server response status code: " << response.status_code << " Message: " << QString::fromStdString(response.text);
+            qDebug() << "Server response status code: " << response.status_code
+                << " Message: " << QString::fromStdString(response.text);
             QMessageBox::warning(this, "Eroare", "Server error");
         }
         });
+
 }
 
 void MainWindow::spawnRandomObjects()

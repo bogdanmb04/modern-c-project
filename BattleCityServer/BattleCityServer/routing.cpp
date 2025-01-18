@@ -134,28 +134,35 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
     CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
         auto body = crow::json::load(req.body);
-        if (!body)
-        {
-            return crow::response(400, "Invalid JSON");
-        }
+      
 
         uint32_t playerID = body["playerID"].i();
         std::string directionStr = body["direction"].s();
         Direction direction{};
-        try 
-        {
-            direction = StringToDirection(directionStr);
-            std::cout<< directionStr;
-        }
-        catch (const std::exception& e)
-        {
-            return crow::response(401, "Invalid move");
-        }
+        direction = StringToDirection(directionStr);
+        std::cout<< directionStr;
+        
 
         map.MovePlayer(playerID, direction);
+        
+        std::vector<crow::json::wvalue> mapLayout;
 
+        auto checkInfo = [&mapLayout](const game::Map::Square& square) -> void
+            {
+                mapLayout.push_back(crow::json::wvalue{
+                    {"tile", static_cast<int>(square.first.GetType())},
+                    {"entity", EntityToValue(square.second)},
+                    {"direction", static_cast<int>(ConfigureDirection(square.second))}
+                    });
+            };
 
-        return crow::response(200, "Move successful");
+        std::ranges::for_each(map.GetSquares(), checkInfo);
+
+        return crow::json::wvalue{
+            {"width", map.GetWidth()},
+            {"height", map.GetHeight()},
+            {"layout", mapLayout}
+        };
         });
 
     m_app.port(18080).multithreaded().run();
