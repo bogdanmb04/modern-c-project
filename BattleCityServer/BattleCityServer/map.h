@@ -43,7 +43,7 @@ namespace game
 		Tile GetTile(const Position& pos) const;
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
 		void PlacePlayers();
-		std::vector<std::pair<Position, std::string>> MovePlayer(uint32_t playerID, Direction direction);
+		void MovePlayer(uint32_t playerID, Direction direction);
 		void InsertPlayer(const std::shared_ptr<Player>& player);
 
 		void ShootBullet(uint32_t playerID);

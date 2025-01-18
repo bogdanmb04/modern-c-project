@@ -132,53 +132,31 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
         });
 
-    CROW_ROUTE(m_app, "/move")
-        .methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
+    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
         auto body = crow::json::load(req.body);
-        if (!body) {
+        if (!body)
+        {
             return crow::response(400, "Invalid JSON");
         }
 
         uint32_t playerID = body["playerID"].i();
-
         std::string directionStr = body["direction"].s();
-        Direction direction;
-        try {
+        Direction direction{};
+        try 
+        {
             direction = StringToDirection(directionStr);
+            std::cout<< directionStr;
         }
-        catch (const std::exception&) {
-            return crow::response(400, "Invalid move");
-        }
-
-        const auto& updates = map.MovePlayer(playerID, direction);
-
-        crow::json::wvalue responseJson;
-        responseJson["status"] = "Move successful";
-
-        crow::json::wvalue::list updatesList;
-        for (const auto& update : updates) {
-            const auto& position = update.first;
-            const auto& entity = update.second;
-
-            int x = position.first;
-            int y = position.second;
-
-            crow::json::wvalue updateJson;
-            updateJson["x"] = x;
-            updateJson["y"] = y;
-            updateJson["tile"] = 1;
-            updateJson["entity"] = entity;
-
-            updatesList.push_back(updateJson);
+        catch (const std::exception& e)
+        {
+            return crow::response(401, "Invalid move");
         }
 
-        responseJson["updates"] = std::move(updatesList);
-
-        return crow::response(responseJson);
-            });
+        map.MovePlayer(playerID, direction);
 
 
-
+        return crow::response(200, "Move successful");
+        });
 
     m_app.port(18080).multithreaded().run();
 }
