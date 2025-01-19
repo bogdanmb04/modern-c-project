@@ -199,5 +199,25 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         }
             });
 
+    CROW_ROUTE(m_app, "/get/totalScore").methods(crow::HTTPMethod::POST)
+        ([&gameDatabase](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            return crow::response(400, "Invalid JSON");
+        }
+
+        uint32_t userId = body["userId"].i();
+
+        try {
+            uint32_t totalScore = gameDatabase.GetTotalScore(userId);
+            crow::json::wvalue responseData;
+            responseData["totalScore"] = totalScore;
+            return crow::response(200, responseData);
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to get totalScore");
+        }
+            });
+
     m_app.port(18080).multithreaded().run();
 }
