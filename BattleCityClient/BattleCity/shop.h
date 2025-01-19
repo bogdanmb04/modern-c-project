@@ -2,63 +2,52 @@
 #define SHOP_H
 
 #include <QWidget>
-#include <QPushButton>
 #include <QLabel>
-#include <QVector>
+#include "circle.h"
 #include "httpmanager.h"
+#include <vector>
 
-class Circle;
-
-class Shop : public QWidget
-{
+class Shop : public QWidget {
     Q_OBJECT
 
 public:
-    explicit Shop(QWidget *parent = nullptr);
-    void setUserId(uint32_t id);
-
+    explicit Shop(QWidget* parent = nullptr);
     ~Shop();
-
-private:
     void setupUI();
-    
-    void getTotalScore();
-    void getSpecialMoney();
 
-    void onButton1Clicked();
-    void onButton2Clicked();
-    void BackButtonClicked();
-
-    QPushButton* backButton;
-    QPushButton* button1;
-    QPushButton* button2;
-
-    QLabel* coinsLabel;
-    QLabel* moneyLabel;
-    QLabel* specialMoneyLabel;
-    QLabel* insufficientFundsLabel;
-    QLabel* moneyImageLabel;
-    QLabel* specialMoneyImage;
-
-    QVector<Circle*> button1Circles;
-    QVector<Circle*> button2Circles;
-
-    int money;
-    int specialMoney;
-    int coins;
-    int button1CircleCount;
-    int button2CircleCount;
-
-    int priceButton1;
-    int priceButton2;
-
-    int weaponID;
-    uint32_t userId;
-
-    HttpManager httpManager;
+public slots:
+    void setUserId(const QString& userId) {
+        this->userId = userId;
+    }
 
 signals:
     void backToBattleCity();
+
+private slots:
+    void BackButtonClicked();
+    void onButton1Clicked();
+    void onButton2Clicked();
+
+private:
+    void getTotalScore();
+    void getSpecialMoney();
+
+    QString userId;
+    int coins;
+    int specialMoney;
+    int money;
+    int priceButton1;
+    int priceButton2;
+    int button1CircleCount;
+    int button2CircleCount;
+
+    QLabel* coinsLabel;
+    QLabel* specialMoneyLabel;
+    QLabel* insufficientFundsLabel;
+    QLabel* specialMoneyImage;
+    std::vector<Circle*> button1Circles;
+    std::vector<Circle*> button2Circles;
+    HttpManager httpManager;
 };
 
 #endif // SHOP_H

@@ -10,72 +10,55 @@ int main(int argc, char* argv[])
 {
     QApplication a(argc, argv);
 
-    LoginWindow loginWindow;
-    MainWindow mainWindow;
-    RegisterWindow registerWindow;
-    BattleCity battleCityWindow;
-    Shop shop;
-    CharacterSelection character;
+    LoginWindow* loginWindow = new LoginWindow();
+    Shop* shop = new Shop();
+    MainWindow* mainWindow = new MainWindow();
+    RegisterWindow* registerWindow = new RegisterWindow();
+    BattleCity* battleCityWindow = new BattleCity();
+    CharacterSelection* character = new CharacterSelection();
 
-    QObject::connect(&mainWindow, &MainWindow::backToBattleCity, [&]() {
-        mainWindow.close();
-        battleCityWindow.showFullScreen();
+    QObject::connect(loginWindow, &LoginWindow::loginSuccess, shop,
+        [shop](const QString& userIdStr) {
+            shop->setUserId(userIdStr);
         });
 
-    QObject::connect(&loginWindow, &LoginWindow::loginSuccess, [&]() {
-        loginWindow.close();
-        battleCityWindow.showFullScreen();
+
+    QObject::connect(loginWindow, &LoginWindow::loginSuccess, [=]() {
+        loginWindow->close();
+        battleCityWindow->showFullScreen();
         });
 
-    QObject::connect(&registerWindow, &RegisterWindow::registerCredentials, [&]() {
-        registerWindow.close();
+    QObject::connect(registerWindow, &RegisterWindow::registerCredentials, [=]() {
+        registerWindow->close();
         });
 
-    QObject::connect(&loginWindow, &LoginWindow::goToRegister, [&]() {
-        loginWindow.close();
-        registerWindow.show();
+    QObject::connect(loginWindow, &LoginWindow::goToRegister, [=]() {
+        loginWindow->close();
+        registerWindow->show();
         });
 
-    QObject::connect(&registerWindow, &RegisterWindow::goToLogin, [&]() {
-        registerWindow.close();
-        loginWindow.show();
+    QObject::connect(registerWindow, &RegisterWindow::goToLogin, [=]() {
+        registerWindow->close();
+        loginWindow->show();
         });
 
-    QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
-        battleCityWindow.close();
-        mainWindow.showFullScreen();
+    QObject::connect(battleCityWindow, &BattleCity::button1Clicked, [=]() {
+        battleCityWindow->close();
+        mainWindow->showFullScreen();
         });
 
-    QObject::connect(&battleCityWindow, &BattleCity::button2Clicked, [&]() {
-        battleCityWindow.close();
-        shop.showFullScreen();
+    QObject::connect(battleCityWindow, &BattleCity::button2Clicked, [=]() {
+        battleCityWindow->close();
+        shop->showFullScreen();
         });
 
-    QObject::connect(&shop, &Shop::backToBattleCity, [&]() {
-        shop.close();
-        battleCityWindow.showFullScreen();
+    QObject::connect(shop, &Shop::backToBattleCity, [=]() {
+        shop->close();
+        battleCityWindow->showFullScreen();
         });
 
-   
-    /*QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
-        battleCityWindow.close();
-        mainWindow.showFullScreen(); 
-        });
-
-   
-    QObject::connect(&battleCityWindow, &BattleCity::gameStarted, [&](const QString& character) {
-        battleCityWindow.close();
-        mainWindow.showFullScreen();
-        });*/
-
-
-    /*QObject::connect(&battleCityWindow, &BattleCity::button1Clicked, [&]() {
-        battleCityWindow.close();
-        character.showFullScreen();
-        });*/
-
-    // Începe cu LoginWindow
-    loginWindow.show();
+    loginWindow->show();
 
     return a.exec();
 }
+

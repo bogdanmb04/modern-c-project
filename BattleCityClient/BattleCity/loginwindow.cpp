@@ -16,7 +16,7 @@
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
-    , userId(0)
+    , userId(QString())
 {
 
     QPixmap background(":/BattleCity/images/Intro2.png");
@@ -67,6 +67,11 @@ LoginWindow::LoginWindow(QWidget* parent)
     setFixedSize(500, 400);
 }
 
+void LoginWindow::setUserId(QString id)
+{
+    userId = id;
+}
+
 LoginWindow::~LoginWindow() {}
 
 void LoginWindow::setUserCredentials(const QString& username, const QString& password)
@@ -77,7 +82,7 @@ void LoginWindow::setUserCredentials(const QString& username, const QString& pas
     qDebug() << "Saved credentials in LoginWindow:" << registeredUsername << registeredPassword;
 }
 
-uint32_t LoginWindow::getUserId() const
+QString LoginWindow::getUserId() const
 {
     return userId;
 }
@@ -107,8 +112,9 @@ void LoginWindow::handleLogin()
             try {
                 auto jsonResponse = nlohmann::json::parse(response.text);
                 if (jsonResponse.contains("userId")) {
-                    userId = jsonResponse["userId"].get<uint32_t>();
-
+                    userId = QString::number(jsonResponse["userId"].get<uint32_t>());
+                    setUserId(userId);
+                    qDebug()<<"userid"<<userId<<"response"<<response.text;
                     errorLabel->setStyleSheet("color: green;");
                     errorLabel->setText("Login successful!");
 
@@ -138,12 +144,6 @@ void LoginWindow::goToRegisterPage()
     connect(registerWindow, &RegisterWindow::goToLogin, this, &LoginWindow::show); 
     connect(registerWindow, &RegisterWindow::registerCredentials,
         this, &LoginWindow::setUserCredentials);
-    connect(this, &LoginWindow::loginSuccess, this, [this](uint32_t userId) {
-        Shop* shop = new Shop();
-        shop->setUserId(userId);
-        shop->show();
-        this->close();
-        });
 
     registerWindow->show();
     this->close();  

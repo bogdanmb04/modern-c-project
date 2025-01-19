@@ -14,19 +14,20 @@ class LoginWindow : public QWidget
 
 public:
     explicit LoginWindow(QWidget* parent = nullptr);
+    void setUserId(QString id);
     ~LoginWindow();
 
     void setUserCredentials(const QString& username, const QString& password);
-    uint32_t getUserId() const;
+    QString getUserId() const;
 
 signals:
-    void loginSuccess(uint32_t userId);         
+    void loginSuccess(const QString& userId);
     void goToRegister();         
 private slots:
     void handleLogin();          
     void goToRegisterPage();     
 private:
-    uint32_t userId;
+    QString userId;
 
     QString registeredUsername;  
     QString registeredPassword;  
