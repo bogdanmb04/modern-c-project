@@ -22,6 +22,7 @@ double Bullet::GetSpeed() const
 	return m_speed;
 }
 
+
 double game::Bullet::GetSpeedBuildUp() const
 {
 	return m_speedBuildUp;
