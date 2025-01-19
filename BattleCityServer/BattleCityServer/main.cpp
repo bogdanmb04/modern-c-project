@@ -28,16 +28,18 @@ int main()
     myMap.PlaceBombsOnWalls(bombs);
     //logger.Log("Map initialized with bombs and player placed.", Logger::Level::Info);
 
-    //auto bogdan = gameDatabase.GetUserByUsername(std::string{"bogdan"});
-    //auto weapon = gameDatabase.GetWeapon(bogdan.GetID());
+    auto test = gameDatabase.GetUserByUsername(std::string{"test"});
+    auto weapon = gameDatabase.GetWeapon(test.GetID());
 
-    //game::Player playerBogdan{ bogdan, std::move(weapon)};
-
-    //std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerBogdan);
-
-    //myMap.InsertPlayer(player);
-    //myMap.PlacePlayers();
-    //player->SetDirection(Direction::RIGHT);
+    game::Player playerBogdan{ test, std::move(weapon)};
+    std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerBogdan);
+    uint32_t id = 1;
+    gameDatabase.AddTotalScore(1, 1000);
+    gameDatabase.AddSpecialMoney(1, 1000);
+    myMap.InsertPlayer(player);
+    myMap.PlacePlayers();
+    player->SetDirection(Direction::RIGHT);
+    myMap.MovePlayer(id,Direction::RIGHT);
     //myMap.ShootBullet(player->GetID());
 
     http::Routing routing;

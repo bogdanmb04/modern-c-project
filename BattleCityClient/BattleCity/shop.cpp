@@ -22,8 +22,8 @@ Shop::Shop(QWidget* parent)
     , money(0)
     , button1CircleCount(0)
     , button2CircleCount(0) {
-    priceButton1 = 25;
-    priceButton2 = 20;
+    priceButton1 = 500;
+    priceButton2 = 10;
     setupUI();
 }
 
@@ -315,7 +315,7 @@ void Shop::onButton1Clicked() {
 
     if (money >= priceButton1) {
         nlohmann::json requestData;
-        QString::fromStdString(requestData["userId"]) = userId;
+        requestData["userId"] = userId.toStdString();
 
         httpManager.sendPostRequest(
             "http://localhost:18080/upgrade/bullet-wait-time",
@@ -352,7 +352,7 @@ void Shop::onButton1Clicked() {
 }
 
 void Shop::onButton2Clicked() {
-    if (userId == '0') {
+    if (userId == "0") {
         qDebug() << "Warning: userId not set!";
         return;
     }
@@ -362,7 +362,7 @@ void Shop::onButton2Clicked() {
 
     if (specialMoney >= priceButton2) {
         nlohmann::json requestData;
-        QString::fromStdString(requestData["userId"]) = userId;
+        requestData["userId"] = userId.toStdString();
 
         httpManager.sendPostRequest(
             "http://localhost:18080/upgrade/bullet-speed",

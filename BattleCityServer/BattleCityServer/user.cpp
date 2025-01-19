@@ -83,12 +83,12 @@ void user::User::SetPassword(const std::string& password)
 
 void user::User::AddTotalScore(uint32_t amount)
 {
-	m_specialMoney += amount;
+	m_totalScore += amount;
 }
 
 void user::User::AddSpecialMoney(uint32_t amount)
 {
-	m_totalScore += amount;
+	m_specialMoney += amount;
 }
 
 std::ostream& user::operator<<(std::ostream& os, const User& user)

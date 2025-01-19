@@ -63,6 +63,7 @@ namespace server
 
 		Database& GetStorage();
 
+		static constexpr uint16_t kDefaultBulletWaitTimeUpdate{ 500 };
 	private:
 		const std::string kDbFile{ "users.sqlite" };
 

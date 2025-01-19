@@ -140,7 +140,6 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         std::string directionStr = body["direction"].s();
         Direction direction{};
         direction = StringToDirection(directionStr);
-        std::cout<< directionStr<< playerID<< typeid(playerID).name();
         
 
         map.MovePlayer(playerID, direction);

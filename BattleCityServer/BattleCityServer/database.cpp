@@ -42,9 +42,9 @@ Weapon GameDatabase::GetWeapon(int userId)
 void server::GameDatabase::UpgradeBulletWaitTime(uint32_t id)
 {
 	auto weapon = this->GetWeapon(id);
-	if (weapon.GetBulletWaitTime() > weapon.kDefaultBulletWaitTime / 16)
+	if (weapon.GetBulletWaitTime() > weapon.kDefaultBulletWaitTime - kDefaultBulletWaitTimeUpdate)
 	{
-		weapon.SetBulletWaitTime(weapon.GetBulletWaitTime() / 2);
+		weapon.SetBulletWaitTime(weapon.GetBulletWaitTime() - kDefaultBulletWaitTimeUpdate);
 	}
 	m_db.update(weapon);
 }

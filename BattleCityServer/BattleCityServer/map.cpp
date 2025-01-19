@@ -180,16 +180,12 @@ void Map::PlacePlayers()
 		(*this)[{x, y}].second = m_players[i];
 	}
 
-	std::cout << "Players placed in corners of the map." << std::endl;
 }
 
 void Map::MovePlayer(uint32_t playerID, Direction direction)
 {
-
-	std::cout << "Player ID sent: " << playerID << std::endl;
 	auto matchID = [playerID](const std::shared_ptr<Player>& player) -> bool
 		{
-			std::cout << "Comparing with Player ID: " << player->GetID() << std::endl;
 			return player->GetID() == playerID;
 		};
 

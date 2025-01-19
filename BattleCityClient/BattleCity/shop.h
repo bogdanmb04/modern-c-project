@@ -13,6 +13,10 @@ class Shop : public QWidget {
 public:
     explicit Shop(QWidget* parent = nullptr);
     ~Shop();
+
+    void getTotalScore();
+    void getSpecialMoney();
+
     void setupUI();
 
 public slots:
@@ -29,8 +33,6 @@ private slots:
     void onButton2Clicked();
 
 private:
-    void getTotalScore();
-    void getSpecialMoney();
 
     QString userId;
     int coins;

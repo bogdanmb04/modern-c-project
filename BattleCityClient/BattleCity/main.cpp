@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
     QObject::connect(loginWindow, &LoginWindow::loginSuccess, [battleCityWindow, shop](const QString& userIdStr) {
 
         shop->setUserId(userIdStr);
+        shop->getSpecialMoney();
+        shop->getTotalScore();
         battleCityWindow->setUserId(userIdStr);
         });
 
