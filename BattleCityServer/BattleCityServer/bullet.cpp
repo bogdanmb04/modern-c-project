@@ -16,6 +16,7 @@ Direction game::Bullet::GetDirection() const
 	return m_direction;
 }
 
+
 double Bullet::GetSpeed() const
 {
 	return m_speed;
