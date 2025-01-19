@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* parent)
 
     setCentralWidget(centralWidget);
 
-   /* QPushButton* menuButton = new QPushButton("Menu", this);
+   QPushButton* menuButton = new QPushButton("Menu", this);
     menuButton->setStyleSheet("font-size: 10px; padding: 10px;");
     menuButton->setFixedSize(70, 40);
     QVBoxLayout* backLayout = new QVBoxLayout();
@@ -52,7 +52,7 @@ MainWindow::MainWindow(QWidget* parent)
     menuButton->setText("Menu");
     centralWidget->setLayout(backLayout);
 
-    connect(menuButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);*/
+    connect(menuButton, &QPushButton::clicked, this, &MainWindow::BackButtonClicked);
 
     loadMapFromServer();
     initializeMap();

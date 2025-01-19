@@ -81,6 +81,16 @@ void user::User::SetPassword(const std::string& password)
 	m_password = password;
 }
 
+void user::User::AddTotalScore(uint32_t amount)
+{
+	m_specialMoney += amount;
+}
+
+void user::User::AddSpecialMoney(uint32_t amount)
+{
+	m_totalScore += amount;
+}
+
 std::ostream& user::operator<<(std::ostream& os, const User& user)
 {
 	return os << std::format("{} {} {}", 

@@ -94,3 +94,17 @@ User GameDatabase::GetUserByUsername(const std::string& username)
 {
 	return m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username))[0];
 }
+
+void GameDatabase::AddSpecialMoney(uint32_t userId, uint32_t amount)
+{
+	auto user = this->GetUser(userId);
+	user.AddSpecialMoney(amount);  
+	m_db.update(user);
+}
+
+void server::GameDatabase::AddTotalScore(uint32_t userId, uint32_t amount)
+{
+	auto user = this->GetUser(userId);
+	user.AddTotalScore(amount);
+	m_db.update(user);
+}

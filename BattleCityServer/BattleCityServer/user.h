@@ -30,6 +30,9 @@ namespace user
 		void SetWeaponID(uint32_t weaponID);
 		void SetPassword(const std::string& password);
 
+		void AddTotalScore(uint32_t amount);
+		void AddSpecialMoney(uint32_t amount);
+
 	private:
 		uint32_t m_id; //PK
 		std::string m_username;
