@@ -35,6 +35,7 @@ void game::Bullet::AddSpeedBuildUp()
 	m_timer.Restart();
 }
 
+
 void game::Bullet::ResetSpeedBuildUp()
 {
 	m_speedBuildUp = 0.0;
