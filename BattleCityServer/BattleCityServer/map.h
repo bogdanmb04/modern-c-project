@@ -47,6 +47,7 @@ namespace game
 		void InsertPlayer(const std::shared_ptr<Player>& player);
 
 		void ShootBullet(uint32_t playerID);
+		void MoveBullets();
 
 		std::vector<Position> FindPath(const Position& start, const Position& goal);
 		bool isValid(const Position& pos) const;

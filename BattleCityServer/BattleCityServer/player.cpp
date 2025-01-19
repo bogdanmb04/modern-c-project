@@ -4,11 +4,6 @@
 
 using namespace game;
 
-void Shoot()
-{
-	//std::cout << character << "A player was shot!\n";
-}
-
 uint16_t Player::GetScore() const
 {
 	return m_score;
@@ -53,49 +48,3 @@ Player::Player(const User& user, Weapon&& weapon)
 {
 	//EMPTY
 }
-
-void GetShoot()
-{
-	/*if (lives > 0)
-	{
-		lives--;
-		std::cout << character << "Was shoot. Remain lives:" << lives << "\n";
-		if (lives > 0)
-		{
-			position = initialPosition;
-			std::cout << character << "Was reseted" << initialPosition.first << "," << initialPosition.second << std::endl;
-		}
-		else
-		{
-			std::cout << character << "Was eliminated!\n";
-		}
-	}*/
-}
-
-/*void selectCharacter(const std::string& newCharacter)
-{
-	std::string selectedCharacter = characterSelector.selectCharacter(newCharacter);
-	if (!selectedCharacter.empty())
-	{
-		character = selectedCharacter;
-		std::cout << "The selected character is: " << character << "\n";
-	}
-	else
-	{
-		std::cout << "Unavailable character\n";
-	}
-}*/
-
-/*void selectCharacter(const std::string& newCharacter)
-{
-	std::string selectedCharacter = characterSelector.selectCharacter(newCharacter);
-	if (!selectedCharacter.empty())
-	{
-		character = selectedCharacter;
-		std::cout << "The selected character is: " << character << "\n";
-	}
-	else
-	{
-		std::cout << "Unavailable character\n";
-	}
-}*/

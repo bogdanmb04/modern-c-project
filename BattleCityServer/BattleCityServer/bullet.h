@@ -13,11 +13,20 @@ namespace game
 	{
 	public:
 		Bullet(const Player& player);
+
+	public:
 		Direction GetDirection() const;
+		double GetSpeed() const;
+		double GetSpeedBuildUp() const;
+		std::chrono::steady_clock GetTimeOfLastSpeedUp() const;
+		double GetTimeDifference() const;
+		void AddSpeedBuildUp();
+		void ResetSpeedBuildUp();
 
 	private:
 		Direction m_direction : 2;
-		double m_speed;
-		Timer m_timer;
+		const double m_speed;
+		double m_speedBuildUp;
+		std::chrono::steady_clock m_timeOfLastSpeedUp;
 	};
 }
