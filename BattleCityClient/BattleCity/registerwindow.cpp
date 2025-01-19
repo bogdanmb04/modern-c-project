@@ -9,6 +9,7 @@
 #include <cpr/cpr.h>
 #include <QPalette>
 #include <QPixmap>
+#include "resources.h"
 
 RegisterWindow::RegisterWindow(QWidget* parent)
     : QWidget(parent)

@@ -18,21 +18,10 @@ int main()
     std::ofstream of("syslog.log", std::ios::app);
     Logger logger(of);
 
-//GAME START 
-
-
-
-
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
 
-    std::vector<game::Player> players;
-    auto dbUsers = gameDatabase.GetAllUsers();
-
     game::Game::kGameCounter = 1;
-
-    
-    //logger.Log("Started Application...", Logger::Level::Info);
 
     game::Map myMap;
     std::vector<Bomb> bombs;
@@ -49,14 +38,14 @@ int main()
     //std::cout << myMap << std::endl;
     //std::this_thread::sleep_for(std::chrono::seconds{ 5 });
 
-    myMap.InsertPlayer(player);
-    myMap.PlacePlayers();
-    player->SetDirection(Direction::RIGHT);
-    std::cout << myMap;
-    std::system("cls");
-    myMap.ShootBullet(player->GetID());
-    std::system("cls");
-    std::cout << myMap;
+    //myMap.InsertPlayer(player);
+    //myMap.PlacePlayers();
+    //player->SetDirection(Direction::RIGHT);
+    //std::cout << myMap;
+    //std::system("cls");
+    //myMap.ShootBullet(player->GetID());
+    //std::system("cls");
+    //std::cout << myMap;
 
     //while (true)
     //{
