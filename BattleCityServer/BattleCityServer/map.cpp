@@ -204,6 +204,11 @@ void Map::ShootBullet(uint32_t playerID)
 	
 	auto& weapon = const_cast<Weapon&>((*playerPtr)->GetWeapon());
 
+	if (weapon.GetTimer().GetElapsedTime() < weapon.GetBulletWaitTime())
+	{
+		return;
+	}
+
 	auto direction = (*playerPtr)->GetDirection();
 
 	if (auto bulletPos = GetPositionAfterDirection((*playerPtr)->GetPosition(), direction);  

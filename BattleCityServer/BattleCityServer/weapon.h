@@ -9,7 +9,7 @@ class Weapon
 {
 public:
 	static constexpr double kDefaultBulletSpeed{ 0.25 };
-	static constexpr uint16_t kDefaultBulletWaitTime{ 4000 };
+	static constexpr uint16_t kDefaultBulletWaitTime{ 4 };
 
 public:
 	Weapon(uint32_t id, uint16_t bulletWaitTime, double bulletSpeed, uint32_t userID);
@@ -25,11 +25,13 @@ public:
 	uint32_t GetID() const;
 	uint32_t GetUserID() const;
 	std::chrono::milliseconds GetBulletWaitTimeMilliseconds() const;
+	const Timer& GetTimer() const;
 
 	void SetBulletSpeed(double speed);
 	void SetBulletWaitTime(uint16_t waitTime);
 	void SetID(uint32_t id);
 	void SetUserID(uint32_t userID);
+	void ResetTimer();
 private:
 	uint32_t m_id; //PK
 	uint16_t m_bulletWaitTime;
