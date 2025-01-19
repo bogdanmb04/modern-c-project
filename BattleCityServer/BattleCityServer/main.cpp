@@ -11,9 +11,18 @@
 #include "Database.h"
 #include "../Logging/logging.h"
 #include "Game.h"
+#include "../PasswordEncryption/passwordEncryption.h"
 
 int main() 
 {
+    std::ofstream of("syslog.log", std::ios::app);
+    Logger logger(of);
+
+//GAME START 
+
+
+
+
     server::GameDatabase gameDatabase;
     gameDatabase.Initialize();
 
@@ -22,8 +31,7 @@ int main()
 
     game::Game::kGameCounter = 1;
 
-    //std::ofstream of("syslog.log", std::ios::app);
-    //Logger logger(of);
+    
     //logger.Log("Started Application...", Logger::Level::Info);
 
     game::Map myMap;
