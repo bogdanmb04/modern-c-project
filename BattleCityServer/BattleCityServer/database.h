@@ -49,6 +49,7 @@ namespace server
 		User GetUserByUsername(const std::string& username);
 		bool ValidateUserCredentials(const std::string& username, const std::string& password);
 		bool UserExists(const std::string& username);
+		std::vector<User> GetAllUsers();
 
 		void AddWeapon(const Weapon& weapon);
 		Weapon GetWeapon(int userId);

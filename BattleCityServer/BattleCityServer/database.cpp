@@ -90,6 +90,11 @@ bool GameDatabase::UserExists(const std::string& username)
 	return !users.empty();
 }
 
+std::vector<User> server::GameDatabase::GetAllUsers()
+{
+	return m_db.get_all<User>();
+}
+
 User GameDatabase::GetUserByUsername(const std::string& username)
 {
 	return m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username))[0];
