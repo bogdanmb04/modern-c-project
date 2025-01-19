@@ -41,6 +41,7 @@ void game::Bullet::ResetSpeedBuildUp()
 	m_speedBuildUp = 0.0;
 }
 
+
 const Timer& Bullet::GetTimer() const
 {
 	return m_timer;
