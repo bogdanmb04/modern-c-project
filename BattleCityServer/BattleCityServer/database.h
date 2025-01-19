@@ -56,6 +56,9 @@ namespace server
 		void UpgradeBulletWaitTime(uint32_t id);
 		void UpgradeBulletSpeed(uint32_t id);
 
+		uint32_t GetTotalScore(uint32_t id);
+		uint32_t GetSpecialMoney(uint32_t id);
+
 		Database& GetStorage();
 
 	private:
