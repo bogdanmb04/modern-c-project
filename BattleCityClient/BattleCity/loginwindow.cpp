@@ -11,6 +11,8 @@
 #include <QPixmap>
 #include <nlohmann/json.hpp>
 #include "shop.h"
+#include <QTimer> 
+
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
@@ -85,8 +87,17 @@ void LoginWindow::handleLogin()
     QString username = usernameField->text();
     QString password = passwordField->text();
 
+    if (username.isEmpty() || password.isEmpty()) {
+        errorLabel->setStyleSheet("color: red;");
+        errorLabel->setText("Please fill in both username and password!");
+
+        QTimer::singleShot(2000, this, [this]() {
+            errorLabel->clear();
+            });
+        return;
+    }
+
     qDebug() << "Attempting login with:" << username << password;
-    qDebug() << "Saved credentials:" << registeredUsername << registeredPassword;
 
     HttpManager httpManager;
     QString loginData = QString("{\"username\":\"%1\",\"password\":\"%2\"}").arg(username).arg(password);
@@ -97,7 +108,7 @@ void LoginWindow::handleLogin()
                 auto jsonResponse = nlohmann::json::parse(response.text);
                 if (jsonResponse.contains("userId")) {
                     userId = jsonResponse["userId"].get<uint32_t>();
-                    
+
                     errorLabel->setStyleSheet("color: green;");
                     errorLabel->setText("Login successful!");
 
@@ -118,7 +129,6 @@ void LoginWindow::handleLogin()
             errorLabel->setText("Invalid username or password!");
         }
         });
-
 }
 
 void LoginWindow::goToRegisterPage()
