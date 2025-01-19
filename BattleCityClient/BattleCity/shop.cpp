@@ -13,6 +13,7 @@
 #include <cpr/cpr.h>
 #include "httpmanager.h"
 #include <nlohmann/json.hpp>
+#include "resources.h"
 
 Shop::Shop(QWidget* parent)
     : QWidget(parent)
@@ -37,7 +38,7 @@ void Shop::setupUI() {
     backButton->setStyleSheet("font-size: 15px; padding: 10px;");
     backButton->setFixedSize(70, 40);
 
-    QPixmap backPixmap(":/BattleCity/images/Back.png");
+    QPixmap backPixmap(Constants::kBack);
     backButton->setIcon(QIcon(backPixmap));
     backButton->setIconSize(QSize(10, 10));
     backButton->setText("Back");
@@ -71,7 +72,7 @@ void Shop::setupUI() {
     coinsLayout->setContentsMargins(0, 0, 0, 0);
 
     QLabel* coinsImageLabel = new QLabel(this);
-    QPixmap coinsPixmap(":/BattleCity/images/Coins.png");
+    QPixmap coinsPixmap(Constants::kCoin);
     coinsPixmap = coinsPixmap.scaled(60, 60, Qt::KeepAspectRatio);
     coinsImageLabel->setPixmap(coinsPixmap);
     coinsImageLabel->setAlignment(Qt::AlignLeft);
@@ -99,7 +100,7 @@ void Shop::setupUI() {
     moneyLayout->setContentsMargins(20, 0, 0, 0);
 
     specialMoneyImage = new QLabel(this);
-    QPixmap specialMoneyPixmap(":/BattleCity/images/SpecialMoney.png");
+    QPixmap specialMoneyPixmap(Constants::kSpecialMoney);
     specialMoneyPixmap = specialMoneyPixmap.scaled(60, 60, Qt::KeepAspectRatio);
     specialMoneyImage->setPixmap(specialMoneyPixmap);
     specialMoneyImage->setAlignment(Qt::AlignLeft);
@@ -129,7 +130,7 @@ void Shop::setupUI() {
     button1->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
     button1->setFixedSize(700, 150);
 
-    QPixmap imagePixmap(":/BattleCity/images/UpgradeIcon.png");
+    QPixmap imagePixmap(Constants::kUpgradeIcon);
     QWidget* circlesContainer1 = new QWidget(button1);
     circlesContainer1->setGeometry(QRect(0, 0, button1->width(), button1->height()));
 
@@ -166,7 +167,7 @@ void Shop::setupUI() {
     button2->setStyleSheet("font-size: 25px; text-align: left; padding-left: 10px;");
     button2->setFixedSize(700, 150);
 
-    QPixmap imagePixmap2(":/BattleCity/images/UpgradeIcon.png");
+    QPixmap imagePixmap2(Constants::kUpgradeIcon);
     QWidget* circlesContainer2 = new QWidget(button2);
     circlesContainer2->setGeometry(QRect(0, 0, button2->width(), button2->height()));
 
@@ -357,7 +358,6 @@ void Shop::onButton2Clicked() {
         return;
     }
 
-    qDebug() << "Button 2 clicked, current special money:" << specialMoney;
     getSpecialMoney();
 
     if (specialMoney >= priceButton2) {

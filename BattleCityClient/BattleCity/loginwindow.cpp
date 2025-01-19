@@ -12,6 +12,7 @@
 #include <nlohmann/json.hpp>
 #include "shop.h"
 #include <QTimer> 
+#include "resources.h"
 
 
 LoginWindow::LoginWindow(QWidget* parent)
@@ -19,7 +20,7 @@ LoginWindow::LoginWindow(QWidget* parent)
     , userId(QString())
 {
 
-    QPixmap background(":/BattleCity/images/Intro2.png");
+    QPixmap background(Constants::kIntro);
     background = background.scaled(500, 400, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     QPalette palette;
     palette.setBrush(QPalette::Window, QBrush(background));
@@ -79,7 +80,6 @@ void LoginWindow::setUserCredentials(const QString& username, const QString& pas
     registeredUsername = username;
     registeredPassword = password;
 
-    qDebug() << "Saved credentials in LoginWindow:" << registeredUsername << registeredPassword;
 }
 
 QString LoginWindow::getUserId() const

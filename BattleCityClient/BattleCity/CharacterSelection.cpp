@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QHBoxLayout>
+#include "resources.h"
 
 CharacterSelection::CharacterSelection(QWidget* parent)
     : QDialog(parent) {
@@ -25,7 +26,7 @@ void CharacterSelection::setupUI() {
     QVBoxLayout* firstOfficerLayout = new QVBoxLayout();
 
     QLabel* policeOfficerImage1 = new QLabel();
-    QPixmap policeOfficerPixmap1(":/BattleCity/images/PoliceOfficer.png");
+    QPixmap policeOfficerPixmap1(Constants::kPoliceOfficer);
     policeOfficerImage1->setPixmap(policeOfficerPixmap1.scaled(230, 230, Qt::KeepAspectRatio));
     policeOfficerImage1->setAlignment(Qt::AlignCenter);
     QPushButton* policeOfficerButton1 = new QPushButton("Choose Blue Police Officer ");
@@ -37,7 +38,7 @@ void CharacterSelection::setupUI() {
     QVBoxLayout* secondOfficerLayout = new QVBoxLayout();
 
     QLabel* policeOfficerImage2 = new QLabel();
-    QPixmap policeOfficerPixmap2(":/BattleCity/images/PoliceOfficer2.png");
+    QPixmap policeOfficerPixmap2(Constants::kPoliceOfficer2);
     policeOfficerImage2->setPixmap(policeOfficerPixmap2.scaled(230, 230, Qt::KeepAspectRatio));
     policeOfficerImage2->setAlignment(Qt::AlignCenter);
     QPushButton* policeOfficerButton2 = new QPushButton("Choose Purple Police Officer");
@@ -53,7 +54,7 @@ void CharacterSelection::setupUI() {
     QVBoxLayout* thirdOfficerLayout = new QVBoxLayout();
 
     QLabel* policeOfficerImage3 = new QLabel();
-    QPixmap policeOfficerPixmap3(":/BattleCity/images/PoliceOfficer3.png");
+    QPixmap policeOfficerPixmap3(Constants::kPoliceOfficer3);
     policeOfficerImage3->setPixmap(policeOfficerPixmap3.scaled(230, 230, Qt::KeepAspectRatio));
     policeOfficerImage3->setAlignment(Qt::AlignCenter);
     QPushButton* policeOfficerButton3 = new QPushButton("Choose Green Police Officer");
@@ -65,7 +66,7 @@ void CharacterSelection::setupUI() {
     QVBoxLayout* fourthOfficerLayout = new QVBoxLayout();
 
     QLabel* policeOfficerImage4 = new QLabel();
-    QPixmap policeOfficerPixmap4(":/BattleCity/images/PoliceOfficer4.png");
+    QPixmap policeOfficerPixmap4(Constants::kPoliceOfficer4);
     policeOfficerImage4->setPixmap(policeOfficerPixmap4.scaled(230, 230, Qt::KeepAspectRatio));
     policeOfficerImage4->setAlignment(Qt::AlignCenter);
     QPushButton* policeOfficerButton4 = new QPushButton("Choose Yellow Police Officer");
@@ -92,7 +93,7 @@ void CharacterSelection::setupUI() {
     QHBoxLayout* firstZombieRowLayout = new QHBoxLayout();
     QVBoxLayout* firstZombieLayout = new QVBoxLayout();
     QLabel* zombieImage1 = new QLabel();
-    QPixmap zombiePixmap1(":/BattleCity/images/Zombie_Type1.png");
+    QPixmap zombiePixmap1(Constants::kZombie);
     zombieImage1->setPixmap(zombiePixmap1.scaled(230, 230, Qt::KeepAspectRatio));
     zombieImage1->setAlignment(Qt::AlignCenter);
     QPushButton* zombieButton1 = new QPushButton("Choose Purple Zombie");
@@ -103,7 +104,7 @@ void CharacterSelection::setupUI() {
 
     QVBoxLayout* secondZombieLayout = new QVBoxLayout();
     QLabel* zombieImage2 = new QLabel();
-    QPixmap zombiePixmap2(":/BattleCity/images/Zombie1.png");
+    QPixmap zombiePixmap2(Constants::kZombie1);
     zombieImage2->setPixmap(zombiePixmap2.scaled(230, 230, Qt::KeepAspectRatio));
     zombieImage2->setAlignment(Qt::AlignCenter);
     QPushButton* zombieButton2 = new QPushButton("Choose Green Zombie ");
@@ -118,7 +119,7 @@ void CharacterSelection::setupUI() {
     QHBoxLayout* secondZombieRowLayout = new QHBoxLayout();
     QVBoxLayout* thirdZombieLayout = new QVBoxLayout();
     QLabel* zombieImage3 = new QLabel();
-    QPixmap zombiePixmap3(":/BattleCity/images/Zombie2.png");
+    QPixmap zombiePixmap3(Constants::kZombie2);
     zombieImage3->setPixmap(zombiePixmap3.scaled(230, 230, Qt::KeepAspectRatio));
     zombieImage3->setAlignment(Qt::AlignCenter);
     QPushButton* zombieButton3 = new QPushButton("Choose Yellow Zombie ");
@@ -129,7 +130,7 @@ void CharacterSelection::setupUI() {
 
     QVBoxLayout* fourthZombieLayout = new QVBoxLayout();
     QLabel* zombieImage4 = new QLabel();
-    QPixmap zombiePixmap4(":/BattleCity/images/Zombie3.png");
+    QPixmap zombiePixmap4(Constants::kZombie3);
     zombieImage4->setPixmap(zombiePixmap4.scaled(230, 230, Qt::KeepAspectRatio));
     zombieImage4->setAlignment(Qt::AlignCenter);
     QPushButton* zombieButton4 = new QPushButton("Choose Zombie Type 4");

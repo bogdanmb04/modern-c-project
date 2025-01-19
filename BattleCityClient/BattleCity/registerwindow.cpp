@@ -9,11 +9,12 @@
 #include <cpr/cpr.h>
 #include <QPalette>
 #include <QPixmap>
+#include "resources.h"
 
 RegisterWindow::RegisterWindow(QWidget* parent)
     : QWidget(parent)
 {
-    QPixmap background(":/BattleCity/images/Intro2.png");
+    QPixmap background(Constants::kIntro);
     background = background.scaled(500, 400, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     QPalette palette;
     palette.setBrush(QPalette::Window, QBrush(background));

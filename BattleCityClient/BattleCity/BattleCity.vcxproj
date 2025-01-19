@@ -115,6 +115,7 @@
     <QtMoc Include="ClickableLabel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resources.h" />
     <QtMoc Include="shop.h" />
     <QtMoc Include="battlecitystart.h" />
     <QtMoc Include="circle.h" />

@@ -18,6 +18,7 @@
 #include <QRandomGenerator>
 #include <nlohmann/json.hpp>
 #include <QtWidgets>
+#include "resources.h"
 
 
 MainWindow::MainWindow(QWidget* parent)
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget* parent)
     QVBoxLayout* backLayout = new QVBoxLayout();
     backLayout->addWidget(menuButton);
     backLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    QPixmap backPixmap(":/BattleCity/images/Back.png");
+    QPixmap backPixmap(Constants::kBack);
     menuButton->setIcon(QIcon(backPixmap));
     menuButton->setIconSize(QSize(10, 10));
     menuButton->setText("Menu");
@@ -179,19 +180,19 @@ void MainWindow::initializeMap()
             QString imagePath;
             switch (tile) {
             case 1:
-                imagePath = ":/BattleCity/images/BreakableWall_Type1.png";
+                imagePath = Constants::kBreakableWall;
                 break;
             case 2:
-                imagePath = ":/BattleCity/images/UnbreakableWall_Type1.png";
+                imagePath = Constants::kUnbreakableWall;
                 break;
             case 0:
-                imagePath = ":/BattleCity/images/Path.png";
+                imagePath = Constants::kPath;
                 break;
             case 3:
-                imagePath = ":/BattleCity/images/Bomb.png";
+                imagePath = Constants::kBomb;
                 break;
             default:
-                imagePath = ":/BattleCity/images/Path2.png";
+                imagePath = Constants::kPath;
                 break;
             }
 
@@ -200,7 +201,7 @@ void MainWindow::initializeMap()
 
             if (additionalInfo == "1") {
                 style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;")
-                    .arg(":/BattleCity/images/PoliceOfficer.png");
+                    .arg(Constants::kPoliceOfficer);
             }
 
             cell->setStyleSheet(style);
@@ -234,7 +235,7 @@ void MainWindow::onCellClicked(int row, int col)
         QLabel* cell = qobject_cast<QLabel*>(widget);
 
         if (cell) {
-            QString style = "background-image: url(:/BattleCity/images/Bomb.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+            QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;").arg(Constants::kBomb);;
             cell->setStyleSheet(style);
         }
 
@@ -257,7 +258,7 @@ void MainWindow::triggerExplosion(int row, int col)
         QLabel* cell = qobject_cast<QLabel*>(widget);
 
         if (cell) {
-            QString style = "background-image: url(:/BattleCity/images/Path2.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+            QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;").arg(Constants::kPath);;
             cell->setStyleSheet(style);
         }
     }
@@ -298,7 +299,7 @@ void MainWindow::placeRandomBombsAround(int row, int col)
                 QLabel* cell = qobject_cast<QLabel*>(widget);
 
                 if (cell) {
-                    QString style = "background-image: url(:/BattleCity/images/Path2.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+                    QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;").arg(Constants::kPath);;
                     cell->setStyleSheet(style);
                 }
             }
@@ -383,19 +384,19 @@ void MainWindow::movePlayer(QString playerID, Direction direction) {
                     QMessageBox::information(this, "Success", "Player moved successfully and map updated!");
                 }
                 else {
-                    QMessageBox::warning(this, "Eroare", "Invalid response format!");
+                    QMessageBox::warning(this, "Error", "Invalid response format!");
                 }
             }
             catch (const std::exception& e) {
                 qDebug() << "Server response status code: " << response.status_code
                     << " Message: " << QString::fromStdString(response.text) << e.what();
-                QMessageBox::warning(this, "Eroare", "Error parsing the server response");
+                QMessageBox::warning(this, "Error", "Error parsing the server response");
             }
         }
         else {
             qDebug() << "Server response status code: " << response.status_code
                 << " Message: " << QString::fromStdString(response.text);
-            QMessageBox::warning(this, "Eroare", "Server error");
+            QMessageBox::warning(this, "Error", "Server error");
         }
         });
 
@@ -406,11 +407,11 @@ void MainWindow::spawnRandomObjects()
     static QRandomGenerator generator;
 
     const QStringList objectTypes = {
-        ":/BattleCity/images/Beer.png",
-        ":/BattleCity/images/Invisible.png",
-        ":/BattleCity/images/BombBall_Type1.png",
-        ":/BattleCity/images/Bomb.png",
-        ":/BattleCity/images/Powerup.png"
+        Constants::kBeer,
+        Constants::kInvisible,
+        Constants::kWallBomb,
+        Constants::kBomb,
+        Constants::kPowerup
     };
 
     for (int i = 0; i < 3; ++i) {
@@ -460,7 +461,7 @@ bool MainWindow::placeCoinAtRandomLocation()
     QLabel* cell = qobject_cast<QLabel*>(widget);
 
     if (cell) {
-        QString style = "background-image: url(:/BattleCity/images/Coin.png); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;";
+        QString style = QString("background-image: url(%1); background-repeat: no-repeat; background-size: cover; border: 0px; margin: 0px; padding: 0px;").arg(Constants::kCoin);
         cell->setStyleSheet(style);
     }
 
