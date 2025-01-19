@@ -17,11 +17,13 @@ int main(int argc, char* argv[])
     BattleCity* battleCityWindow = new BattleCity();
     CharacterSelection* character = new CharacterSelection();
 
-    QObject::connect(loginWindow, &LoginWindow::loginSuccess, shop,
-        [shop](const QString& userIdStr) {
-            shop->setUserId(userIdStr);
+    QObject::connect(loginWindow, &LoginWindow::loginSuccess, [battleCityWindow, shop](const QString& userIdStr) {
+
+        shop->setUserId(userIdStr);
+        battleCityWindow->setUserId(userIdStr);
         });
 
+    QObject::connect(loginWindow, &LoginWindow::loginSuccess, mainWindow, &MainWindow::onLoginSuccess);
 
     QObject::connect(loginWindow, &LoginWindow::loginSuccess, [=]() {
         loginWindow->close();

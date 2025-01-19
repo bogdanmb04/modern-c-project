@@ -7,8 +7,9 @@
 #include <QApplication>
 #include <QDebug>
 
-BattleCity::BattleCity(QWidget* parent)
-    : QWidget(parent) {
+BattleCity::BattleCity( QWidget* parent)
+    : QWidget(parent)
+{
     setupUI();
     setWindowTitle("BattleCity");
 }
@@ -60,18 +61,15 @@ void BattleCity::setupUI() {
 
 void BattleCity::onButton1Clicked() {
 
-    CharacterSelection* dialog = new CharacterSelection(this);
-    connect(dialog, &CharacterSelection::characterChosen, this, &BattleCity::onCharacterChosen);
-    dialog->exec();
+    emit gameStarted(userId);
+    this->close();
 }
 
 void BattleCity::onCharacterChosen(const QString& character) {
     if (!character.isEmpty()) {
         qDebug() << "Character chosen:" << character;
-        emit gameStarted(character);
+        emit gameStarted(userId);
         this->close();
-       // MainWindow* mainWindow = new MainWindow();
-       //mainWindow->show();
     }
 }
 

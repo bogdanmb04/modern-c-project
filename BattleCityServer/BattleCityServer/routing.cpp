@@ -134,13 +134,13 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
     CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
         auto body = crow::json::load(req.body);
-      
 
         uint32_t playerID = body["playerID"].i();
+        playerID = static_cast<uint32_t>(playerID);
         std::string directionStr = body["direction"].s();
         Direction direction{};
         direction = StringToDirection(directionStr);
-        std::cout<< directionStr;
+        std::cout<< directionStr<< playerID<< typeid(playerID).name();
         
 
         map.MovePlayer(playerID, direction);

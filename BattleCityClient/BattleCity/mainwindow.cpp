@@ -22,7 +22,7 @@
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
-    , userId(0)
+    , userId(QString())
     , ui(new Ui::MainWindow)
     , gridLayout(new QGridLayout())
     , httpManager()
@@ -73,7 +73,7 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::onLoginSuccess(uint32_t userId)
+void MainWindow::onLoginSuccess(const QString& userId)
 {
     this->userId = userId;
     loadMapFromServer();
@@ -83,7 +83,7 @@ void MainWindow::onLoginSuccess(uint32_t userId)
 void MainWindow::BackButtonClicked()
 {
     QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this, "Confirmare", "Are you sure you want to quit?",
+    reply = QMessageBox::question(this, "Confirmation", "Are you sure you want to quit?",
         QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         emit backToBattleCity();
@@ -98,14 +98,14 @@ void MainWindow::loadMapFromServer()
             QJsonDocument doc = QJsonDocument::fromJson(response.text.c_str());
 
             if (doc.isNull() || !doc.isObject()) {
-                QMessageBox::warning(this, "Eroare", "Datele hartii sunt invalide.");
+                QMessageBox::warning(this, "Error", "Map data is invalid");
                 return;
             }
 
             QJsonObject jsonResponse = doc.object();
 
             if (!jsonResponse.contains("width") || !jsonResponse.contains("height") || !jsonResponse.contains("layout")) {
-                QMessageBox::warning(this, "Eroare", "Datele hartii sunt incomplete.");
+                QMessageBox::warning(this, "Error", "Map incomplete");
                 return;
             }
 
@@ -114,7 +114,7 @@ void MainWindow::loadMapFromServer()
             QJsonArray layout = jsonResponse["layout"].toArray();
 
             if (layout.size() != width * height) {
-                QMessageBox::warning(this, "Eroare", "Dimensiunile layout-ului nu corespund.");
+                QMessageBox::warning(this, "Error", "Wrong dimensions for layout");
                 return;
             }
 
@@ -324,22 +324,31 @@ void MainWindow::keyPressEvent(QKeyEvent* event) {
     default:
         return;
     }
+    qDebug() << "userid" << userId;
     movePlayer(userId, playerDirection);
 
 }
 
 
-void MainWindow::movePlayer(uint32_t playerID, Direction direction) {
+void MainWindow::movePlayer(QString playerID, Direction direction) {
     QString directionStr;
+    bool conversionSuccessful;
+    uint32_t playerIDUInt = playerID.toUInt(&conversionSuccessful);
+
+    if (!conversionSuccessful) {
+        qWarning() << "Conversion of playerID to uint32_t failed!";
+        return;
+    }
+
     switch (direction) {
     case Direction::Up: directionStr = "Up"; break;
     case Direction::Down: directionStr = "Down"; break;
     case Direction::Left: directionStr = "Left"; break;
     case Direction::Right: directionStr = "Right"; break;
     }
-
+    qDebug() << "player" << playerID;
     QJsonObject moveData;
-    moveData["playerID"] = static_cast<int>(userId);
+    moveData["playerID"] = static_cast<qint32>(playerIDUInt);
     moveData["direction"] = directionStr;
 
     QJsonDocument doc(moveData);

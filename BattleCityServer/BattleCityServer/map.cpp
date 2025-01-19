@@ -186,10 +186,11 @@ void Map::PlacePlayers()
 void Map::MovePlayer(uint32_t playerID, Direction direction)
 {
 
+	std::cout << "Player ID sent: " << playerID << std::endl;
 	auto matchID = [playerID](const std::shared_ptr<Player>& player) -> bool
 		{
-			if (player->GetID() == playerID)
-				return true;
+			std::cout << "Comparing with Player ID: " << player->GetID() << std::endl;
+			return player->GetID() == playerID;
 		};
 
 	auto player = ranges::find_if(m_players, matchID);

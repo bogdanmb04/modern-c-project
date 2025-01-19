@@ -81,7 +81,7 @@ void Shop::setupUI() {
     QSpacerItem* spacer = new QSpacerItem(10, 20, QSizePolicy::Fixed, QSizePolicy::Minimum);
     coinsLayout->addSpacerItem(spacer);
 
-    coinsLabel = new QLabel(QString::number(coins), this);
+    coinsLabel = new QLabel(QString::number(money), this);
     coinsLabel->setAlignment(Qt::AlignLeft);
     coinsLabel->setStyleSheet("font-size: 30px;");
     coinsLayout->addWidget(coinsLabel);

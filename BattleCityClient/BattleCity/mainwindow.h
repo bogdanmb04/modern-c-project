@@ -31,8 +31,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
+
+    
     
 signals:
+
     void backToBattleCity();
 
 private:
@@ -43,7 +46,7 @@ private:
     QTimer* objectSpawnTimer;
     HttpManager httpManager;
 
-    uint32_t userId;
+    QString userId;
     Direction playerDirection;
 
     void loadMapFromServer();
@@ -54,13 +57,18 @@ private:
     bool placeCoinAtRandomLocation();
     void triggerExplosion(int row, int col);
     void placeRandomBombsAround(int row, int col);
-    void movePlayer(uint32_t playerID, Direction direction);
+    void movePlayer(QString playerID, Direction direction);
     void keyPressEvent(QKeyEvent* event);
    
 private slots:
     void BackButtonClicked();
     void onCellClicked(int row, int col);
-    void onLoginSuccess(uint32_t userId);
+    
+public slots:
+    void onLoginSuccess(const QString& userId);
+
+signals:
+    void loginSuccess(const QString& userId);
 };
 
 #endif // MAINWINDOW_H
