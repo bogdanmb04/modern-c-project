@@ -199,14 +199,19 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         }
             });
 
-    CROW_ROUTE(m_app, "/get/totalScore").methods(crow::HTTPMethod::POST)
+    CROW_ROUTE(m_app, "/get/total-score").methods(crow::HTTPMethod::GET)
         ([&gameDatabase](const crow::request& req) {
-        auto body = crow::json::load(req.body);
-        if (!body) {
-            return crow::response(400, "Invalid JSON");
+        auto queryParams = crow::query_string(req.url_params);
+        if (!queryParams.get("userId")) {
+            return crow::response(400, "Missing userId parameter");
         }
-
-        uint32_t userId = body["userId"].i();
+        uint32_t userId;
+        try {
+            userId = std::stoul(queryParams.get("userId"));
+        }
+        catch (const std::exception& e) {
+            return crow::response(400, "Invalid userId parameter");
+        }
 
         try {
             uint32_t totalScore = gameDatabase.GetTotalScore(userId);
@@ -219,14 +224,19 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
         }
             });
 
-    CROW_ROUTE(m_app, "/get/specialMoney").methods(crow::HTTPMethod::POST)
+    CROW_ROUTE(m_app, "/get/specialMoney").methods(crow::HTTPMethod::GET)
         ([&gameDatabase](const crow::request& req) {
-        auto body = crow::json::load(req.body);
-        if (!body) {
-            return crow::response(400, "Invalid JSON");
+        auto queryParams = crow::query_string(req.url_params);
+        if (!queryParams.get("userId")) {
+            return crow::response(400, "Missing userId parameter");
         }
-
-        uint32_t userId = body["userId"].i();
+        uint32_t userId;
+        try {
+            userId = std::stoul(queryParams.get("userId"));
+        }
+        catch (const std::exception& e) {
+            return crow::response(400, "Invalid userId parameter");
+        }
 
         try {
             uint32_t specialMoney = gameDatabase.GetSpecialMoney(userId);

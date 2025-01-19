@@ -10,6 +10,7 @@
 #include <QPalette>
 #include <QPixmap>
 #include <nlohmann/json.hpp>
+#include "shop.h"
 
 LoginWindow::LoginWindow(QWidget* parent)
     : QWidget(parent)
@@ -126,7 +127,14 @@ void LoginWindow::goToRegisterPage()
     RegisterWindow* registerWindow = new RegisterWindow();
     connect(registerWindow, &RegisterWindow::goToLogin, this, &LoginWindow::show); 
     connect(registerWindow, &RegisterWindow::registerCredentials,
-        this, &LoginWindow::setUserCredentials);  
+        this, &LoginWindow::setUserCredentials);
+    connect(this, &LoginWindow::loginSuccess, this, [this](uint32_t userId) {
+        Shop* shop = new Shop();
+        shop->setUserId(userId);
+        shop->show();
+        this->close();
+        });
+
     registerWindow->show();
     this->close();  
 }

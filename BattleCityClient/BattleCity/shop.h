@@ -15,13 +15,16 @@ class Shop : public QWidget
 
 public:
     explicit Shop(QWidget *parent = nullptr);
-    void setUserId(uint32_t id) { userId = id; }
+    void setUserId(uint32_t id);
 
     ~Shop();
 
 private:
     void setupUI();
     
+    void getTotalScore();
+    void getSpecialMoney();
+
     void onButton1Clicked();
     void onButton2Clicked();
     void BackButtonClicked();
