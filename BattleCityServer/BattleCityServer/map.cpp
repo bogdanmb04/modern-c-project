@@ -36,8 +36,6 @@ Map::Map()
 	m_width = widthDist(gen);
 	m_height = heightDist(gen);
 
-	////TODO: add conditions for tiles: how many, where and which type
-
 	m_squares.reserve(m_width * m_height);
 
 	for (size_t index = 0; index < m_height * m_width; ++index)
@@ -71,51 +69,6 @@ Map::Map()
 const std::vector<Map::Square>& game::Map::GetSquares() const
 {
 	return m_squares;
-}
-
-std::string Map::GetTileLayout() const
-{
-	std::string result{};
-
-	for (const auto& elem : m_squares)
-	{
-		result.push_back(static_cast<int>(elem.first.GetType()));
-		result.push_back(' ');
-	}
-
-	return result;
-}
-
-std::string game::Map::GetEntityLayout() const
-{
-	std::string result{};
-
-	for (const auto& elem : m_squares)
-	{
-		if (auto player = std::dynamic_pointer_cast<Player>(elem.second); player)
-		{
-			result += std::to_string(player->GetID());
-		}
-		else if (auto bomb = std::dynamic_pointer_cast<Bomb>(elem.second); bomb)
-		{
-			result += "B";
-		}
-		else if (auto powerUp = std::dynamic_pointer_cast<PowerUp>(elem.second); powerUp)
-		{
-			result += "P";
-		}
-		else if (auto bullet = std::dynamic_pointer_cast<Bullet>(elem.second); bullet)
-		{
-			result += "b";
-		}
-		else
-		{
-			result += "N";
-		}
-		result.push_back(' ');
-	}
-
-	return result;
 }
 
 size_t Map::GetWidth() const
@@ -248,6 +201,13 @@ void Map::ShootBullet(uint32_t playerID)
 	{
 		throw std::exception{ "Player not found" };
 	}
+	
+	auto& weapon = const_cast<Weapon&>((*playerPtr)->GetWeapon());
+
+	if (weapon.GetTimer().GetElapsedTime() < weapon.GetBulletWaitTime())
+	{
+		return;
+	}
 
 	auto direction = (*playerPtr)->GetDirection();
 
@@ -278,12 +238,19 @@ void Map::ExplodeBomb(const Position& bomb)
 
 void Map::MoveBullet(const Position& posBullet)
 {
-	auto bullet = std::dynamic_pointer_cast<Bullet>((*this)[posBullet].second);
+	auto&& bullet = std::move(std::dynamic_pointer_cast<Bullet>((*this)[posBullet].second));
+
+	if (!bullet)
+	{
+		return;
+	}
 
 	if (bullet.get()->GetSpeedBuildUp() < Bullet::kMinimumSpeedBuildup) //cannot move yet
 	{
 		return;
 	}
+
+	(*this)[posBullet].second.reset();
 
 	auto bulletPos = GetPositionAfterDirection(bullet.get()->GetPosition(), bullet.get()->GetDirection());
 
@@ -334,6 +301,8 @@ void Map::MoveBullet(const Position& posBullet)
 
 	if (nextSquare.first.GetType() == Tile::TileType::Free)
 	{
+		bullet.get()->ResetSpeedBuildUp();
+		bullet.get()->SetPosition(GetPositionAfterDirection(bullet.get()->GetPosition(), bullet.get()->GetDirection()));
 		(*this)[bulletPos].second = std::move(bullet);
 	}
 }
@@ -345,7 +314,7 @@ void Map::MoveBullets()
 			{
 				if (auto bulletPtr = std::dynamic_pointer_cast<Bullet>(param.second); bulletPtr)
 				{
-					if (bulletPtr.get()->GetTimer().GetElapsedTime() >= Bullet::kMinimumSpeedBuildup)
+					if (bulletPtr.get()->GetTimer().GetElapsedTime() >= 1.0)
 					{
 						bulletPtr.get()->AddSpeedBuildUp();
 						return true;
@@ -357,8 +326,7 @@ void Map::MoveBullets()
 
 	for (auto& square : view)
 	{
-		auto bulletPtr = std::dynamic_pointer_cast<Bullet>(square.second);
-		MoveBullet(bulletPtr.get()->GetPosition());
+		MoveBullet(square.second.get()->GetPosition());
 	}
 }
 //

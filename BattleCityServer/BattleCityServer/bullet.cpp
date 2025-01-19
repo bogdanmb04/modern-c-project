@@ -7,6 +7,7 @@ Bullet::Bullet(const Player& player)
 	, m_speed {player.GetWeapon().GetBulletSpeed()}
 	, m_speedBuildUp{ 0.0 }
 	, m_timer{}
+	, Entity{GetPositionAfterDirection(player.GetPosition(), player.GetDirection())}
 {/*EMPTY*/}
 
 Direction game::Bullet::GetDirection() const

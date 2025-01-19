@@ -12,8 +12,8 @@ namespace game
 	public:
 		Game();
 		~Game();
-		void StartGame();
-		void EndGame();
+		void Run();
+		void Initialize();
 		void AddPlayer(Player& player);
 		const Timer& GetTimer();
 	public:

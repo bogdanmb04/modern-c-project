@@ -43,6 +43,11 @@ std::chrono::milliseconds Weapon::GetBulletWaitTimeMilliseconds() const
 	return duration;
 }
 
+const Timer& Weapon::GetTimer() const
+{
+	return m_timer;
+}
+
 void Weapon::SetBulletSpeed(double speed)
 {
 	m_bulletSpeed = speed;
@@ -61,4 +66,9 @@ void Weapon::SetID(uint32_t id)
 void Weapon::SetUserID(uint32_t userID)
 {
 	m_userID = userID;
+}
+
+void Weapon::ResetTimer()
+{
+	m_timer.Restart();
 }
