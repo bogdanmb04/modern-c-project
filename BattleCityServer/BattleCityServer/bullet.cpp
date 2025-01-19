@@ -28,6 +28,7 @@ double game::Bullet::GetSpeedBuildUp() const
 	return m_speedBuildUp;
 }
 
+
 void game::Bullet::AddSpeedBuildUp()
 {
 	m_speedBuildUp += m_speed;
