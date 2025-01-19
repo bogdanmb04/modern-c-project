@@ -14,18 +14,22 @@
 #include "httpmanager.h"
 #include <nlohmann/json.hpp>
 
-Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
+Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
     priceButton1 = 25;
     priceButton2 = 20;
     setupUI();
+
+    getTotalScore();  
+    getSpecialMoney();  
 }
 
 Shop::~Shop() {}
+
 void Shop::setupUI() {
     setWindowTitle("Shop");
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-
+    //this->setStyleSheet("background-color: #2b2b2b;");
     QPushButton* backButton = new QPushButton("Back", this);
     backButton->setStyleSheet("font-size: 15px; padding: 10px;");
     backButton->setFixedSize(70, 40);
@@ -47,10 +51,12 @@ void Shop::setupUI() {
     titleLabel->setAlignment(Qt::AlignTop | Qt::AlignHCenter);
     titleLabel->setStyleSheet("font-size: 50px; font-weight: bold; margin-bottom: 20px;");
     mainLayout->addWidget(titleLabel);
-
-    // Move the currency boxes here, right below the back button
-    QHBoxLayout* currencyLayout = new QHBoxLayout();
-    currencyLayout->setContentsMargins(20, 0, 0, 0);
+    QSpacerItem* topSpacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    mainLayout->addSpacerItem(topSpacer);
+    insufficientFundsLabel = new QLabel("", this);
+    insufficientFundsLabel->setAlignment(Qt::AlignCenter);
+    insufficientFundsLabel->setStyleSheet("font-size: 20px; color: red;");
+    mainLayout->addWidget(insufficientFundsLabel);
 
     QGroupBox* coinsBox = new QGroupBox(this);
     coinsBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
@@ -81,6 +87,7 @@ void Shop::setupUI() {
 
     QGroupBox* moneyBox = new QGroupBox(this);
     moneyBox->setStyleSheet("QGroupBox {border: 5px solid black;border-radius: 5px;padding: 5px;background-color:#4f1410;font-size: 20px;}");
+
     moneyBox->setFixedWidth(170);
     moneyBox->setContentsMargins(20, 5, 5, 5);
 
@@ -105,11 +112,15 @@ void Shop::setupUI() {
     specialMoneyLabel->setAlignment(Qt::AlignLeft);
     moneyBox->setLayout(moneyLayout);
 
+    QHBoxLayout* currencyLayout = new QHBoxLayout();
     currencyLayout->addWidget(coinsBox);
     currencyLayout->addWidget(moneyBox);
-    currencyLayout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    currencyLayout->setAlignment(Qt::AlignTop|Qt::AlignLeft);
+    currencyLayout->setContentsMargins(40, 0, 0, 0);
 
     mainLayout->addLayout(currencyLayout);
+
+  
 
     QVBoxLayout* buttonsLayout = new QVBoxLayout();
 
@@ -145,7 +156,7 @@ void Shop::setupUI() {
     priceLabel1->setAttribute(Qt::WA_TransparentForMouseEvents, true);
 
     QHBoxLayout* button1Layout = new QHBoxLayout(button1);
-    button1Layout->setContentsMargins(0, 0, 10, 0);
+    button1Layout->setContentsMargins(0, 0, 0, 0);
     button1Layout->addWidget(priceLabel1, 0, Qt::AlignTop | Qt::AlignRight);
 
     buttonsLayout->addWidget(button1);
@@ -196,7 +207,6 @@ void Shop::setupUI() {
     connect(button1, &QPushButton::clicked, this, &Shop::onButton1Clicked);
     connect(button2, &QPushButton::clicked, this, &Shop::onButton2Clicked);
 }
-
 
 void Shop::BackButtonClicked() {
     emit backToBattleCity();
