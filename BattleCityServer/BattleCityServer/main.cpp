@@ -46,7 +46,7 @@ int main()
 
     std::shared_ptr<game::Player> player = std::make_shared<game::Player>(playerTest);
 
-    std::cout << myMap << std::endl;
+    //std::cout << myMap << std::endl;
     //std::this_thread::sleep_for(std::chrono::seconds{ 5 });
 
     myMap.InsertPlayer(player);
@@ -58,14 +58,14 @@ int main()
     std::system("cls");
     std::cout << myMap;
 
-    while (true)
-    {
-        std::this_thread::sleep_for(std::chrono::seconds{ 3 });
-        myMap.MoveBullets();
-        std::system("cls");
-        std::cout << myMap << std::endl;
-        //std::this_thread::sleep_for(std::chrono::seconds{ 5 });
-    }
+    //while (true)
+    //{
+    //    std::this_thread::sleep_for(std::chrono::seconds{ 3 });
+    //    myMap.MoveBullets();
+    //    std::system("cls");
+    //    std::cout << myMap << std::endl;
+    //    //std::this_thread::sleep_for(std::chrono::seconds{ 5 });
+    //}
 
     http::Routing routing;
     routing.Run(gameDatabase, myMap);
