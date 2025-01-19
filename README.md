@@ -16,3 +16,4 @@
 
 ### **Good Luck**
 ### **Suggestion Box**
+### **NOTE: VIDEO (BattleCity.mkv) MUST BE DOWNLOADED BECAUSE IT CANNOT BE VIEWED RAW ON GITHUB
