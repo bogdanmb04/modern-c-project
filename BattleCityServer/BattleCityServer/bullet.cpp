@@ -10,6 +10,7 @@ Bullet::Bullet(const Player& player)
 	, Entity{GetPositionAfterDirection(player.GetPosition(), player.GetDirection())}
 {/*EMPTY*/}
 
+
 Direction game::Bullet::GetDirection() const
 {
 	return m_direction;
