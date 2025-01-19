@@ -4,11 +4,6 @@
 
 using namespace game;
 
-void Shoot()
-{
-	//std::cout << character << "A player was shot!\n";
-}
-
 uint16_t Player::GetScore() const
 {
 	return m_score;
@@ -29,9 +24,14 @@ Direction Player::GetDirection() const
 	return m_direction;
 }
 
-const Weapon& game::Player::GetWeapon() const
+const Weapon& Player::GetWeapon() const
 {
 	return m_weapon;
+}
+
+const std::pair<size_t, size_t>& Player::GetStartingPosition() const
+{
+	return m_startingPosition;
 }
 
 void Player::SetDirection(Direction direction)
@@ -44,58 +44,18 @@ void Player::AddScore(uint8_t points)
 	m_score += points;
 }
 
+void Player::DecreaseLives()
+{
+	m_lives--;
+}
+
 Player::Player(const User& user, Weapon&& weapon)
 	: m_id{ user.GetID() }
 	, m_score{ 0 }
-	, m_lives{ 3 }
+	, m_lives{ kInitialLivesNumber }
 	, m_direction {Direction::UP}
 	, m_weapon{ std::move(weapon) }
+	, m_startingPosition{ Map::Position{0, 0} }
 {
 	//EMPTY
 }
-
-void GetShoot()
-{
-	/*if (lives > 0)
-	{
-		lives--;
-		std::cout << character << "Was shoot. Remain lives:" << lives << "\n";
-		if (lives > 0)
-		{
-			position = initialPosition;
-			std::cout << character << "Was reseted" << initialPosition.first << "," << initialPosition.second << std::endl;
-		}
-		else
-		{
-			std::cout << character << "Was eliminated!\n";
-		}
-	}*/
-}
-
-/*void selectCharacter(const std::string& newCharacter)
-{
-	std::string selectedCharacter = characterSelector.selectCharacter(newCharacter);
-	if (!selectedCharacter.empty())
-	{
-		character = selectedCharacter;
-		std::cout << "The selected character is: " << character << "\n";
-	}
-	else
-	{
-		std::cout << "Unavailable character\n";
-	}
-}*/
-
-/*void selectCharacter(const std::string& newCharacter)
-{
-	std::string selectedCharacter = characterSelector.selectCharacter(newCharacter);
-	if (!selectedCharacter.empty())
-	{
-		character = selectedCharacter;
-		std::cout << "The selected character is: " << character << "\n";
-	}
-	else
-	{
-		std::cout << "Unavailable character\n";
-	}
-}*/

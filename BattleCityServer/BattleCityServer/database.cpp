@@ -59,6 +59,18 @@ void server::GameDatabase::UpgradeBulletSpeed(uint32_t id)
 	m_db.update(weapon);
 }
 
+uint32_t server::GameDatabase::GetTotalScore(uint32_t id)
+{
+	auto user = m_db.get<User>(id);
+	return user.GetTotalScore();
+}
+
+uint32_t server::GameDatabase::GetSpecialMoney(uint32_t id)
+{
+	auto user = m_db.get<User>(id);
+	return user.GetSpecialMoney();
+}
+
 Database& GameDatabase::GetStorage()
 {
 	return m_db;
@@ -81,4 +93,18 @@ bool GameDatabase::UserExists(const std::string& username)
 User GameDatabase::GetUserByUsername(const std::string& username)
 {
 	return m_db.get_all<User>(sql::where(sql::c(&User::GetUsername) == username))[0];
+}
+
+void GameDatabase::AddSpecialMoney(uint32_t userId, uint32_t amount)
+{
+	auto user = this->GetUser(userId);
+	user.AddSpecialMoney(amount);  
+	m_db.update(user);
+}
+
+void server::GameDatabase::AddTotalScore(uint32_t userId, uint32_t amount)
+{
+	auto user = this->GetUser(userId);
+	user.AddTotalScore(amount);
+	m_db.update(user);
 }

@@ -12,6 +12,7 @@
 #include <QTimer>
 #include <cpr/cpr.h>
 #include "httpmanager.h"
+#include <nlohmann/json.hpp>
 
 Shop::Shop(QWidget* parent) : QWidget(parent), coins(0), money(0), specialMoney(0), button1CircleCount(0), button2CircleCount(0) {
     priceButton1 = 25;
@@ -206,19 +207,127 @@ void Shop::BackButtonClicked() {
     emit backToBattleCity();
 }
 
-void Shop::onButton1Clicked() {
-    if (coins >= priceButton1) {
-        coins -= priceButton1;
-        coinsLabel->setText(QString::number(coins));
-        button1CircleCount++;
-        for (int i = 0; i < button1CircleCount; ++i) {
-            button1Circles[i]->setVisible(true);
+void Shop::setUserId(uint32_t id) {
+    userId = id;
+}
+
+void Shop::getTotalScore() {
+    QString url = QString("http://localhost:18080/get/total-score?userId=%1").arg(2);
+    httpManager.sendGetRequest(
+        url,
+        [this](const cpr::Response& response) {
+            if (response.status_code == 200) {
+                try {
+                    nlohmann::json jsonResponse = nlohmann::json::parse(response.text);
+                    if (jsonResponse.contains("totalScore")) {
+                        money = jsonResponse["totalScore"].get<int>();
+                        coinsLabel->setText(QString::number(money));
+                    }
+                    else {
+                        qDebug() << "totalScore field is missing in response.";
+                        insufficientFundsLabel->setText("Invalid response data");
+                        insufficientFundsLabel->setVisible(true);
+                        QTimer::singleShot(1000, this, [this]() {
+                            insufficientFundsLabel->setVisible(false);
+                            });
+                    }
+                }
+                catch (const std::exception& e) {
+                    qDebug() << "Error parsing response:" << e.what();
+                    insufficientFundsLabel->setText("Failed to parse response");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+            else {
+                qDebug() << "GET request failed with status code:" << response.status_code;
+                insufficientFundsLabel->setText("Failed to fetch total score");
+                insufficientFundsLabel->setVisible(true);
+                QTimer::singleShot(1000, this, [this]() {
+                    insufficientFundsLabel->setVisible(false);
+                    });
+            }
         }
+    );
+}
+
+void Shop::getSpecialMoney() {
+    QString url = QString("http://localhost:18080/get/specialMoney?userId=%1").arg(2);
+    httpManager.sendGetRequest(
+        url,
+        [this](const cpr::Response& response) {
+            if (response.status_code == 200) {
+                try {
+                    nlohmann::json jsonResponse = nlohmann::json::parse(response.text);
+                    if (jsonResponse.contains("specialMoney")) {
+                        specialMoney = jsonResponse["specialMoney"].get<int>();
+                        coinsLabel->setText(QString::number(specialMoney));
+                    }
+                    else {
+                        qDebug() << "specialMoney field is missing in response.";
+                        insufficientFundsLabel->setText("Invalid response data");
+                        insufficientFundsLabel->setVisible(true);
+                        QTimer::singleShot(1000, this, [this]() {
+                            insufficientFundsLabel->setVisible(false);
+                            });
+                    }
+                }
+                catch (const std::exception& e) {
+                    qDebug() << "Error parsing response:" << e.what();
+                    insufficientFundsLabel->setText("Failed to parse response");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+            else {
+                qDebug() << "GET request failed with status code:" << response.status_code;
+                insufficientFundsLabel->setText("Failed to fetch total score");
+                insufficientFundsLabel->setVisible(true);
+                QTimer::singleShot(1000, this, [this]() {
+                    insufficientFundsLabel->setVisible(false);
+                    });
+            }
+        }
+    );
+}
+
+
+
+void Shop::onButton1Clicked() {
+    getTotalScore();
+    if (money >= priceButton1) {
+        nlohmann::json requestData;
+        requestData["userId"] = userId;
+
+        httpManager.sendPostRequest(
+            "http://localhost:18080/upgrade/bullet-wait-time",
+            QString::fromStdString(requestData.dump()),
+            [this](const cpr::Response& response) {
+                if (response.status_code == 200) {
+                    money -= priceButton1;
+                    coinsLabel->setText(QString::number(money));
+                    button1CircleCount++;
+                    for (int i = 0; i < button1CircleCount; ++i) {
+                        button1Circles[i]->setVisible(true);
+                    }
+                }
+                else {
+                    insufficientFundsLabel->setText("Upgrade failed!");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+        );
     }
     else {
         insufficientFundsLabel->setText("Insufficient funds");
         insufficientFundsLabel->setVisible(true);
-
         QTimer::singleShot(1000, this, [this]() {
             insufficientFundsLabel->setVisible(false);
             });
@@ -226,21 +335,36 @@ void Shop::onButton1Clicked() {
 }
 
 void Shop::onButton2Clicked() {
-    if (money >= priceButton2) {
-        HttpManager httpManager;
-        
+    getSpecialMoney();
+    if (specialMoney >= priceButton2) {
+        nlohmann::json requestData;
+        requestData["userId"] = userId;
 
-        money -= priceButton2;
-        moneyLabel->setText(QString::number(money));
-        button2CircleCount++;
-        for (int i = 0; i < button2CircleCount; ++i) {
-            button2Circles[i]->setVisible(true);
-        }
+        httpManager.sendPostRequest(
+            "http://localhost:18080/upgrade/bullet-speed",
+            QString::fromStdString(requestData.dump()),
+            [this](const cpr::Response& response) {
+                if (response.status_code == 200) {
+                    specialMoney -= priceButton2;
+                    moneyLabel->setText(QString::number(specialMoney));
+                    button2CircleCount++;
+                    for (int i = 0; i < button2CircleCount; ++i) {
+                        button2Circles[i]->setVisible(true);
+                    }
+                }
+                else {
+                    insufficientFundsLabel->setText("Upgrade failed!");
+                    insufficientFundsLabel->setVisible(true);
+                    QTimer::singleShot(1000, this, [this]() {
+                        insufficientFundsLabel->setVisible(false);
+                        });
+                }
+            }
+        );
     }
     else {
         insufficientFundsLabel->setText("Insufficient funds");
         insufficientFundsLabel->setVisible(true);
-
         QTimer::singleShot(1000, this, [this]() {
             insufficientFundsLabel->setVisible(false);
             });

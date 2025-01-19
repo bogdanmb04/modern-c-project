@@ -49,6 +49,7 @@ private:
     void loadMapFromServer();
     void initializeMap();
     void placeCoins();
+    void updateMapView(const QJsonArray& layout);
     void spawnRandomObjects();
     bool placeCoinAtRandomLocation();
     void triggerExplosion(int row, int col);

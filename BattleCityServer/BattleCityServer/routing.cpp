@@ -132,53 +132,122 @@ void http::Routing::Run(server::GameDatabase& gameDatabase, game::Map& map)
 
         });
 
-    CROW_ROUTE(m_app, "/move")
-        .methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
+    CROW_ROUTE(m_app, "/move").methods(crow::HTTPMethod::POST)([&map](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+      
+
+        uint32_t playerID = body["playerID"].i();
+        std::string directionStr = body["direction"].s();
+        Direction direction{};
+        direction = StringToDirection(directionStr);
+        std::cout<< directionStr;
+        
+
+        map.MovePlayer(playerID, direction);
+        
+        std::vector<crow::json::wvalue> mapLayout;
+
+        auto checkInfo = [&mapLayout](const game::Map::Square& square) -> void
+            {
+                mapLayout.push_back(crow::json::wvalue{
+                    {"tile", static_cast<int>(square.first.GetType())},
+                    {"entity", EntityToValue(square.second)},
+                    {"direction", static_cast<int>(ConfigureDirection(square.second))}
+                    });
+            };
+
+        std::ranges::for_each(map.GetSquares(), checkInfo);
+
+        return crow::json::wvalue{
+            {"width", map.GetWidth()},
+            {"height", map.GetHeight()},
+            {"layout", mapLayout}
+        };
+        });
+
+    CROW_ROUTE(m_app, "/upgrade/bullet-wait-time").methods(crow::HTTPMethod::POST)
+        ([&gameDatabase](const crow::request& req) {
         auto body = crow::json::load(req.body);
         if (!body) {
             return crow::response(400, "Invalid JSON");
         }
 
-        uint32_t playerID = body["playerID"].i();
-
-        std::string directionStr = body["direction"].s();
-        Direction direction;
+        uint32_t userId = body["userId"].i();
         try {
-            direction = StringToDirection(directionStr);
+            gameDatabase.UpgradeBulletWaitTime(userId);
+            return crow::response(200, "Bullet wait time upgraded successfully");
         }
-        catch (const std::exception&) {
-            return crow::response(400, "Invalid move");
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to upgrade bullet wait time");
         }
-
-        const auto& updates = map.MovePlayer(playerID, direction);
-
-        crow::json::wvalue responseJson;
-        responseJson["status"] = "Move successful";
-
-        crow::json::wvalue::list updatesList;
-        for (const auto& update : updates) {
-            const auto& position = update.first;
-            const auto& entity = update.second;
-
-            int x = position.first;
-            int y = position.second;
-
-            crow::json::wvalue updateJson;
-            updateJson["x"] = x;
-            updateJson["y"] = y;
-            updateJson["tile"] = 1;
-            updateJson["entity"] = entity;
-
-            updatesList.push_back(updateJson);
-        }
-
-        responseJson["updates"] = std::move(updatesList);
-
-        return crow::response(responseJson);
             });
 
+    CROW_ROUTE(m_app, "/upgrade/bullet-speed").methods(crow::HTTPMethod::POST)
+        ([&gameDatabase](const crow::request& req) {
+        auto body = crow::json::load(req.body);
+        if (!body) {
+            return crow::response(400, "Invalid JSON");
+        }
 
+        uint32_t userId = body["userId"].i();
+        try {
+            gameDatabase.UpgradeBulletSpeed(userId);
+            return crow::response(200, "Bullet speed upgraded successfully");
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to upgrade bullet speed");
+        }
+            });
 
+    CROW_ROUTE(m_app, "/get/total-score").methods(crow::HTTPMethod::GET)
+        ([&gameDatabase](const crow::request& req) {
+        auto queryParams = crow::query_string(req.url_params);
+        if (!queryParams.get("userId")) {
+            return crow::response(400, "Missing userId parameter");
+        }
+        uint32_t userId;
+        try {
+            userId = std::stoul(queryParams.get("userId"));
+        }
+        catch (const std::exception& e) {
+            return crow::response(400, "Invalid userId parameter");
+        }
+
+        try {
+            uint32_t totalScore = gameDatabase.GetTotalScore(userId);
+            crow::json::wvalue responseData;
+            responseData["totalScore"] = totalScore;
+            return crow::response(200, responseData);
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to get totalScore");
+        }
+            });
+
+    CROW_ROUTE(m_app, "/get/specialMoney").methods(crow::HTTPMethod::GET)
+        ([&gameDatabase](const crow::request& req) {
+        auto queryParams = crow::query_string(req.url_params);
+        if (!queryParams.get("userId")) {
+            return crow::response(400, "Missing userId parameter");
+        }
+        uint32_t userId;
+        try {
+            userId = std::stoul(queryParams.get("userId"));
+        }
+        catch (const std::exception& e) {
+            return crow::response(400, "Invalid userId parameter");
+        }
+
+        try {
+            uint32_t specialMoney = gameDatabase.GetSpecialMoney(userId);
+            crow::json::wvalue responseData;
+            responseData["specialMoney"] = specialMoney;
+            return crow::response(200, responseData);
+        }
+        catch (const std::exception& e) {
+            return crow::response(500, "Failed to get specialMoney");
+        }
+            });
 
     m_app.port(18080).multithreaded().run();
 }

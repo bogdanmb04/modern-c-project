@@ -7,17 +7,31 @@
 
 using std::uint8_t;
 
+
 namespace game
 {
+	class Player;
+
 	class Bullet : public Entity
 	{
 	public:
+		const static int kMinimumSpeedBuildup{ 1 };
+
+	public:
 		Bullet(const Player& player);
+
+	public:
 		Direction GetDirection() const;
+		double GetSpeed() const;
+		double GetSpeedBuildUp() const;
+		void AddSpeedBuildUp();
+		void ResetSpeedBuildUp();
+		const Timer& GetTimer() const;
 
 	private:
 		Direction m_direction : 2;
-		double m_speed;
+		const double m_speed;
+		double m_speedBuildUp;
 		Timer m_timer;
 	};
 }
