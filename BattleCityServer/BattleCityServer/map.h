@@ -33,8 +33,6 @@ namespace game
 	public:
 		Map();
 		const std::vector<Square>& GetSquares() const;
-		std::string GetTileLayout() const;
-		std::string GetEntityLayout() const;
 
 		const Square& operator [] (const Position& pos) const;
 		Square& operator [] (const Position& pos);

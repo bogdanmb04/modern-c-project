@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <cstdint>
-#include <chrono>
+#include "Timer.h"
 using std::uint16_t;
 using std::uint32_t;
 
@@ -35,5 +35,5 @@ private:
 	uint16_t m_bulletWaitTime;
 	double m_bulletSpeed;
 	uint32_t m_userID; //FK
+	Timer m_timer{};
 };
-

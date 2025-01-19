@@ -4,7 +4,7 @@ using namespace game;
 
 Game::Game()
 	: m_map{Map::Map()}
-	, m_players{}
+	, m_players{nullptr, nullptr, nullptr, nullptr}
 {
 	kGameCounter += 1;
 }
