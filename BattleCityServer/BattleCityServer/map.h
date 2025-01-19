@@ -17,6 +17,8 @@ using std::uint32_t;
 
 namespace game
 {
+	class Player;
+
 	class Map
 	{
 	public:
@@ -25,8 +27,7 @@ namespace game
 		static const size_t kHeightMin{ 25 };
 		static const size_t kHeightMax{ 30 };
 		static const size_t kNoBombs{ 3 };
-		using Position = std::pair<int, int>;
-
+		using Position = std::pair<size_t, size_t>;
 		using Square = std::pair<Tile, std::shared_ptr<Entity>>;
 
 	public:
@@ -41,19 +42,24 @@ namespace game
 		size_t GetWidth() const;
 		size_t GetHeight() const;
 		Tile GetTile(const Position& pos) const;
+
 		void PlaceBombsOnWalls(std::vector<Bomb>& bombs);
+
 		void PlacePlayers();
 		void MovePlayer(uint32_t playerID, Direction direction);
 		void InsertPlayer(const std::shared_ptr<Player>& player);
-
+		void KillPlayer(uint32_t playerID);
 		void ShootBullet(uint32_t playerID);
 		void MoveBullets();
+		void ExplodeBomb(const Position& bomb);
 
-		std::vector<Position> FindPath(const Position& start, const Position& goal);
-		bool isValid(const Position& pos) const;
-		std::vector<Map::Position> ReconstructPath(const std::map<Position, Position>& came_from, Position current);
-		size_t CalculateHeuristic(const Position& start, const Position& goal) const;
+		//std::vector<Position> FindPath(const Position& start, const Position& goal);
+		//bool isValid(const Position& pos) const;
+		//std::vector<Position> ReconstructPath(const std::map<Position, Position>& came_from, Position current);
+		//size_t CalculateHeuristic(const Position& start, const Position& goal) const;
 		
+	private:
+		void MoveBullet(const Position& bullet);
 
 	private:
 		size_t m_width;

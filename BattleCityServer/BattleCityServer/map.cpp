@@ -1,5 +1,6 @@
 #include "Map.h"
 #include <vector>
+#include <queue>
 #include "PowerUp.h"
 
 using namespace game;
@@ -23,7 +24,7 @@ Map::Square& Map::operator[](const Position& pos)
 }
 
 
-game::Map::Map()
+Map::Map()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -40,14 +41,14 @@ game::Map::Map()
 
 	for (size_t index = 0; index < m_height * m_width; ++index)
 	{
-		//instead of equal chance for all tiles, 50% free, 45% destructible wall, 15% indestructible
+		//instead of equal chance for all tiles, 50% free, 45% destructible wall, 5% indestructible
 		Tile::TileType type;
 		std::uint8_t random = gen() % 100;
 		if (random < 50)
 		{
 			type = Tile::TileType::Free;
 		}
-		else if (random >= 50 && random <= 85)
+		else if (random >= 50 && random <= 95)
 		{
 			type = Tile::TileType::DestructibleWall;
 		}
@@ -71,7 +72,7 @@ const std::vector<Map::Square>& game::Map::GetSquares() const
 	return m_squares;
 }
 
-std::string game::Map::GetTileLayout() const
+std::string Map::GetTileLayout() const
 {
 	std::string result{};
 
@@ -223,6 +224,17 @@ void Map::InsertPlayer(const std::shared_ptr<Player>& playerPtr)
 	}
 }
 
+void Map::KillPlayer(uint32_t playerID)
+{
+	auto player = ranges::find_if(m_players, [playerID](std::shared_ptr<Player> playerPtr) -> bool
+		{
+		return playerPtr.get()->GetID() == playerID;
+		});
+	(*player).get()->DecreaseLives();
+	Position playerInitialPosition = (*player).get()->GetStartingPosition();
+	(*this)[playerInitialPosition].second = std::move((*this)[(*player).get()->GetPosition()].second);
+}
+
 void Map::ShootBullet(uint32_t playerID)
 {
 	auto matchID = [playerID](const std::shared_ptr<Player>& player) -> bool
@@ -246,9 +258,13 @@ void Map::ShootBullet(uint32_t playerID)
 	{
 		auto spawnTileType = (*this).GetTile(bulletPos).GetType();
 
-		if (spawnTileType == Tile::TileType::Free)
+		if (spawnTileType == Tile::TileType::Free && (*this)[bulletPos].second == nullptr)
 		{
 			(*this)[bulletPos].second = std::make_shared<Bullet>(*((*playerPtr).get()));
+		}
+		else if (auto playerPtr = std::dynamic_pointer_cast<Player>((*this)[bulletPos].second); playerPtr)
+		{
+			(*this).KillPlayer(playerPtr.get()->GetID());
 		}
 		else if (spawnTileType == Tile::TileType::DestructibleWall)
 		{
@@ -257,26 +273,161 @@ void Map::ShootBullet(uint32_t playerID)
 	}
 }
 
-void Map::MoveBullets()
+void Map::ExplodeBomb(const Position& bomb)
 {
-	auto isBullet = [](const Map::Square& param) -> bool
-		{
-			if (auto bulletPtr = std::dynamic_pointer_cast<Bullet>(param.second); bulletPtr)
-				return true;
-			return false;
-		};
 
-	auto moveValidBullets = [](const Map::Square& param) -> void
-		{
-			auto bulletPtr = std::dynamic_pointer_cast<Bullet>(param.second);
-			if (bulletPtr->GetSpeedBuildUp() >= 1.0)
-			{
-				MoveBullet(bulletPtr->GetPosition());
-			}
-		};
-	m_squares | std::views::filter(isBullet) | std::views::transform();
 }
 
+void Map::MoveBullet(const Position& posBullet)
+{
+	auto bullet = std::dynamic_pointer_cast<Bullet>((*this)[posBullet].second);
+
+	if (bullet.get()->GetSpeedBuildUp() < Bullet::kMinimumSpeedBuildup) //cannot move yet
+	{
+		return;
+	}
+
+	auto bulletPos = GetPositionAfterDirection(bullet.get()->GetPosition(), bullet.get()->GetDirection());
+
+	if (bulletPos.first >= m_width || bulletPos.second >= m_height)
+	{
+		bullet.reset();
+		return;
+	}
+	
+	auto& nextSquare = (*this)[bulletPos];
+
+	if (nextSquare.first.GetType() == Tile::TileType::DestructibleWall)
+	{
+		bullet.reset();
+		nextSquare.first.SetType(Tile::TileType::Free);
+		if (auto bombPtr = std::dynamic_pointer_cast<Bomb>(nextSquare.second); bombPtr)
+		{
+			(*this).ExplodeBomb(bombPtr.get()->GetPosition()); //IMPLEMENT THIS!!
+		}
+		return;
+	}
+
+	if (nextSquare.first.GetType() == Tile::TileType::IndestructibleWall)
+	{
+		bullet.reset();
+		return;
+	}
+
+	if (auto playerPtr = std::dynamic_pointer_cast<Player>(nextSquare.second); playerPtr)
+	{
+		(*this).KillPlayer(playerPtr.get()->GetID());
+		bullet.reset();
+		return;
+	}
+
+	if (auto bulletPtr = std::dynamic_pointer_cast<Bullet>(nextSquare.second); bulletPtr)
+	{
+		bullet.reset();
+		bulletPtr.reset();
+		return;
+	}
+
+	if (auto bombPtr = std::dynamic_pointer_cast<Bomb>(nextSquare.second); bombPtr)
+	{
+		bullet.reset();
+		return;
+	}
+
+	if (nextSquare.first.GetType() == Tile::TileType::Free)
+	{
+		(*this)[bulletPos].second = std::move(bullet);
+	}
+}
+
+void Map::MoveBullets()
+{
+	auto view{
+		m_squares | views::filter([](const Map::Square& param) -> bool
+			{
+				if (auto bulletPtr = std::dynamic_pointer_cast<Bullet>(param.second); bulletPtr)
+				{
+					if (bulletPtr.get()->GetTimer().GetElapsedTime() >= Bullet::kMinimumSpeedBuildup)
+					{
+						bulletPtr.get()->AddSpeedBuildUp();
+						return true;
+					}
+				}
+				return false;
+			})
+	};
+
+	for (auto& square : view)
+	{
+		auto bulletPtr = std::dynamic_pointer_cast<Bullet>(square.second);
+		MoveBullet(bulletPtr.get()->GetPosition());
+	}
+}
+//
+//std::vector<Map::Position> Map::FindPath(const Position& start, const Position& goal) {
+//	struct Node {
+//		Position pos;
+//		size_t g_cost;
+//		size_t h_cost;
+//		size_t f_cost() const { return g_cost + h_cost; }
+//
+//		bool operator>(const Node& other) const {
+//			return f_cost() > other.f_cost();
+//		}
+//	};
+//
+//	std::priority_queue<Node, std::vector<Node>, std::greater<Node>> open_list;
+//	std::map<Position, size_t> g_costs;  // Replaced unordered_map with map
+//	std::map<Position, Position> came_from; // Replaced unordered_map with map
+//
+//	open_list.push(Node{ start, 0, CalculateHeuristic(start, goal) });
+//	g_costs[start] = 0;
+//
+//	const std::vector<Position> directions = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+//
+//	while (!open_list.empty()) {
+//		Node current = open_list.top();
+//		open_list.pop();
+//
+//		if (current.pos == goal) {
+//			return ReconstructPath(came_from, current.pos);
+//		}
+//
+//		for (const auto& direction : directions) {
+//			Position neighbor = { current.pos.first + direction.first, current.pos.second + direction.second };
+//
+//			if (isValid(neighbor) && GetTile(neighbor).GetType() != Tile::TileType::IndestructibleWall) {
+//				size_t tentative_g_cost = current.g_cost + 1;
+//
+//				if (g_costs.find(neighbor) == g_costs.end() || tentative_g_cost < g_costs[neighbor]) {
+//					g_costs[neighbor] = tentative_g_cost;
+//					size_t h_cost = CalculateHeuristic(neighbor, goal);
+//					open_list.push(Node{ neighbor, tentative_g_cost, h_cost });
+//					came_from[neighbor] = current.pos;
+//				}
+//			}
+//		}
+//	}
+//
+//	return {};
+//}
+//
+//std::vector<Map::Position> Map::ReconstructPath(const std::map<Position, Position>& origin, Position current) {
+//	std::vector<Position> path;
+//	while (origin.find(current) != origin.end()) {
+//		path.push_back(current);
+//		current = origin.at(current);
+//	}
+//
+//	std::reverse(path.begin(), path.end());
+//	return path;
+//}
+//
+//size_t Map::CalculateHeuristic(const Position& start, const Position& goal) const {
+//	size_t dx = std::abs(static_cast<int>(start.first) - static_cast<int>(goal.first));
+//	size_t dy = std::abs(static_cast<int>(start.second) - static_cast<int>(goal.second));
+//	return dx + dy;
+//}
 
 
 std::ostream& game::operator<<(std::ostream& out, const Map& map)
